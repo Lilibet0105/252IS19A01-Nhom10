@@ -26,5 +26,7 @@ Dự án xây dựng website bán sách và truyện tranh Đảo Truyện với
 1. https://ipm.vn/
 2. https://nxbkimdong.com.vn/
 3. https://www.nxbtre.com.vn/
-
+4. https://www.fahasa.com/
+5. https://www.vinabook.com/
+6. https://bookbuy.vn/sach.html
 ---
