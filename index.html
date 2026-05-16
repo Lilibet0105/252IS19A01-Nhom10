@@ -1,1 +1,275 @@
-#Trang chủ
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Đảo Truyện</title>
+
+  <!-- ① Tailwind CSS CDN — thay thế toàn bộ Bootstrap CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- ② Google Fonts — Playfair Display (display) + Lora (body) thay vì font mặc định -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lora:wght@400;500&display=swap" rel="stylesheet" />
+
+  <!-- ③ Heroicons via unpkg (thay Bootstrap Icons) -->
+  <!-- Dùng inline SVG bên dưới cho gọn -->
+
+  <script>
+    // ④ Tailwind config — extend thêm màu & font tuỳ chỉnh
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['Playfair Display', 'serif'],
+            body:    ['Lora', 'serif'],
+          },
+          colors: {
+            cream:  '#faf7f2',
+            ink:    '#1a1a1a',
+            amber:  '#d97706',
+            muted:  '#6b7280',
+          },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* ⑤ Phong cách chung — không cần reset riêng vì Tailwind đã có Preflight */
+    body { font-family: 'Lora', serif; background-color: #faf7f2; color: #1a1a1a; }
+
+    /* Dropdown "Sách" — hiệu ứng hover bằng CSS thuần (không cần JS) */
+    .nav-dropdown:hover .dropdown-menu { display: block; }
+
+    /* Carousel transition */
+    .slide-enter-active, .slide-leave-active { transition: opacity 0.6s ease; }
+    .slide-enter-from, .slide-leave-to       { opacity: 0; }
+
+    /* Scroll carousel (Sách mới) — ẩn scrollbar */
+    .scroll-x::-webkit-scrollbar { display: none; }
+    .scroll-x { -ms-overflow-style: none; scrollbar-width: none; }
+
+    /* Card hover glow */
+    .book-card:hover { box-shadow: 0 8px 30px rgba(0,0,0,0.12); transform: translateY(-2px); }
+    .book-card { transition: box-shadow 0.25s, transform 0.25s; }
+  </style>
+</head>
+<body>
+<header class="sticky top-0 z-50 bg-cream border-b border-gray-200 shadow-sm">
+
+    <!-- Tầng 1 — Top bar liên hệ & đăng nhập -->
+    <div class="bg-ink text-white text-xs py-1.5">
+      <div class="max-w-5xl mx-auto px-4 flex items-center justify-between">
+
+        <!-- Trái: SĐT + Email (email ẩn trên mobile) -->
+        <div class="flex gap-5">
+          <a href="tel:0981109909" class="flex items-center gap-1.5 hover:text-amber transition-colors">
+            <!-- SVG icon Phone (thay bi-telephone-fill) -->
+            <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
+            </svg>
+            0981109909
+          </a>
+          <!-- hidden trên mobile, hiện từ sm -->
+          <a href="mailto:Daotruyen@gmail.com" class="hidden sm:flex items-center gap-1.5 hover:text-amber transition-colors">
+            <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+              <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+            </svg>
+            daotruyen@gmail.com
+          </a>
+        </div>
+
+        <!-- Phải: Nút Đăng nhập -->
+        <a href="./pages/login.html"
+           class="flex items-center gap-1 border border-white/50 rounded px-2.5 py-0.5 hover:bg-white hover:text-ink transition-colors">
+          <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+          </svg>
+          Đăng nhập
+        </a>
+      </div>
+    </div>
+
+    <!-- Tầng 2 — Logo căn giữa -->
+    <div class="flex justify-center py-3 border-b border-gray-100">
+      <a href="index.html">
+        <!-- Dùng text logo vì ảnh là file local; thay bằng <img> khi có file -->
+        <span class="font-display text-2xl md:text-3xl tracking-wide text-ink">
+          Đảo<span class="text-amber">Truyện</span>
+        </span>
+      </a>
+    </div>
+
+    <!-- Tầng 3 — Main Navigation -->
+    <nav class="max-w-5xl mx-auto px-4">
+      <div class="flex items-center justify-between">
+
+        <!-- Hamburger button — chỉ hiện trên mobile -->
+        <!-- Vue: @click="mobileOpen = !mobileOpen" -->
+        <button @click="mobileOpen = !mobileOpen"
+                class="md:hidden p-2 rounded hover:bg-gray-100 transition-colors">
+          <!-- Icon hamburger / X tuỳ trạng thái mobileOpen -->
+          <svg v-if="!mobileOpen" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+          <svg v-else class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+
+        <!-- Menu links — desktop: flex ngang | mobile: collapse dọc -->
+        <!-- Vue: v-show + transition thay thế Bootstrap collapse -->
+        <div :class="['w-full md:flex md:items-center', mobileOpen ? 'block' : 'hidden md:flex']">
+          <ul class="flex flex-col md:flex-row md:gap-6 py-2 md:py-0 text-sm font-medium">
+
+            <li>
+              <!-- active-link: underline + đậm hơn -->
+              <a href="./index.html"
+                 class="block py-2 md:py-4 border-b-2 border-ink font-semibold text-ink transition-colors hover:text-amber">
+                Trang chủ
+              </a>
+            </li>
+            <li>
+              <a href="./pages/introductionOurshelf.html"
+                 class="block py-2 md:py-4 border-b-2 border-transparent hover:border-amber text-ink hover:text-amber transition-colors">
+                Giới thiệu
+              </a>
+            </li>
+
+            <!-- Dropdown "Sách" — CSS-only hover, không cần JS -->
+            <!-- Tailwind: group + group-hover thay class dropdown-content -->
+            <li class="relative group">
+              <a href="./pages/giasach.html"
+                 class="flex items-center gap-1 py-2 md:py-4 border-b-2 border-transparent group-hover:border-amber text-ink group-hover:text-amber transition-colors">
+                Sách và truyện tranh
+                <svg class="w-3.5 h-3.5 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </a>
+              <!-- Dropdown menu — hiện khi hover (group-hover) -->
+              <div class="hidden group-hover:block absolute left-0 top-full w-44 bg-white border border-gray-200 shadow-lg rounded-b z-40">
+                <a href="#" class="block px-4 py-2.5 text-sm hover:bg-cream hover:text-amber transition-colors">Sách văn học cổ điển</a>
+                <a href="#" class="block px-4 py-2.5 text-sm hover:bg-cream hover:text-amber transition-colors">Sách tiểu thuyết hiện đại</a>
+                <a href="#" class="block px-4 py-2.5 text-sm hover:bg-cream hover:text-amber transition-colors">Truyện tranh Việt Nam</a>
+                <a href="#" class="block px-4 py-2.5 text-sm hover:bg-cream hover:text-amber transition-colors">Truyện tranh nước ngoài</a>
+              </div>
+            </li>
+
+            <li>
+              <a href="./pages/lienhe.html"
+                 class="block py-2 md:py-4 border-b-2 border-transparent hover:border-amber text-ink hover:text-amber transition-colors">
+                Liên hệ
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Nút Giỏ hàng — luôn hiện, không bị collapse -->
+        <a href="./pages/cart.html"
+           class="flex items-center gap-1.5 border border-ink rounded px-3 py-1.5 text-sm font-medium hover:bg-ink hover:text-white transition-colors shrink-0">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"/>
+          </svg>
+          Giỏ hàng
+          <!-- Vue reactive: cartCount từ data() -->
+          <span class="bg-ink text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+            {{ cartCount }}
+          </span>
+        </a>
+
+      </div>
+    </nav>
+  </header>
+  <!-- /HEADER -->
+
+   <!-- ╔══════════════════════════════════════════╗
+       ║  FOOTER                                  ║
+       ╚══════════════════════════════════════════╝ -->
+  <footer class="bg-ink text-white pt-12 pb-6">
+    <div class="max-w-5xl mx-auto px-4">
+
+      <!-- 4 cột — Tailwind grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 pb-8 border-b border-white/10">
+
+        <!-- Cột 1: Về Đảo truyện -->
+        <div>
+          <h6 class="font-semibold text-sm uppercase tracking-wider mb-4 text-amber">Về chúng tôi</h6>
+          <ul class="space-y-2 text-sm text-white/60">
+            <li><a href="#" class="hover:text-white transition-colors">Giới thiệu</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Liên hệ</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Hệ thống cửa hàng</a></li>
+          </ul>
+        </div>
+
+        <!-- Cột 2: Hỗ trợ -->
+        <div>
+          <h6 class="font-semibold text-sm uppercase tracking-wider mb-4 text-amber">Hỗ trợ</h6>
+          <ul class="space-y-2 text-sm text-white/60">
+            <li><a href="#" class="hover:text-white transition-colors">Chính sách vận chuyển</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Chính sách bảo hành</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Đổi - trả - hoàn tiền</a></li>
+          </ul>
+        </div>
+
+        <!-- Cột 3: Dịch vụ -->
+        <div>
+          <h6 class="font-semibold text-sm uppercase tracking-wider mb-4 text-amber">Dịch vụ</h6>
+          <ul class="space-y-2 text-sm text-white/60">
+            <li><a href="#" class="hover:text-white transition-colors">Điều khoản sử dụng</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Bảo mật thanh toán</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Bảo mật thông tin</a></li>
+          </ul>
+        </div>
+
+        <!-- Cột 4: Đăng ký + Mạng xã hội -->
+        <div>
+          <h6 class="font-semibold text-sm uppercase tracking-wider mb-4 text-amber">Nhận thông tin</h6>
+          <!-- Form Vue: v-model cho email, @submit.prevent xử lý không reload -->
+          <form @submit.prevent="subscribeEmail" class="flex mb-5">
+            <input v-model="emailSubscribe"
+                   type="email"
+                   placeholder="Email của bạn"
+                   class="flex-1 bg-white/10 border border-white/20 text-white text-sm px-3 py-2 rounded-l placeholder-white/40 focus:outline-none focus:border-amber" />
+            <button type="submit"
+                    class="bg-amber text-ink text-sm px-3 py-2 rounded-r font-medium hover:bg-yellow-500 transition-colors">
+              Đăng ký
+            </button>
+          </form>
+
+          <!-- Mạng xã hội -->
+          <h6 class="font-semibold text-sm uppercase tracking-wider mb-3 text-amber">Theo dõi</h6>
+          <div class="flex gap-4">
+            <a href="https://www.facebook.com/" target="_blank"
+               class="text-white/60 hover:text-white transition-colors">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+              </svg>
+            </a>
+            <a href="https://www.instagram.com/" target="_blank"
+               class="text-white/60 hover:text-white transition-colors">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+              </svg>
+            </a>
+            <a href="https://twitter.com/" target="_blank"
+               class="text-white/60 hover:text-white transition-colors">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Copyright -->
+      <div class="pt-6 text-center text-xs text-white/40">
+        © 2026 Đảo Truyện. All rights reserved.
+      </div>
+
+    </div>
+  </footer>
+  <!-- /FOOTER -->
+
+</body>
