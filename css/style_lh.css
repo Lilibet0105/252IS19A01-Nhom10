@@ -1,0 +1,73 @@
+/* body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+} */
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
+}
+.contact-info, .contact-form, .map {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    margin: 10px;
+    flex: 1;
+    min-width: 300px;
+}
+.contact-info h2, .contact-form h2 {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+}
+.contact-info p, .contact-info li {
+    font-size: 1em;
+    margin-bottom: 10px;
+}
+.contact-info ul {
+    list-style: none;
+    padding: 0;
+}
+.contact-info li {
+    display: flex;
+    align-items: center;
+}
+.contact-info li img {
+    margin-right: 10px;
+}
+.contact-form form {
+    display: flex;
+    flex-direction: column;
+}
+.contact-form input, .contact-form textarea {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+}
+.contact-form button {
+    padding: 10px;
+    background-color: #ff7043;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+}
+.contact-form button:hover {
+    background-color: #ff5722;
+}
+.map iframe {
+    width: 100%;
+    border: 0;
+    border-radius: 10px;
+}
+/* Place your CSS styles in this file */
+
+h1 {
+    text-align: center;
+    font-family: "Source Sans Pro", sans-serif;
+    font-weight: normal;
+}

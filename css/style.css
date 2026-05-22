@@ -1,0 +1,47 @@
+body {
+  background: #F3F2EC;
+  /* overflow-x: hidden; */
+}
+
+.header-font {
+  font-family: "Prata", Georgia, serif;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.section-color {
+  background: #EDEBE4;
+}
+
+.card-body {
+  min-height: 142px;
+}
+
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #F3F2EC;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: #000000A6;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.a:hover{
+  color:black;
+  opacity: 75;
+}
