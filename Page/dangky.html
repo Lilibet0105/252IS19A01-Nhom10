@@ -1,1 +1,149 @@
-# Đăng ký tài khoản
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đăng ký | Đảo Truyện</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              display: ["Playfair Display", "serif"],
+              body: ["Lora", "serif"],
+            },
+            colors: {
+              cream: "#faf7f2",
+              ink: "#1a1a1a",
+              amber: "#d97706",
+              muted: "#6b7280",
+            },
+          },
+        },
+      };
+    </script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lora:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Lora", serif;
+        background-color: #faf7f2;
+        color: #1a1a1a;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen bg-gradient-to-br from-cream via-white to-amber-50">
+    <header class="border-b border-gray-200 bg-white/95 backdrop-blur-sm shadow-sm">
+      <div class="max-w-5xl mx-auto px-4 py-5">
+        <a href="../index.html" class="inline-flex items-center gap-3">
+          <img src="../assets/logo.jpg" alt="Đảo Truyện" class="h-12 w-auto object-contain" />
+          <div class="space-y-0.5">
+            <p class="text-sm text-muted">Đảo Truyện</p>
+            <p class="text-base font-semibold text-ink hover:text-amber transition">Trang chủ</p>
+          </div>
+        </a>
+      </div>
+    </header>
+
+    <main class="flex min-h-[calc(100vh-100px)] items-center justify-center px-4 py-16">
+      <section class="w-full max-w-lg rounded-[2rem] border border-gray-200 bg-white/95 p-10 shadow-2xl shadow-amber/15 ring-1 ring-amber-100">
+        <div class="mb-10 text-center">
+          <div class="mx-auto mb-4 h-1.5 w-24 rounded-full bg-amber"></div>
+          <h1 class="text-5xl font-display font-black tracking-tight text-ink">Đăng Ký</h1>
+          <p class="mx-auto mt-4 max-w-sm text-sm text-muted">Tạo tài khoản mới để khám phá Đảo Truyện.</p>
+        </div>
+
+        <form id="registerForm" class="space-y-6">
+          <div class="grid gap-5">
+            <div>
+              <label for="fullname" class="block text-sm font-semibold text-ink">Họ và tên</label>
+              <input
+                id="fullname"
+                name="fullname"
+                type="text"
+                required
+                placeholder="Nguyễn Văn A"
+                class="mt-3 w-full rounded-3xl border border-gray-200 bg-gray-50 px-5 py-4 text-sm text-ink outline-none transition duration-200 focus:border-amber focus:ring-2 focus:ring-amber/20"
+              />
+            </div>
+
+            <div>
+              <label for="email" class="block text-sm font-semibold text-ink">Email</label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                required
+                placeholder="viet@example.com"
+                class="mt-3 w-full rounded-3xl border border-gray-200 bg-gray-50 px-5 py-4 text-sm text-ink outline-none transition duration-200 focus:border-amber focus:ring-2 focus:ring-amber/20"
+              />
+            </div>
+
+            <div>
+              <label for="password" class="block text-sm font-semibold text-ink">Mật khẩu</label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                required
+                placeholder="••••••••"
+                class="mt-3 w-full rounded-3xl border border-gray-200 bg-gray-50 px-5 py-4 text-sm text-ink outline-none transition duration-200 focus:border-amber focus:ring-2 focus:ring-amber/20"
+              />
+            </div>
+
+            <div>
+              <label for="confirmPassword" class="block text-sm font-semibold text-ink">Xác nhận mật khẩu</label>
+              <input
+                id="confirmPassword"
+                name="confirmPassword"
+                type="password"
+                required
+                placeholder="••••••••"
+                class="mt-3 w-full rounded-3xl border border-gray-200 bg-gray-50 px-5 py-4 text-sm text-ink outline-none transition duration-200 focus:border-amber focus:ring-2 focus:ring-amber/20"
+              />
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            class="w-full rounded-3xl bg-gradient-to-r from-amber to-orange-500 px-6 py-4 text-base font-semibold text-white shadow-lg shadow-amber/20 transition duration-200 hover:from-orange-600 hover:to-amber-600"
+          >
+            Đăng ký
+          </button>
+        </form>
+
+        <p class="mt-6 text-center text-sm text-muted">
+          Đã có tài khoản?
+          <a href="./dangnhap.html" class="font-semibold text-amber hover:text-ink transition">Đăng nhập ngay</a>
+        </p>
+      </section>
+    </main>
+
+    <script>
+      document.getElementById('registerForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+        const fullname = event.target.fullname.value.trim();
+        const email = event.target.email.value.trim();
+        const password = event.target.password.value.trim();
+        const confirmPassword = event.target.confirmPassword.value.trim();
+
+        if (!fullname || !email || !password || !confirmPassword) {
+          alert('Vui lòng điền đầy đủ thông tin.');
+          return;
+        }
+
+        if (password !== confirmPassword) {
+          alert('Mật khẩu và xác nhận mật khẩu không trùng khớp.');
+          return;
+        }
+
+        alert('Đăng ký thành công! Vui lòng đăng nhập.');
+        window.location.href = './dangnhap.html';
+      });
+    </script>
+  </body>
+</html>
