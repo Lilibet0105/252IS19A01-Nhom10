@@ -1,0 +1,548 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="../assets/favicon.jpg" type="image/x-icon" />
+    <title>Đảo Truyện | Hệ thống cửa hàng</title>
+
+    <!-- ① Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- ② Google Fonts — Inter -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/style_lh.css">
+
+    <script>
+      // ④ Tailwind config
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              display: ["Inter", "sans-serif"],
+              body: ["Inter", "sans-serif"],
+            },
+            colors: {
+              cream: "#faf7f2",
+              ink: "#1a1a1a",
+              amber: "#d97706",
+              muted: "#6b7280",
+            },
+          },
+        },
+      };
+    </script>
+
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #faf7f2;
+        color: #1a1a1a;
+      }
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        font-family: "Inter", sans-serif;
+      }
+
+      .nav-dropdown:hover .dropdown-menu {
+        display: block;
+      }
+
+      .slide-enter-active,
+      .slide-leave-active {
+        transition: opacity 0.6s ease;
+      }
+      .slide-enter-from,
+      .slide-leave-to {
+        opacity: 0;
+      }
+
+      .scroll-x::-webkit-scrollbar {
+        display: none;
+      }
+      .scroll-x {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+
+      .book-card:hover {
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        transform: translateY(-2px);
+      }
+      .book-card {
+        transition:
+          box-shadow 0.25s,
+          transform 0.25s;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <header
+        class="sticky top-0 z-50 bg-cream border-b border-gray-200 shadow-sm"
+      >
+        <!-- Top bar -->
+        <div class="bg-ink text-white text-xs py-1.5">
+          <div class="max-w-5xl mx-auto px-4 flex items-center justify-between">
+            <div class="flex gap-5">
+              <a
+                href="tel:0981109909"
+                class="flex items-center gap-1.5 hover:text-amber transition-colors"
+              >
+                <svg
+                  class="w-3.5 h-3.5"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"
+                  />
+                </svg>
+                0981109909
+              </a>
+              <a
+                href="mailto:Daotruyen@gmail.com"
+                class="hidden sm:flex items-center gap-1.5 hover:text-amber transition-colors"
+              >
+                <svg
+                  class="w-3.5 h-3.5"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"
+                  />
+                  <path
+                    d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"
+                  />
+                </svg>
+                Daotruyen@gmail.com
+              </a>
+            </div>
+
+            <div class="flex gap-3">
+              <a
+                href="./dangnhap.html"
+                class="hover:text-amber transition-colors"
+              >
+                Đăng nhập
+              </a>
+              <span class="text-white/40">|</span>
+              <a
+                href="./dangky.html"
+                class="hover:text-amber transition-colors"
+              >
+                Đăng ký
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main nav -->
+        <nav class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
+          <a href="../index.html" class="flex items-center gap-2 font-bold text-xl text-ink">
+            <img
+              src="../assets/favicon.jpg"
+              alt="Đảo Truyện"
+              class="w-8 h-8 rounded"
+            />
+            Đảo Truyện
+          </a>
+
+          <button
+            @click="mobileOpen = !mobileOpen"
+            class="md:hidden p-2 hover:bg-gray-200 rounded transition-colors"
+          >
+            <svg
+              v-if="!mobileOpen"
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+            </svg>
+            <svg
+              v-else
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+
+          <div
+            :class="['w-full md:flex md:items-center', mobileOpen ? 'block' : 'hidden md:flex']"
+          >
+            <ul
+              class="flex flex-col md:flex-row md:gap-6 py-2 md:py-0 text-sm font-medium"
+            >
+              <li>
+                <a
+                  href="../index.html"
+                  class="block py-2 md:py-4 border-b-2 border-transparent hover:border-amber text-ink hover:text-amber transition-colors"
+                >
+                  Trang chủ
+                </a>
+              </li>
+              <li>
+                <a
+                  href="./gioithieu.html"
+                  class="block py-2 md:py-4 border-b-2 border-transparent hover:border-amber text-ink hover:text-amber transition-colors"
+                >
+                  Giới thiệu
+                </a>
+              </li>
+
+              <li class="relative group">
+                <a
+                  href="./theloai.html"
+                  class="flex items-center gap-1 py-2 md:py-4 border-b-2 border-transparent group-hover:border-amber text-ink group-hover:text-amber transition-colors"
+                >
+                  Truyện tranh
+                  <svg
+                    class="w-3.5 h-3.5 mt-0.5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </a>
+                <div
+                  class="hidden group-hover:block absolute left-0 top-full w-44 bg-white border border-gray-200 shadow-lg rounded-b z-40"
+                >
+                  <a
+                    href="./theloai.html?type=tinh-cam"
+                    class="block px-4 py-2.5 text-sm hover:bg-cream hover:text-amber transition-colors"
+                    >Truyện tranh tình cảm</a
+                  >
+                  <a
+                    href="./theloai.html?type=shounen"
+                    class="block px-4 py-2.5 text-sm hover:bg-cream hover:text-amber transition-colors"
+                    >Truyện tranh hành động</a
+                  >
+                  <a
+                    href="./theloai.html?type=trinh-tham"
+                    class="block px-4 py-2.5 text-sm hover:bg-cream hover:text-amber transition-colors"
+                    >Truyện tranh trinh thám</a
+                  >
+                  <a
+                    href="./theloai.html?type=thieu-nhi"
+                    class="block px-4 py-2.5 text-sm hover:bg-cream hover:text-amber transition-colors"
+                    >Truyện tranh thiếu nhi</a
+                  >
+                </div>
+              </li>
+
+              <li>
+                <a
+                  href="./tranglienhe.html"
+                  class="block py-2 md:py-4 border-b-2 border-transparent hover:border-amber text-ink hover:text-amber transition-colors"
+                >
+                  Liên hệ
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <a
+            href="./giohang.html"
+            class="flex items-center gap-1.5 border border-ink rounded px-3 py-1.5 text-sm font-medium hover:bg-ink hover:text-white transition-colors shrink-0"
+          >
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+              <path
+                d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"
+              />
+            </svg>
+            Giỏ hàng
+          </a>
+        </nav>
+      </header>
+
+      <main class="bg-cream">
+        <!-- Hero section -->
+        <section class="max-w-5xl mx-auto px-4 py-16">
+          <div class="rounded-[2rem] bg-white border border-gray-200 p-8 md:p-12 shadow-sm">
+            <p class="text-xs uppercase tracking-[0.35em] text-amber">Chi nhánh</p>
+            <h1 class="mt-4 text-4xl md:text-5xl font-semibold tracking-tight text-ink">Hệ thống cửa hàng Đảo Truyện</h1>
+            <p class="mt-6 max-w-2xl text-base text-muted leading-8">Tìm cửa hàng Đảo Truyện gần nhất với bạn. Chúng tôi có các chi nhánh tại những địa điểm chiến lược để phục vụ bạn tốt nhất.</p>
+          </div>
+        </section>
+
+        <!-- Branches -->
+        <section class="max-w-5xl mx-auto px-4 py-16">
+          <h2 class="text-3xl font-semibold text-ink mb-8">Danh sách cửa hàng</h2>
+          <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <!-- Branch 1 -->
+            <div class="rounded-3xl bg-white border border-gray-200 p-6 shadow-sm hover:shadow-lg transition-shadow">
+              <h3 class="text-lg font-semibold text-ink">Chùa Bộc - Hà Nội</h3>
+              <p class="mt-3 text-sm text-muted leading-6">
+                <strong>Địa chỉ:</strong> 12 Chùa Bộc, Đống Đa, Hà Nội
+              </p>
+              <p class="mt-2 text-sm text-muted leading-6">
+                <strong>Điện thoại:</strong> <a href="tel:0981109909" class="text-amber hover:text-amber/80">0981109909</a>
+              </p>
+              <p class="mt-2 text-sm text-muted leading-6">
+                <strong>Giờ mở cửa:</strong> 8:00 - 21:00 (Hàng ngày)
+              </p>
+              <p class="mt-3 text-xs text-muted/60">
+                Chi nhánh chính tại trung tâm Hà Nội, gần các trường đại học, tối ưu vị trí giao thông.
+              </p>
+            </div>
+
+            <!-- Branch 2 -->
+            <div class="rounded-3xl bg-white border border-gray-200 p-6 shadow-sm hover:shadow-lg transition-shadow">
+              <h3 class="text-lg font-semibold text-ink">Hồ Tây - Hà Nội</h3>
+              <p class="mt-3 text-sm text-muted leading-6">
+                <strong>Địa chỉ:</strong> 5 Đường Thanh Niên, Ba Đình, Hà Nội
+              </p>
+              <p class="mt-2 text-sm text-muted leading-6">
+                <strong>Điện thoại:</strong> <a href="tel:0981234567" class="text-amber hover:text-amber/80">0981234567</a>
+              </p>
+              <p class="mt-2 text-sm text-muted leading-6">
+                <strong>Giờ mở cửa:</strong> 8:00 - 21:00 (Hàng ngày)
+              </p>
+              <p class="mt-3 text-xs text-muted/60">
+                Chi nhánh phía Tây, phục vụ khu vực Hồ Tây và quanh đó.
+              </p>
+            </div>
+
+            <!-- Branch 3 -->
+            <div class="rounded-3xl bg-white border border-gray-200 p-6 shadow-sm hover:shadow-lg transition-shadow">
+              <h3 class="text-lg font-semibold text-ink">Trần Duy Hưng - Hà Nội</h3>
+              <p class="mt-3 text-sm text-muted leading-6">
+                <strong>Địa chỉ:</strong> 123 Trần Duy Hưng, Cầu Giấy, Hà Nội
+              </p>
+              <p class="mt-2 text-sm text-muted leading-6">
+                <strong>Điện thoại:</strong> <a href="tel:0982345678" class="text-amber hover:text-amber/80">0982345678</a>
+              </p>
+              <p class="mt-2 text-sm text-muted leading-6">
+                <strong>Giờ mở cửa:</strong> 8:00 - 21:00 (Hàng ngày)
+              </p>
+              <p class="mt-3 text-xs text-muted/60">
+                Chi nhánh Cầu Giấy, dễ tiếp cận từ các quận Cầu Giấy, Tây Hồ.
+              </p>
+            </div>
+
+            <!-- Branch 4 -->
+            <div class="rounded-3xl bg-white border border-gray-200 p-6 shadow-sm hover:shadow-lg transition-shadow">
+              <h3 class="text-lg font-semibold text-ink">Thanh Xuân - Hà Nội</h3>
+              <p class="mt-3 text-sm text-muted leading-6">
+                <strong>Địa chỉ:</strong> 456 Khuất Duy Tiến, Thanh Xuân, Hà Nội
+              </p>
+              <p class="mt-2 text-sm text-muted leading-6">
+                <strong>Điện thoại:</strong> <a href="tel:0983456789" class="text-amber hover:text-amber/80">0983456789</a>
+              </p>
+              <p class="mt-2 text-sm text-muted leading-6">
+                <strong>Giờ mở cửa:</strong> 8:00 - 21:00 (Hàng ngày)
+              </p>
+              <p class="mt-3 text-xs text-muted/60">
+                Chi nhánh Thanh Xuân, phục vụ khu vực Đông Hà Nội.
+              </p>
+            </div>
+
+            <!-- Branch 5 -->
+            <div class="rounded-3xl bg-white border border-gray-200 p-6 shadow-sm hover:shadow-lg transition-shadow">
+              <h3 class="text-lg font-semibold text-ink">TP Hồ Chí Minh</h3>
+              <p class="mt-3 text-sm text-muted leading-6">
+                <strong>Địa chỉ:</strong> 789 Nguyễn Hữu Cảnh, Bình Thạnh, TP HCM
+              </p>
+              <p class="mt-2 text-sm text-muted leading-6">
+                <strong>Điện thoại:</strong> <a href="tel:0984567890" class="text-amber hover:text-amber/80">0984567890</a>
+              </p>
+              <p class="mt-2 text-sm text-muted leading-6">
+                <strong>Giờ mở cửa:</strong> 9:00 - 21:00 (Hàng ngày)
+              </p>
+              <p class="mt-3 text-xs text-muted/60">
+                Chi nhánh lớn tại TP HCM, phục vụ cộng đồng phía Nam.
+              </p>
+            </div>
+
+            <!-- Branch 6 -->
+            <div class="rounded-3xl bg-white border border-gray-200 p-6 shadow-sm hover:shadow-lg transition-shadow">
+              <h3 class="text-lg font-semibold text-ink">Đà Nẵng</h3>
+              <p class="mt-3 text-sm text-muted leading-6">
+                <strong>Địa chỉ:</strong> 321 Trần Phú, Hải Châu, Đà Nẵng
+              </p>
+              <p class="mt-2 text-sm text-muted leading-6">
+                <strong>Điện thoại:</strong> <a href="tel:0985678901" class="text-amber hover:text-amber/80">0985678901</a>
+              </p>
+              <p class="mt-2 text-sm text-muted leading-6">
+                <strong>Giờ mở cửa:</strong> 8:00 - 20:00 (Hàng ngày)
+              </p>
+              <p class="mt-3 text-xs text-muted/60">
+                Chi nhánh Miền Trung, phục vụ khu vực Đà Nẵng và lân cận.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- CTA section -->
+        <section class="max-w-5xl mx-auto px-4 py-16">
+          <div class="rounded-[2rem] bg-gradient-to-r from-amber to-yellow-500 p-8 md:p-12 shadow-sm">
+            <h2 class="text-3xl font-semibold text-ink mb-4">Chưa tìm thấy chi nhánh?</h2>
+            <p class="text-base text-ink/80 leading-7 mb-6">
+              Liên hệ với chúng tôi để biết thêm thông tin hoặc để được tư vấn.
+            </p>
+            <a href="./tranglienhe.html" class="inline-flex items-center justify-center rounded-3xl bg-ink px-8 py-4 text-base font-semibold text-white hover:bg-ink/80 transition-colors">
+              Liên hệ ngay
+            </a>
+          </div>
+        </section>
+      </main>
+
+      <!-- FOOTER -->
+      <footer class="bg-ink text-white pt-12 pb-6 mt-16">
+        <div class="max-w-5xl mx-auto px-4">
+          <div
+            class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 pb-8 border-b border-white/10"
+          >
+            <div>
+              <h6
+                class="font-semibold text-sm uppercase tracking-wider mb-4 text-amber"
+              >
+                Về chúng tôi
+              </h6>
+              <ul class="space-y-2 text-sm text-white/60">
+                <li>
+                  <a href="./gioithieu.html" class="hover:text-white transition-colors"
+                    >Giới thiệu</a
+                  >
+                </li>
+                <li>
+                  <a href="./tranglienhe.html" class="hover:text-white transition-colors"
+                    >Liên hệ</a
+                  >
+                </li>
+                <li>
+                  <a href="./hethongcuahang.html" class="hover:text-white transition-colors"
+                    >Hệ thống cửa hàng</a
+                  >
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h6
+                class="font-semibold text-sm uppercase tracking-wider mb-4 text-amber"
+              >
+                Hỗ trợ
+              </h6>
+              <ul class="space-y-2 text-sm text-white/60">
+                <li>
+                  <a href="./chinhsachvanchuyen.html" class="hover:text-white transition-colors"
+                    >Chính sách vận chuyển</a
+                  >
+                </li>
+                <li>
+                  <a href="./chinhsachbaohanh.html" class="hover:text-white transition-colors"
+                    >Chính sách bảo hành</a
+                  >
+                </li>
+                <li>
+                  <a href="./doi_tra_hoantien.html" class="hover:text-white transition-colors"
+                    >Đổi - trả - hoàn tiền</a
+                  >
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h6
+                class="font-semibold text-sm uppercase tracking-wider mb-4 text-amber"
+              >
+                Dịch vụ
+              </h6>
+              <ul class="space-y-2 text-sm text-white/60">
+                <li>
+                  <a href="./dieukhoansudung.html" class="hover:text-white transition-colors"
+                    >Điều khoản sử dụng</a
+                  >
+                </li>
+                <li>
+                  <a href="./chinhsachbaomat.html" class="hover:text-white transition-colors"
+                    >Chính sách bảo mật</a
+                  >
+                </li>
+                <li>
+                  <a href="./baomatthanhtoan.html" class="hover:text-white transition-colors"
+                    >Bảo mật thanh toán</a
+                  >
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h6
+                class="font-semibold text-sm uppercase tracking-wider mb-4 text-amber"
+              >
+                Kết nối
+              </h6>
+              <p class="text-sm text-white/60 mb-4">Theo dõi chúng tôi</p>
+              <div class="flex gap-4">
+                <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-amber transition-colors">
+                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 0C4.477 0 0 4.477 0 10c0 5.523 4.477 10 10 10s10-4.477 10-10c0-5.523-4.477-10-10-10zm3.6 10.5h-2.1v6.9h-2.85v-6.9h-1.95V8.7h1.95V7.35c0-1.62.75-4.05 4.05-4.05h3.15v2.55h-2.28c-.375 0-.45.18-.45.45v1.8h2.88l-.6 1.8z" clip-rule="evenodd"/>
+                  </svg>
+                </a>
+                <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-amber transition-colors">
+                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M10 0C4.477 0 0 4.477 0 10c0 5.523 4.477 10 10 10s10-4.477 10-10c0-5.523-4.477-10-10-10zm4.905 7.335c.015.267.022.535.022.805 0 8.18-6.225 17.615-17.615 17.615-3.498 0-6.745-1.023-9.48-2.78.483.058.975.088 1.473.088 2.896 0 5.56-.987 7.668-2.646-2.706-.05-4.99-1.837-5.776-4.295.378.057.765.088 1.16.088.564 0 1.11-.074 1.632-.213-2.83-.568-4.964-3.068-4.964-6.066 0-.026 0-.052 0-.078.833.464 1.785.742 2.803.773-1.66-1.11-2.75-3.006-2.75-5.153 0-1.134.305-2.196.838-3.11 3.052 3.749 7.616 6.215 12.766 6.48-.105-.45-.16-.916-.16-1.394 0-3.375 2.743-6.11 6.128-6.11 1.762 0 3.352.744 4.47 1.934 1.394-.275 2.704-.785 3.883-1.485-.457 1.432-1.428 2.634-2.693 3.395 1.237-.146 2.42-.476 3.52-1.36-.82 1.223-1.856 2.297-3.052 3.16z"/>
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="py-6 flex items-center justify-between text-sm text-white/40">
+            <p>&copy; 2024 Đảo Truyện. Tất cả quyền được bảo lưu.</p>
+            <div class="flex gap-6">
+              <a href="./chinhsachbaomat.html" class="hover:text-white transition-colors">Chính sách bảo mật</a>
+              <a href="./dieukhoansudung.html" class="hover:text-white transition-colors">Điều khoản sử dụng</a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+      const { createApp } = Vue;
+
+      createApp({
+        data() {
+          return {
+            mobileOpen: false,
+          };
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>
