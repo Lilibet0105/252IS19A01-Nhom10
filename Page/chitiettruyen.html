@@ -309,7 +309,7 @@
               </ul>
             </div>
 
-            <!-- Nút Giỏ hàng — luôn hiện, không bị collapse -->
+            <!-- Nút Giỏ hàng — luôn hiện, badge hiển thị số lượng từ localStorage -->
             <a
               href="./giohang.html"
               class="flex items-center gap-1.5 border border-ink rounded px-3 py-1.5 text-sm font-medium hover:bg-ink hover:text-white transition-colors shrink-0"
@@ -320,7 +320,7 @@
                 />
               </svg>
               Giỏ hàng
-              <!-- Vue reactive: cartCount từ data() -->
+              <span id="cart-badge-chitiet" class="bg-amber text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
             </a>
           </div>
         </nav>
@@ -789,4 +789,16 @@
           </div>
         </div>
       </footer>
+
+    <!-- Đồng bộ badge giỏ hàng từ localStorage -->
+    <script>
+      function updateCartBadge() {
+        const cart = JSON.parse(localStorage.getItem("daoTruyenCart") || "[]");
+        const total = cart.reduce((sum, item) => sum + item.qty, 0);
+        const badge = document.getElementById("cart-badge-chitiet");
+        if (badge) badge.textContent = total;
+      }
+      updateCartBadge();
+      window.addEventListener("storage", updateCartBadge);
+    </script>
       </html>

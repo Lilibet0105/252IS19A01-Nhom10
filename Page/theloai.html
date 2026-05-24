@@ -273,9 +273,9 @@
               </svg>
               Giỏ hàng
               <span
-                v-if="cartCount > 0"
-                class="bg-amber text-ink text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full -mr-1"
-                >{{ cartCount }}</span
+                id="cart-badge-theloai"
+                class="bg-amber text-white text-xs rounded-full w-5 h-5 flex items-center justify-center"
+                >0</span
               >
             </a>
           </div>
@@ -1032,13 +1032,29 @@
             return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + "₫";
           },
           addToCart(book) {
-            this.cartCount++;
+            // Lưu vào localStorage (daoTruyenCart)
+            const cart = JSON.parse(localStorage.getItem("daoTruyenCart") || "[]");
+            const existing = cart.find(item => item.id === book.id);
+            if (existing) {
+              existing.qty++;
+            } else {
+              cart.push({
+                id: book.id,
+                name: book.name,
+                category: book.category || "Truyện tranh",
+                price: book.price,
+                originalPrice: book.originalPrice || null,
+                qty: 1,
+                image: book.image
+              });
+            }
+            localStorage.setItem("daoTruyenCart", JSON.stringify(cart));
+            this.cartCount = cart.reduce((sum, item) => sum + item.qty, 0);
             this.toastMsg = `📖 Đã thêm "${book.name}" vào giỏ hàng`;
             this.showToast = true;
             setTimeout(() => {
               this.showToast = false;
             }, 2500);
-            // XÓA DÒNG LOCALSTORAGE THỦ CÔNG VÌ ĐÃ CÓ WATCH Ở DƯỚI LO LIỆU
           },
           buyNow(book) {
             window.location.href = `chitiettruyen.html?id=${book.id}`;
@@ -1054,6 +1070,10 @@
           },
           handleImageError(e) {
             e.target.src = "../assets/placeholder.jpg";
+          },
+          updateCartBadge() {
+            const cart = JSON.parse(localStorage.getItem("daoTruyenCart") || "[]");
+            this.cartCount = cart.reduce((sum, item) => sum + item.qty, 0);
           },
           initFiltersFromURL() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -1071,13 +1091,9 @@
         },
         mounted() {
           this.initFiltersFromURL();
-          const savedCart = localStorage.getItem("cartCount");
-          if (savedCart) this.cartCount = parseInt(savedCart);
-        },
-        watch: {
-          cartCount(newVal) {
-            localStorage.setItem("cartCount", newVal);
-          },
+          // Đồng bộ badge giỏ hàng từ localStorage
+          this.updateCartBadge();
+          window.addEventListener("storage", this.updateCartBadge);
         },
       }).mount("#app");
     </script>

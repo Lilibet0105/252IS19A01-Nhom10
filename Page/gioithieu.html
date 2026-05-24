@@ -312,7 +312,7 @@
               </ul>
             </div>
 
-            <!-- Nút Giỏ hàng — luôn hiện, không bị collapse -->
+            <!-- Nút Giỏ hàng — luôn hiện, không bị collapse, badge hiển thị số lượng -->
             <a
               href="./giohang.html"
               class="flex items-center gap-1.5 border border-ink rounded px-3 py-1.5 text-sm font-medium hover:bg-ink hover:text-white transition-colors shrink-0"
@@ -323,6 +323,7 @@
                 />
               </svg>
               Giỏ hàng
+              <span id="cart-badge-gioithieu" class="bg-amber text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
             </a>
           </div>
         </nav>
@@ -770,12 +771,23 @@
             emailSubscribe: "",
           };
         },
+        mounted() {
+          // Đồng bộ badge giỏ hàng từ localStorage
+          this.updateCartBadge();
+          window.addEventListener("storage", this.updateCartBadge);
+        },
         methods: {
           subscribeEmail() {
             if (this.emailSubscribe) {
               alert("Cảm ơn bạn đã đăng ký nhận thông tin!");
               this.emailSubscribe = "";
             }
+          },
+          updateCartBadge() {
+            const cart = JSON.parse(localStorage.getItem("daoTruyenCart") || "[]");
+            const total = cart.reduce((sum, item) => sum + item.qty, 0);
+            const badge = document.getElementById("cart-badge-gioithieu");
+            if (badge) badge.textContent = total;
           },
         },
       }).mount("#app");

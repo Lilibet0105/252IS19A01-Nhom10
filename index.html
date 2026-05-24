@@ -308,7 +308,7 @@
               </ul>
             </div>
 
-            <!-- Nút Giỏ hàng — luôn hiện, không bị collapse -->
+            <!-- Nút Giỏ hàng — luôn hiện, badge hiển thị số lượng từ localStorage -->
             <a
               href="Page/giohang.html"
               class="flex items-center gap-1.5 border border-ink rounded px-3 py-1.5 text-sm font-medium hover:bg-ink hover:text-white transition-colors shrink-0"
@@ -319,7 +319,7 @@
                 />
               </svg>
               Giỏ hàng
-              <!-- Vue reactive: cartCount từ data() -->
+              <span id="cart-badge-index" class="bg-amber text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
             </a>
           </div>
         </nav>
@@ -1168,9 +1168,25 @@
             this.$refs[refName].scrollBy({ left: amount, behavior: "smooth" });
           },
 
-          // Thêm vào giỏ — cập nhật cartCount + hiện toast
+          // Thêm vào giỏ — lưu vào localStorage + hiện toast
           addToCart(book) {
-            this.cartCount++;
+            const cart = JSON.parse(localStorage.getItem("daoTruyenCart") || "[]");
+            const existing = cart.find(item => item.id === book.id);
+            if (existing) {
+              existing.qty++;
+            } else {
+              cart.push({
+                id: book.id,
+                name: book.name,
+                category: book.category || "Truyện tranh",
+                price: book.price,
+                originalPrice: book.originalPrice || null,
+                qty: 1,
+                image: book.image
+              });
+            }
+            localStorage.setItem("daoTruyenCart", JSON.stringify(cart));
+            this.cartCount = cart.reduce((sum, item) => sum + item.qty, 0);
             this.toastMsg = `Đã thêm "${book.name}" vào giỏ hàng`;
             this.showToast = true;
             setTimeout(() => {
@@ -1188,6 +1204,14 @@
               this.showToast = false;
             }, 2500);
           },
+
+          // Đồng bộ badge giỏ hàng từ localStorage
+          updateCartBadge() {
+            const cart = JSON.parse(localStorage.getItem("daoTruyenCart") || "[]");
+            this.cartCount = cart.reduce((sum, item) => sum + item.qty, 0);
+            const badge = document.getElementById("cart-badge-index");
+            if (badge) badge.textContent = this.cartCount;
+          },
         },
 
         // ═══════════════════════════════════
@@ -1196,10 +1220,12 @@
         // ═══════════════════════════════════
         mounted() {
           // Auto-play banner carousel: đổi slide mỗi 4 giây
-          // setInterval thay thế data-bs-ride="carousel"
           setInterval(() => {
             this.nextSlide();
           }, 4000);
+          // Đồng bộ badge giỏ hàng từ localStorage
+          this.updateCartBadge();
+          window.addEventListener("storage", this.updateCartBadge);
         },
       }).mount("#app");
     </script>
