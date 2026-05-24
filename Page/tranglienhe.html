@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="vi">
   <head>
@@ -10,9 +9,9 @@
     <!-- ① Tailwind CSS CDN — thay thế toàn bộ Bootstrap CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- ② Google Fonts — Inter cho chữ tiếng Việt, gọn nhẹ và hiển thị ổn định -->
+    <!-- ② Google Fonts — Playfair Display (display) + Lora (body) thay vì font mặc định -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lora:wght@400;500&display=swap"
       rel="stylesheet"
     />
 
@@ -25,8 +24,8 @@
         theme: {
           extend: {
             fontFamily: {
-              display: ["Inter", "sans-serif"],
-              body: ["Inter", "sans-serif"],
+              display: ["Playfair Display", "serif"],
+              body: ["Lora", "serif"],
             },
             colors: {
               cream: "#faf7f2",
@@ -42,7 +41,7 @@
     <style>
       /* ⑤ Phong cách chung — không cần reset riêng vì Tailwind đã có Preflight */
       body {
-        font-family: "Inter", sans-serif;
+        font-family: "Lora", serif;
         background-color: #faf7f2;
         color: #1a1a1a;
       }
@@ -52,7 +51,7 @@
       h4,
       h5,
       h6 {
-        font-family: "Inter", sans-serif;
+        font-family: "Playfair Display", serif;
       }
 
       /* Dropdown "Sách" — hiệu ứng hover bằng CSS thuần (không cần JS) */
@@ -185,90 +184,208 @@
           </a>
         </div>
 
+        <!-- Tầng 3 — Main Navigation -->
         <nav class="max-w-5xl mx-auto px-4">
           <div class="flex items-center justify-between">
+            <!-- Hamburger button — chỉ hiện trên mobile -->
             <button
-              type="button"
+              @click="mobileOpen = !mobileOpen"
               class="md:hidden p-2 rounded hover:bg-gray-100 transition-colors"
-              onclick="document.getElementById('mobileMenu').classList.toggle('hidden')"
             >
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+              <!-- Icon hamburger / X tuỳ trạng thái mobileOpen -->
+              <svg
+                v-if="!mobileOpen"
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              </svg>
+              <svg
+                v-else
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
               </svg>
             </button>
 
-            <div id="mobileMenu" class="hidden md:flex md:items-center w-full">
-              <ul class="flex flex-col md:flex-row md:gap-6 py-2 md:py-0 text-sm font-medium">
-                <li><a href="../index.html" class="block py-2 md:py-4 border-b-2 border-transparent hover:border-amber text-ink hover:text-amber transition-colors">Trang chủ</a></li>
-                <li><a href="./gioithieu.html" class="block py-2 md:py-4 border-b-2 border-transparent hover:border-amber text-ink hover:text-amber transition-colors">Giới thiệu</a></li>
+            <!-- Menu links — desktop: flex ngang | mobile: collapse dọc -->
+            <div
+              :class="['w-full md:flex md:items-center', mobileOpen ? 'block' : 'hidden md:flex']"
+            >
+              <ul
+                class="flex flex-col md:flex-row md:gap-6 py-2 md:py-0 text-sm font-medium"
+              >
+                <li>
+                  <a
+                    href="../index.html"
+                    class="block py-2 md:py-4 border-b-2 border-transparent hover:border-amber text-ink hover:text-amber transition-colors"
+                  >
+                    Trang chủ
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="./gioithieu.html"
+                    class="block py-2 md:py-4 border-b-2 border-transparent hover:border-amber text-ink hover:text-amber transition-colors"
+                  >
+                    Giới thiệu
+                  </a>
+                </li>
+
+                <!-- Dropdown "Sách" — CSS-only hover -->
                 <li class="relative group">
-                  <a href="./theloai.html" class="flex items-center gap-1 py-2 md:py-4 border-b-2 border-transparent hover:border-amber text-ink hover:text-amber transition-colors">
+                  <a
+                    href="./theloai.html"
+                    class="flex items-center gap-1 py-2 md:py-4 border-b-2 border-transparent group-hover:border-amber text-ink group-hover:text-amber transition-colors"
+                  >
                     Truyện tranh
-                    <svg class="w-3.5 h-3.5 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    <svg
+                      class="w-3.5 h-3.5 mt-0.5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M19 9l-7 7-7-7"
+                      />
                     </svg>
                   </a>
-                  <div class="hidden group-hover:block absolute left-0 top-full w-48 bg-white border border-gray-200 shadow-lg rounded-b z-40">
-                    <a href="./theloai.html?type=tinh-cam" class="block px-4 py-2.5 text-sm hover:bg-cream hover:text-amber transition-colors">Truyện tranh tình cảm</a>
-                    <a href="./theloai.html?type=shounen" class="block px-4 py-2.5 text-sm hover:bg-cream hover:text-amber transition-colors">Truyện tranh hành động</a>
-                    <a href="./theloai.html?type=trinh-tham" class="block px-4 py-2.5 text-sm hover:bg-cream hover:text-amber transition-colors">Truyện tranh trinh thám</a>
-                    <a href="./theloai.html?type=thieu-nhi" class="block px-4 py-2.5 text-sm hover:bg-cream hover:text-amber transition-colors">Truyện tranh thiếu nhi</a>
+                  <!-- Dropdown menu — hiện khi hover (group-hover) -->
+                  <div
+                    class="hidden group-hover:block absolute left-0 top-full w-44 bg-white border border-gray-200 shadow-lg rounded-b z-40"
+                  >
+                    <a
+                      href="./theloai.html?type=tinh-cam"
+                      class="block px-4 py-2.5 text-sm hover:bg-cream hover:text-amber transition-colors"
+                      >Truyện tranh tình cảm</a
+                    >
+                    <a
+                      href="./theloai.html?type=shounen"
+                      class="block px-4 py-2.5 text-sm hover:bg-cream hover:text-amber transition-colors"
+                      >Truyện tranh hành động</a
+                    >
+                    <a
+                      href="./theloai.html?type=trinh-tham"
+                      class="block px-4 py-2.5 text-sm hover:bg-cream hover:text-amber transition-colors"
+                      >Truyện tranh trinh thám</a
+                    >
+                    <a
+                      href="./theloai.html?type=thieu-nhi"
+                      class="block px-4 py-2.5 text-sm hover:bg-cream hover:text-amber transition-colors"
+                      >Truyện tranh thiếu nhi</a
+                    >
                   </div>
                 </li>
-                <li><a href="./tranglienhe.html" class="block py-2 md:py-4 border-b-2 border-amber font-semibold text-amber transition-colors">Liên hệ</a></li>
+
+                <li>
+                  <a
+                    href="./tranglienhe.html"
+                    class="block py-2 md:py-4 border-b-2 border-ink font-semibold text-ink transition-colors hover:text-amber"
+                  >
+                    Liên hệ
+                  </a>
+                </li>
               </ul>
             </div>
+
+            <!-- Nút Giỏ hàng — luôn hiện, không bị collapse -->
+            <a
+              href="./giohang.html"
+              class="flex items-center gap-1.5 border border-ink rounded px-3 py-1.5 text-sm font-medium hover:bg-ink hover:text-white transition-colors shrink-0"
+            >
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"
+                />
+              </svg>
+              Giỏ hàng
+            </a>
           </div>
         </nav>
       </header>
       <!-- /HEADER -->
       <main class="bg-cream">
         <section class="max-w-5xl mx-auto px-4 py-16">
+          <!-- Grid 2 cột responsive: 1 col (mobile) → lg:2 col -->
           <div class="grid gap-10 lg:grid-cols-2">
+            <!-- Cột trái: Tiêu đề + Thông tin liên hệ -->
             <div class="space-y-6">
+              <!-- Card tiêu đề — rounded-[2rem] bo góc lớn, shadow-sm nhẹ -->
               <div class="rounded-[2rem] bg-white border border-gray-200 p-8 shadow-sm">
-                <p class="text-xs uppercase tracking-[0.35em] text-amber">Liên hệ</p>
-                <h1 class="mt-4 text-4xl font-semibold tracking-tight text-ink">Liên hệ với Đảo Truyện</h1>
-                <p class="mt-4 max-w-xl text-sm text-muted leading-7">Nếu bạn cần hỗ trợ, đặt hàng hoặc gửi thắc mắc, hãy dùng form dưới đây để gửi yêu cầu.</p>
+                <!-- Nhãn "Liên hệ" — font Playfair Display, in hoa, màu amber -->
+                <p class="text-sm uppercase tracking-[0.1em] text-amber font-display font-semibold">Liên hệ</p>
+                <!-- Tiêu đề chính — font Playfair Display, đậm -->
+                <h1 class="mt-4 text-4xl font-bold tracking-tight text-ink font-display">Liên hệ với Đảo Truyện</h1>
+                <!-- Mô tả — font Lora, màu muted -->
+                <p class="mt-4 max-w-xl text-base text-muted leading-7 font-body">Nếu bạn cần hỗ trợ, đặt hàng hoặc gửi thắc mắc, hãy dùng form dưới đây để gửi yêu cầu.</p>
               </div>
+              <!-- Grid 2x2 cho 4 card thông tin liên hệ — sm:grid-cols-2 responsive -->
               <div class="grid gap-4 sm:grid-cols-2">
+                <!-- Card Địa chỉ -->
                 <div class="rounded-3xl bg-white border border-gray-200 p-6 shadow-sm">
-                  <p class="text-[0.68rem] uppercase tracking-[0.4em] text-muted">Địa chỉ</p>
-                  <p class="mt-3 text-base font-semibold text-ink">12 Chùa Bộc, Đống Đa, Hà Nội</p>
+                  <p class="text-sm uppercase tracking-[0.1em] text-amber font-display font-semibold">Địa chỉ</p>
+                  <p class="mt-3 text-lg font-semibold text-ink font-body">12 Chùa Bộc, Đống Đa, Hà Nội</p>
                 </div>
+                <!-- Card Hotline -->
                 <div class="rounded-3xl bg-white border border-gray-200 p-6 shadow-sm">
-                  <p class="text-[0.68rem] uppercase tracking-[0.4em] text-muted">Hotline</p>
-                  <p class="mt-3 text-base font-semibold text-ink">0981109909</p>
+                  <p class="text-sm uppercase tracking-[0.1em] text-amber font-display font-semibold">Hotline</p>
+                  <p class="mt-3 text-lg font-semibold text-ink font-body">0981109909</p>
                 </div>
+                <!-- Card Email -->
                 <div class="rounded-3xl bg-white border border-gray-200 p-6 shadow-sm">
-                  <p class="text-[0.68rem] uppercase tracking-[0.4em] text-muted">Email</p>
-                  <p class="mt-3 text-base font-semibold text-ink">daotruyen@gmail.com</p>
+                  <p class="text-sm uppercase tracking-[0.1em] text-amber font-display font-semibold">Email</p>
+                  <p class="mt-3 text-lg font-semibold text-ink font-body">daotruyen@gmail.com</p>
                 </div>
+                <!-- Card Giờ mở cửa -->
                 <div class="rounded-3xl bg-white border border-gray-200 p-6 shadow-sm">
-                  <p class="text-[0.68rem] uppercase tracking-[0.4em] text-muted">Giờ mở cửa</p>
-                  <p class="mt-3 text-base font-semibold text-ink">8:00 - 21:00 mỗi ngày</p>
+                  <p class="text-sm uppercase tracking-[0.1em] text-amber font-display font-semibold">Giờ mở cửa</p>
+                  <p class="mt-3 text-lg font-semibold text-ink font-body">8:00 - 21:00 mỗi ngày</p>
                 </div>
               </div>
             </div>
 
+            <!-- Cột phải: Form liên hệ — rounded-[2rem] bo góc lớn -->
             <div class="rounded-[2rem] bg-white border border-gray-200 p-8 shadow-sm">
-              <h2 class="text-2xl font-semibold tracking-tight text-ink">Gửi yêu cầu cho chúng tôi</h2>
-              <p class="mt-3 max-w-lg text-sm text-muted leading-7">Điền thông tin của bạn và chúng tôi sẽ phản hồi trong thời gian sớm nhất.</p>
+              <h2 class="text-2xl font-bold tracking-tight text-ink font-display">Gửi yêu cầu cho chúng tôi</h2>
+              <p class="mt-3 max-w-lg text-base text-muted leading-7 font-body">Điền thông tin của bạn và chúng tôi sẽ phản hồi trong thời gian sớm nhất.</p>
+              <!-- Form liên hệ — input rounded-3xl, focus:border-amber -->
               <form class="mt-8 space-y-4">
+                <!-- Grid 2 cột cho Họ tên + Email -->
                 <div class="grid gap-4 sm:grid-cols-2">
                   <input type="text" placeholder="Họ và tên" class="w-full rounded-3xl border border-gray-200 bg-gray-50 px-5 py-4 text-base text-ink focus:outline-none focus:border-amber" />
                   <input type="email" placeholder="Email" class="w-full rounded-3xl border border-gray-200 bg-gray-50 px-5 py-4 text-base text-ink focus:outline-none focus:border-amber" />
                 </div>
+                <!-- Textarea nội dung liên hệ -->
                 <textarea rows="5" placeholder="Nội dung liên hệ" class="w-full rounded-3xl border border-gray-200 bg-gray-50 px-5 py-4 text-base text-ink focus:outline-none focus:border-amber"></textarea>
+                <!-- Nút gửi — bg-amber, hover:bg-yellow-500 -->
                 <button type="submit" class="inline-flex items-center justify-center rounded-3xl bg-amber px-7 py-3 text-base font-semibold text-ink hover:bg-yellow-500 transition-colors">Gửi liên hệ</button>
               </form>
             </div>
           </div>
 
+          <!-- Bản đồ Google Maps — iframe nhúng, hiển thị vị trí 12 Chùa Bộc, Đống Đa, Hà Nội -->
           <section class="mt-14 rounded-[2rem] overflow-hidden border border-gray-200 shadow-sm">
             <iframe
               class="h-96 w-full"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3723.748093143506!2d105.82639801493268!3d21.04300478598833!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ac7335d9b3c1%3A0x9e5fbc5d66b5861a!2s12%20Ch%C3%B9a%20B%E1%BB%99c%2C%20Quang%20Trung%2C%20%C4%90%E1%BB%91ng%20%C4%90a%2C%20H%C3%A0%20N%E1%BB%99i%2C%20Vietnam!5e0!3m2!1sen!2sus!4v1686918508471!5m2!1sen!2sus"
+              src="https://maps.google.com/maps?q=12%20Chùa%20Bộc,%20Đống%20Đa,%20Hà%20Nội&t=&z=16&ie=UTF8&iwloc=&output=embed"
               style="border:0;"
               allowfullscreen=""
               loading="lazy"

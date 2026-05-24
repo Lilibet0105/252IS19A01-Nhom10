@@ -757,15 +757,15 @@
       <!-- /MAIN -->
 
       <!-- ╔══════════════════════════════════════════╗
-       ║  FOOTER                                  ║
+       ║  FOOTER — 4 cột: Về chúng tôi, Hỗ trợ, Dịch vụ, Nhận thông tin  ║
        ╚══════════════════════════════════════════╝ -->
       <footer class="bg-ink text-white pt-12 pb-6">
         <div class="max-w-5xl mx-auto px-4">
-          <!-- 4 cột — Tailwind grid -->
+          <!-- 4 cột responsive: 1 col (mobile) → sm:2 → lg:4 -->
           <div
             class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 pb-8 border-b border-white/10"
           >
-            <!-- Cột 1: Về Đảo truyện -->
+            <!-- Cột 1: Về Đảo truyện — các link giới thiệu, liên hệ, hệ thống cửa hàng -->
             <div>
               <h6
                 class="font-semibold text-sm uppercase tracking-wider mb-4 text-amber"
@@ -791,7 +791,7 @@
               </ul>
             </div>
 
-            <!-- Cột 2: Hỗ trợ -->
+            <!-- Cột 2: Hỗ trợ — chính sách vận chuyển, bảo hành, đổi trả -->
             <div>
               <h6
                 class="font-semibold text-sm uppercase tracking-wider mb-4 text-amber"
@@ -818,7 +818,7 @@
               </ul>
             </div>
 
-            <!-- Cột 3: Dịch vụ -->
+            <!-- Cột 3: Dịch vụ — điều khoản, bảo mật thanh toán, bảo mật thông tin -->
             <div>
               <h6
                 class="font-semibold text-sm uppercase tracking-wider mb-4 text-amber"
@@ -844,14 +844,14 @@
               </ul>
             </div>
 
-            <!-- Cột 4: Đăng ký + Mạng xã hội -->
+            <!-- Cột 4: Đăng ký nhận tin + Mạng xã hội (Facebook, Instagram, X/Twitter) -->
             <div>
               <h6
                 class="font-semibold text-sm uppercase tracking-wider mb-4 text-amber"
               >
                 Nhận thông tin
               </h6>
-              <!-- Form Vue: v-model cho email, @submit.prevent xử lý không reload -->
+              <!-- Form Vue: v-model liên kết email, @submit.prevent ngăn reload trang -->
               <form @submit.prevent="subscribeEmail" class="flex mb-5">
                 <input
                   v-model="emailSubscribe"
@@ -867,13 +867,14 @@
                 </button>
               </form>
 
-              <!-- Mạng xã hội -->
+              <!-- Mạng xã hội — icon SVG inline thay vì Bootstrap Icons -->
               <h6
                 class="font-semibold text-sm uppercase tracking-wider mb-3 text-amber"
               >
                 Theo dõi
               </h6>
               <div class="flex gap-4">
+                <!-- Facebook icon -->
                 <a
                   href="https://www.facebook.com/"
                   target="_blank"
@@ -885,6 +886,7 @@
                     />
                   </svg>
                 </a>
+                <!-- Instagram icon -->
                 <a
                   href="https://www.instagram.com/"
                   target="_blank"
@@ -896,6 +898,7 @@
                     />
                   </svg>
                 </a>
+                <!-- X (Twitter) icon -->
                 <a
                   href="https://twitter.com/"
                   target="_blank"

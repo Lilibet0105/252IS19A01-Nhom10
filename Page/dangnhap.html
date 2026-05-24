@@ -1,6 +1,11 @@
 <!doctype html>
 <html lang="vi">
   <head>
+    <!-- ═══════════════════════════════════════════
+         HEAD — Tailwind CSS CDN + Google Fonts + config
+         - Tailwind config: extend font (display, body) và màu (cream, ink, amber, muted)
+         - Font: Playfair Display cho tiêu đề, Lora cho nội dung
+    ═══════════════════════════════════════════ -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Đăng nhập | Đảo Truyện</title>
@@ -36,7 +41,9 @@
       }
     </style>
   </head>
+  <!-- BODY — Gradient nền từ cream qua white đến amber-50 -->
   <body class="min-h-screen bg-gradient-to-br from-cream via-white to-amber-50">
+    <!-- HEADER — Logo + link về trang chủ -->
     <header class="border-b border-gray-200 bg-white/95 backdrop-blur-sm shadow-sm">
       <div class="max-w-5xl mx-auto px-4 py-5">
         <a href="../index.html" class="inline-flex items-center gap-3">
@@ -49,16 +56,27 @@
       </div>
     </header>
 
+    <!-- ═══════════════════════════════════════════
+         MAIN — Form đăng nhập
+         - Card bo góc lớn (rounded-[2rem]), shadow-2xl + shadow amber
+         - 2 trường: Email, Mật khẩu
+         - Checkbox "Nhớ tôi" + link "Quên mật khẩu"
+         - Nút submit gradient từ amber sang orange-500
+         - Link chuyển sang trang đăng ký
+    ═══════════════════════════════════════════ -->
     <main class="flex min-h-[calc(100vh-100px)] items-center justify-center px-4 py-16">
       <section class="w-full max-w-lg rounded-[2rem] border border-gray-200 bg-white/95 p-10 shadow-2xl shadow-amber/15 ring-1 ring-amber-100">
+        <!-- Tiêu đề form — font-display (Playfair Display), font-black đậm nhất -->
         <div class="mb-10 text-center">
           <div class="mx-auto mb-4 h-1.5 w-24 rounded-full bg-amber"></div>
           <h1 class="text-5xl font-display font-black tracking-tight text-ink">Đăng Nhập</h1>
           <p class="mx-auto mt-4 max-w-sm text-sm text-muted">Nhập email và mật khẩu để tiếp tục</p>
         </div>
 
+        <!-- Form đăng nhập — input rounded-3xl, focus:border-amber + focus:ring-amber/20 -->
         <form id="loginForm" class="space-y-6">
           <div class="space-y-5">
+          <!-- Trường Email -->
           <div>
             <label for="email" class="block text-sm font-semibold text-ink">Email</label>
             <input
@@ -71,6 +89,7 @@
             />
           </div>
 
+          <!-- Trường Mật khẩu -->
           <div>
             <label for="password" class="block text-sm font-semibold text-ink">Mật khẩu</label>
             <input
@@ -84,6 +103,7 @@
           </div>
         </div>
 
+        <!-- Checkbox "Nhớ tôi" + Link "Quên mật khẩu" -->
         <div class="mt-1 flex items-center justify-between text-sm text-muted">
           <label class="inline-flex items-center gap-2">
             <input type="checkbox" class="h-4 w-4 rounded border-gray-300 text-amber focus:ring-amber" />
@@ -92,6 +112,7 @@
           <a href="./quenmatkhau.html" class="text-amber font-medium hover:text-ink transition">Quên mật khẩu?</a>
         </div>
 
+        <!-- Nút Đăng nhập — gradient từ amber sang orange-500 -->
         <button
           type="submit"
           class="mt-4 w-full rounded-3xl bg-gradient-to-r from-amber to-orange-500 px-6 py-4 text-base font-semibold text-white shadow-lg shadow-amber/20 transition duration-200 hover:from-orange-600 hover:to-amber-600"
@@ -100,6 +121,7 @@
         </button>
         </form>
 
+        <!-- Link chuyển sang trang đăng ký -->
         <p class="mt-6 text-center text-sm text-muted">
           Bạn chưa có tài khoản?
           <a href="./dangky.html" class="font-semibold text-amber hover:text-ink transition">Đăng ký ngay</a>
@@ -107,15 +129,25 @@
       </section>
     </main>
 
+    <!-- ═══════════════════════════════════════════
+         SCRIPT — Xử lý form đăng nhập
+         - Kiểm tra đầy đủ email và mật khẩu
+         - Chuyển hướng về trang chủ sau khi thành công
+    ═══════════════════════════════════════════ -->
     <script>
+      // Xử lý sự kiện submit form đăng nhập
       document.getElementById('loginForm').addEventListener('submit', function (event) {
+        // Ngăn form reload trang
         event.preventDefault();
+        // Lấy giá trị từ các trường input
         const email = event.target.email.value.trim();
         const password = event.target.password.value.trim();
+        // Kiểm tra đầy đủ thông tin
         if (!email || !password) {
           alert('Vui lòng nhập đầy đủ email và mật khẩu.');
           return;
         }
+        // Đăng nhập thành công — chuyển hướng về trang chủ
         alert('Đăng nhập thành công! Đang chuyển về trang chủ...');
         window.location.href = '../index.html';
       });

@@ -283,13 +283,17 @@
       </header>
 
       <main class="max-w-5xl mx-auto px-4 py-10">
+        <!-- Grid 4 cột: 1 col sidebar + 3 col danh sách truyện -->
         <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          <!-- SIDEBAR — Bộ lọc danh mục & khoảng giá (sticky) -->
           <aside class="lg:col-span-1">
             <div
               class="bg-white p-5 rounded-lg border border-gray-200 sticky top-28"
             >
+              <!-- Tiêu đề bộ lọc -->
               <h3 class="font-display text-xl font-semibold mb-4">Bộ lọc</h3>
 
+              <!-- Lọc theo danh mục — Vue v-model checkboxes -->
               <div class="mb-6">
                 <h4
                   class="font-medium text-sm uppercase tracking-wide text-muted mb-3"
@@ -297,6 +301,7 @@
                   Danh mục
                 </h4>
                 <div class="space-y-2">
+                  <!-- Checkbox Tình cảm — v-model liên kết filters.categories -->
                   <label class="flex items-center gap-2 text-sm cursor-pointer">
                     <input
                       type="checkbox"
@@ -306,6 +311,7 @@
                     />
                     Tình cảm
                   </label>
+                  <!-- Checkbox Hành động -->
                   <label class="flex items-center gap-2 text-sm cursor-pointer">
                     <input
                       type="checkbox"
@@ -315,6 +321,7 @@
                     />
                     Hành động
                   </label>
+                  <!-- Checkbox Trinh thám -->
                   <label class="flex items-center gap-2 text-sm cursor-pointer">
                     <input
                       type="checkbox"
@@ -324,6 +331,7 @@
                     />
                     Trinh thám
                   </label>
+                  <!-- Checkbox Thiếu nhi -->
                   <label class="flex items-center gap-2 text-sm cursor-pointer">
                     <input
                       type="checkbox"
@@ -336,6 +344,7 @@
                 </div>
               </div>
 
+              <!-- Lọc theo khoảng giá — Vue v-model radio buttons -->
               <div>
                 <h4
                   class="font-medium text-sm uppercase tracking-wide text-muted mb-3"
@@ -343,6 +352,7 @@
                   Khoảng giá
                 </h4>
                 <div class="space-y-2">
+                  <!-- Radio Tất cả -->
                   <label class="flex items-center gap-2 text-sm cursor-pointer">
                     <input
                       type="radio"
@@ -352,6 +362,7 @@
                     />
                     Tất cả
                   </label>
+                  <!-- Radio Dưới 40.000₫ -->
                   <label class="flex items-center gap-2 text-sm cursor-pointer">
                     <input
                       type="radio"
@@ -361,6 +372,7 @@
                     />
                     Dưới 40.000₫
                   </label>
+                  <!-- Radio Từ 40.000₫ trở lên -->
                   <label class="flex items-center gap-2 text-sm cursor-pointer">
                     <input
                       type="radio"
@@ -375,8 +387,11 @@
             </div>
           </aside>
 
+          <!-- DANH SÁCH TRUYỆN — 3 cột, hiển thị kết quả lọc + sắp xếp -->
           <div class="lg:col-span-3">
+            <!-- Thanh thông tin: số kết quả + dropdown sắp xếp -->
             <div class="flex flex-wrap justify-between items-center mb-6 gap-3">
+              <!-- Hiển thị số truyện tìm thấy — Vue {{ filteredBooks.length }} -->
               <p class="text-sm text-muted">
                 Tìm thấy
                 <span class="font-bold text-ink"
@@ -384,6 +399,7 @@
                 >
                 truyện
               </p>
+              <!-- Dropdown sắp xếp — Vue v-model sortType -->
               <select
                 v-model="sortType"
                 class="border border-gray-300 rounded px-3 py-1.5 text-sm focus:outline-none focus:border-amber"
@@ -395,6 +411,8 @@
               </select>
             </div>
 
+            <!-- Grid 3 cột responsive: 1 col → sm:2 → lg:3 -->
+            <!-- Vue v-for render card truyện từ sortedBooks -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               <div
                 v-for="book in sortedBooks"

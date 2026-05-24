@@ -49,20 +49,31 @@
       </div>
     </header>
 
+    <!-- ═══════════════════════════════════════════
+         MAIN — Nội dung chính trang Chính sách vận chuyển
+         - Card bo góc lớn (rounded-[2rem]), shadow-2xl
+         - Tiêu đề + mô tả ngắn
+         - 7 mục chính sách: Phạm vi, Thời gian, Phương thức, Phí, Kiểm tra, Không giao được, Liên hệ
+         - Nút "Quay về trang chủ" ở cuối
+    ═══════════════════════════════════════════ -->
     <main class="flex min-h-[calc(100vh-100px)] items-center justify-center px-4 py-16">
       <section class="w-full max-w-4xl rounded-[2rem] border border-gray-200 bg-white/95 p-10 shadow-2xl shadow-amber/15 ring-1 ring-amber-100">
+        <!-- Tiêu đề trang — font-display (Playfair Display), font-black -->
         <div class="mb-10 text-center">
           <div class="mx-auto mb-4 h-1.5 w-24 rounded-full bg-amber"></div>
           <h1 class="text-5xl font-display font-black tracking-tight text-ink">Chính sách vận chuyển</h1>
           <p class="mx-auto mt-4 max-w-2xl text-sm text-muted">Nắm rõ các điều khoản vận chuyển khi mua sắm tại Đảo Truyện.</p>
         </div>
 
+        <!-- Nội dung chính sách — 7 mục, text-justify, leading-7 -->
         <div class="space-y-8 text-justify text-sm leading-7 text-slate-700">
+          <!-- Mục 1: Phạm vi áp dụng -->
           <div>
             <h2 class="mb-3 text-xl font-semibold text-ink">1. Phạm vi áp dụng</h2>
             <p>Chính sách này áp dụng cho mọi đơn hàng đặt mua sản phẩm tại Đảo Truyện qua website, fanpage và các kênh bán hàng chính thức.</p>
           </div>
 
+          <!-- Mục 2: Thời gian xử lý đơn hàng -->
           <div>
             <h2 class="mb-3 text-xl font-semibold text-ink">2. Thời gian xử lý đơn hàng</h2>
             <ul class="list-disc space-y-2 pl-5">
@@ -72,6 +83,7 @@
             </ul>
           </div>
 
+          <!-- Mục 3: Phương thức vận chuyển -->
           <div>
             <h2 class="mb-3 text-xl font-semibold text-ink">3. Phương thức vận chuyển</h2>
             <p>Đảo Truyện hợp tác với đơn vị vận chuyển đáng tin cậy để giao hàng nhanh chóng đến tay khách hàng. Khách có thể lựa chọn hình thức vận chuyển phù hợp khi thanh toán.</p>
@@ -81,21 +93,25 @@
             </ul>
           </div>
 
+          <!-- Mục 4: Phí vận chuyển -->
           <div>
             <h2 class="mb-3 text-xl font-semibold text-ink">4. Phí vận chuyển</h2>
             <p>Phí vận chuyển được tính theo cân nặng, kích thước và khoảng cách giao hàng. Mọi chi phí sẽ được hiển thị rõ ràng trước khi khách hàng hoàn tất thanh toán.</p>
           </div>
 
+          <!-- Mục 5: Kiểm tra và nhận hàng -->
           <div>
             <h2 class="mb-3 text-xl font-semibold text-ink">5. Kiểm tra và nhận hàng</h2>
             <p>Khi nhận hàng, khách hàng vui lòng kiểm tra kỹ sản phẩm, tem niêm phong và số lượng trước khi ký nhận. Nếu có lỗi về sản phẩm hoặc thiếu hàng, xin vui lòng từ chối nhận và liên hệ ngay với bộ phận chăm sóc khách hàng.</p>
           </div>
 
+          <!-- Mục 6: Trường hợp không giao được -->
           <div>
             <h2 class="mb-3 text-xl font-semibold text-ink">6. Trường hợp không giao được</h2>
             <p>Nếu đơn hàng không thể giao vì khách vắng nhà hoặc địa chỉ không chính xác, nhân viên vận chuyển sẽ liên hệ để hẹn giao lại. Trong trường hợp không liên hệ được, đơn hàng có thể bị trả về kho của Đảo Truyện.</p>
           </div>
 
+          <!-- Mục 7: Liên hệ hỗ trợ -->
           <div>
             <h2 class="mb-3 text-xl font-semibold text-ink">7. Liên hệ hỗ trợ</h2>
             <p>Nếu cần hỗ trợ về việc giao hàng, vui lòng liên hệ:</p>
@@ -106,6 +122,7 @@
           </div>
         </div>
 
+        <!-- Nút quay về trang chủ -->
         <div class="mt-12 text-center">
           <a href="../index.html" class="inline-flex items-center justify-center rounded-3xl bg-amber px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-amber/20 transition hover:bg-orange-500">
             Quay về trang chủ
