@@ -680,7 +680,7 @@
                 price: 65500,
                 originalPrice: 139000,
                 category: "tinh-cam",
-                img: "../images/product/Tinh_cam/trangchieuricro.jpg", // ĐÃ SỬA LỖI ĐƯỜNG DẪN ẢNH (.jpg)
+                img: "../images/product/Tinh_cam/trangchieurucro.jpg",
               },
               {
                 id: "TC02",
@@ -688,7 +688,7 @@
                 price: 65500,
                 originalPrice: 139000,
                 category: "tinh-cam",
-                img: "../images/product/Tinh_cam/changbangiananglunhung.jpg",
+                img: "../images/product/Tinh_cam/changbangiananglanhlung.jpg",
               },
               {
                 id: "TC03",
@@ -704,7 +704,7 @@
                 price: 65500,
                 originalPrice: 139000,
                 category: "tinh-cam",
-                img: "../images/product/Tinh_cam/ngon-ngu-yeuhuong_bia_tap-10-dd.webp",
+                img: "../images/product/Tinh_cam/ngon-ngu-yeu-thuong_bia_tap-10-dd.webp",
               },
               {
                 id: "TC05",
@@ -1069,7 +1069,7 @@
             }, 2500);
           },
           handleImageError(e) {
-            e.target.src = "../assets/placeholder.jpg";
+            e.target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='400' viewBox='0 0 300 400'%3E%3Crect fill='%23f3f4f6' width='300' height='400'/%3E%3Ctext fill='%239ca3af' font-family='sans-serif' font-size='14' text-anchor='middle' x='150' y='200'%3EKhông có ảnh%3C/text%3E%3C/svg%3E";
           },
           updateCartBadge() {
             const cart = JSON.parse(localStorage.getItem("daoTruyenCart") || "[]");
