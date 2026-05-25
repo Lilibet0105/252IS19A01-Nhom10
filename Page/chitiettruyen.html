@@ -1,23 +1,31 @@
 <!doctype html>
 <html lang="vi">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="./assets/favicon.jpg" type="image/x-icon" />
-    <title>Đảo Truyện</title>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="icon" href="./assets/favicon.jpg" type="image/x-icon" />
 
-    <!-- ① Tailwind CSS CDN — thay thế toàn bộ Bootstrap CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+  <title>Đảo Truyện - Trăng Chiều Rực Rỡ</title>
 
-    <!-- ② Google Fonts — Playfair Display (display) + Lora (body) thay vì font mặc định -->
-    <link
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Font -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lora:wght@400;500&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Vue -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+  <link
       href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lora:wght@400;500&display=swap"
       rel="stylesheet"
     />
 
- <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/style_lh.css">
-   
+    <!-- ③ Heroicons via unpkg (thay Bootstrap Icons) -->
+    <!-- Dùng inline SVG bên dưới cho gọn -->
 
     <script>
       // ④ Tailwind config — extend thêm màu & font tuỳ chỉnh
@@ -96,7 +104,7 @@
             <div class="flex gap-5">
               <a
                 href="tel:0981109909"
-                class="flex items-center gap-1.5 hover:text-amber transition-colors"
+class="flex items-center gap-1.5 hover:text-amber transition-colors"
               >
                 <!-- SVG icon Phone (thay bi-telephone-fill) -->
                 <svg
@@ -134,7 +142,7 @@
             <div class="flex items-center gap-2">
               <!-- Nút Đăng ký -->
               <a
-                href="./dangky.html"
+                href="./Page/dangky.html"
                 class="flex items-center gap-1 bg-amber/90 text-white rounded px-2.5 py-0.5 hover:bg-amber transition-colors"
               >
                 <svg
@@ -150,7 +158,7 @@
               </a>
               <!-- Nút Đăng nhập -->
               <a
-                href="./dangnhap.html"
+                href="./Page/dangnhap.html"
                 class="flex items-center gap-1 border border-white/50 rounded px-2.5 py-0.5 hover:bg-white hover:text-ink transition-colors"
               >
                 <svg
@@ -171,12 +179,12 @@
         </div>
 
         <!-- Tầng 2 — Logo căn giữa -->
-        <div
+<div
           class="flex justify-center items-center py-2 border-b border-gray-100"
         >
           <a href="index.html" class="block">
             <img
-              src="./assets/logo.jpg"
+              src="../assets/logo.jpg"
               alt="Đảo Truyện"
               class="h-14 md:h-16 w-auto object-contain"
             />
@@ -242,7 +250,7 @@
                 </li>
                 <li>
                   <a
-                    href="./gioithieu.html"
+                    href="Page/gioithieu.html"
                     class="block py-2 md:py-4 border-b-2 border-transparent hover:border-amber text-ink hover:text-amber transition-colors"
                   >
                     Giới thiệu
@@ -250,10 +258,10 @@
                 </li>
 
                 <!-- Dropdown "Sách" — CSS-only hover, không cần JS -->
-                <!-- Tailwind: group + group-hover thay class dropdown-content -->
+<!-- Tailwind: group + group-hover thay class dropdown-content -->
                 <li class="relative group">
                   <a
-                    href="./theloai.html"
+                    href="Page/theloai.html"
                     class="flex items-center gap-1 py-2 md:py-4 border-b-2 border-transparent group-hover:border-amber text-ink group-hover:text-amber transition-colors"
                   >
                     Truyện tranh
@@ -276,22 +284,22 @@
                     class="hidden group-hover:block absolute left-0 top-full w-44 bg-white border border-gray-200 shadow-lg rounded-b z-40"
                   >
                     <a
-                      href="./theloai.html?type=tinh-cam"
+                      href="Page/theloai.html?type=tinh-cam"
                       class="block px-4 py-2.5 text-sm hover:bg-cream hover:text-amber transition-colors"
                       >Truyện tranh tình cảm</a
                     >
                     <a
-                      href="./theloai.html?type=shounen"
+                      href="Page/theloai.html?type=shounen"
                       class="block px-4 py-2.5 text-sm hover:bg-cream hover:text-amber transition-colors"
                       >Truyện tranh hành động</a
                     >
                     <a
-                      href="./theloai.html?type=trinh-tham"
+                      href="Page/theloai.html?type=trinh-tham"
                       class="block px-4 py-2.5 text-sm hover:bg-cream hover:text-amber transition-colors"
                       >Truyện tranh trinh thám</a
                     >
                     <a
-                      href="./theloai.html?type=thieu-nhi"
+                      href="Page/theloai.html?type=thieu-nhi"
                       class="block px-4 py-2.5 text-sm hover:bg-cream hover:text-amber transition-colors"
                       >Truyện tranh thiếu nhi</a
                     >
@@ -300,7 +308,7 @@
 
                 <li>
                   <a
-                    href="./tranglienhe.html"
+                    href="Page/tranglienhe.html"
                     class="block py-2 md:py-4 border-b-2 border-transparent hover:border-amber text-ink hover:text-amber transition-colors"
                   >
                     Liên hệ
@@ -311,494 +319,488 @@
 
             <!-- Nút Giỏ hàng — luôn hiện, badge hiển thị số lượng từ localStorage -->
             <a
-              href="./giohang.html"
+              href="Page/giohang.html"
               class="flex items-center gap-1.5 border border-ink rounded px-3 py-1.5 text-sm font-medium hover:bg-ink hover:text-white transition-colors shrink-0"
-            >
+>
               <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                 <path
                   d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"
                 />
               </svg>
               Giỏ hàng
-              <span id="cart-badge-chitiet" class="bg-amber text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
+              <span id="cart-badge-index" class="bg-amber text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
             </a>
           </div>
         </nav>
       </header>
       <!-- /HEADER -->
-       <!----
-       
-       
-       
-       -->
- 
 
-<body>
-
-   <!-- ═══════════════════════════════════════════
-        CHI TIẾT SẢN PHẨM — Hiển thị thông tin truyện tranh
-        - Grid 2 cột: Ảnh bên trái + Thông tin bên phải
-        - Bao gồm: Tên, tác giả, rating, giá, mô tả, số lượng, nút mua
-   ═══════════════════════════════════════════ -->
-<section class="bg-[#f5f3ee] py-16">
-  <div class="max-w-6xl mx-auto px-4">
-    <!-- Grid 2 cột responsive: 1 col (mobile) → lg:2 col -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-14 items-start">
-
-      <!-- Cột trái: Ảnh sản phẩm — bo góc, shadow -->
-      <div class="flex justify-center">
-        <div class="bg-white p-6 shadow-sm border border-gray-200">
-          <img
-            src="../images/product/Tinh_cam/trangchieurucro.jpg"
-            alt="Trăng Chiều Rực Rỡ"
-            class="w-[360px] object-cover"
-          />
-        </div>
-      </div>
-
-      <!-- Cột phải: Thông tin sản phẩm -->
-      <div class="pt-4">
-        <!-- Tên truyện — font-display (Playfair Display) -->
-        <h1 class="font-display text-5xl mb-4 text-[#1a1a1a]">
-          Trăng Chiều Rực Rỡ
-        </h1>
-        <!-- Tác giả -->
-        <p class="text-2xl mb-3 text-gray-700">
-          Mika Yamamori
-        </p>
-        <!-- Rating — sao vàng -->
-        <div class="flex text-yellow-400 text-2xl mb-4">
-          ★★★★★
-        </div>
-        <!-- Giá sản phẩm -->
-        <div class="text-3xl font-bold mb-8 text-[#1a1a1a]">
-          65.500₫
-        </div>
-        <!-- Mô tả truyện -->
-        <p class="text-gray-600 leading-8 text-[17px] mb-8">
-          Trăng Chiều Rực Rỡ kể về Takiguchi Yoi,
-          một nữ sinh có vẻ ngoài nam tính được gọi là
-          "hoàng tử" trường, tình cờ va chạm với một
-          "hoàng tử" khác tên Ichimura. Từ những hiểu lầm
-          ban đầu, cả hai dần thấu hiểu, mở lòng và phát triển
-          một tình yêu học đường ngọt ngào, tinh tế.
-        </p>
-        <!-- Bộ đếm số lượng — nút +/- và hiển thị số -->
-        <div class="flex items-center border border-gray-400 w-fit mb-6">
-          <!-- Nút giảm số lượng -->
-          <button
-            id="minusButton"
-            class="w-12 h-12 hover:bg-gray-100 transition"
-          >
-            -
-          </button>
-          <!-- Hiển thị số lượng hiện tại -->
-          <div
-            id="quantity"
-            class="w-12 h-12 flex items-center justify-center border-x border-gray-400"
-          >
-            1
-          </div>
-          <!-- Nút tăng số lượng -->
-          <button
-            id="plusButton"
-            class="w-12 h-12 hover:bg-gray-100 transition"
-          >
-            +
-          </button>
-        </div>
-        <!-- Nút hành động: Thêm vào giỏ + Mua ngay -->
-        <div class="flex gap-4">
-          <button
-            class="bg-[#1f2937] hover:bg-black text-white px-6 py-3 font-medium rounded transition"
-          >
-            🛒 Thêm vào giỏ
-          </button>
-          <a
-            href="giohang.html"
-            class="bg-[#1f2937] hover:bg-black text-white px-6 py-3 font-medium rounded transition"
-          >
-            Mua ngay
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
- <!-- ═══════════════════════════════════════════
-      SÁCH CÙNG LOẠI — Grid 4 cột hiển thị truyện cùng loại
-      - Divider phân cách
-      - Grid responsive: 1 col → sm:2 → lg:4
- ═══════════════════════════════════════════ -->
-<section class="bg-[#f5f3ee] pb-20">
-
-  <div class="max-w-6xl mx-auto px-4">
-
-    <!-- Divider -->
-    <div class="border-t border-black pt-12 mb-10">
-      <h2 class="font-display text-5xl">
-        Truyện cùng loại:
-      </h2>
-    </div>
-
-    <!-- Grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
-
-      <!-- CARD -->
-      <div class="bg-white border border-gray-200 rounded overflow-hidden hover:shadow-xl transition duration-300">
-
-        <div class="bg-gray-100 p-5 flex justify-center">
-          <img
-            src="../images/product/Tinh_cam/bia_yeu-tham---tap-1_tb2025-1.0.jpg"
-            class="w-full h-[320px] object-cover"
-          />
-        </div>
-
-        <div class="p-5">
-
-          <h3 class="font-semibold text-lg mb-2 min-h-[56px]">
-            Yêu Thầm
-          </h3>
-
-          <div class="text-yellow-400 mb-2">
-            ★★★★★
-          </div>
-
-          <div class="mb-5">
-            <span class="font-semibold">65.500₫</span>
-            <span class="line-through text-gray-400 ml-2">
-              139.000₫
-            </span>
-          </div>
-
-          <div class="flex gap-3">
-
-            <button
-              class="border border-gray-400 px-4 py-2 rounded hover:bg-gray-100 transition"
-            >
-              Thêm vào giỏ
-            </button>
-
-            <a
-  href="giohang.html"
-  class="bg-[#1f2937] text-white px-4 py-2 rounded hover:bg-black transition inline-block"
->
-  Mua ngay
-</a>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- CARD 2 -->
-      <div class="bg-white border border-gray-200 rounded overflow-hidden hover:shadow-xl transition duration-300">
-
-        <div class="bg-gray-100 p-5 flex justify-center">
-          <img
-            src="../images/product/Tinh_cam/Thien_ha_canh_ben.webp"
-           class="w-full h-[320px] object-cover"
-
-
-          />
-        </div>
-
-        <div class="p-5">
-
-          <h3 class="font-semibold text-lg mb-2 min-h-[56px]">
-            Thiên Hà Cạnh Bên
-          </h3>
-
-          <div class="text-yellow-400 mb-2">
-            ★★★★★
-          </div>
-
-          <div class="mb-5">
-            <span class="font-semibold">65.500₫</span>
-          </div>
-
-          <div class="flex gap-3">
-
-            <button
-              class="border border-gray-400 px-4 py-2 rounded hover:bg-gray-100 transition"
-            >
-              Thêm vào giỏ
-            </button>
-
-           <a
-  href=".giohang.html"
-  class="bg-[#1f2937] text-white px-4 py-2 rounded hover:bg-black transition inline-block"
->
-  Mua ngay
-</a>
-
-          </div>
-
-        </div>
-      </div>
-
-      <!-- CARD 3 -->
-      <div class="bg-white border border-gray-200 rounded overflow-hidden hover:shadow-xl transition duration-300">
-
-        <div class="bg-gray-100 p-5 flex justify-center">
-          <img
-            src="../images/product/Tinh_cam/Umbala.webp"
-             class="w-full h-[320px] object-cover"
-
-          />
-        </div>
-
-        <div class="p-5">
-
-          <h3 class="font-semibold text-lg mb-2 min-h-[56px]">
-
-            Úm Ba La Hô Biến Ra "Cô Bạn"
-          </h3>
-
-          <div class="text-yellow-400 mb-2">
-            ★★★★★
-          </div>
-
-          <div class="mb-5">
-            <span class="font-semibold">65.500₫</span>
-            <span class="line-through text-gray-400 ml-2">
-              189.000₫
-            </span>
-          </div>
-
-          <div class="flex gap-3">
-
-            <button
-              class="border border-gray-400 px-4 py-2 rounded hover:bg-gray-100 transition"
-            >
-              Thêm vào giỏ
-            </button>
-
-            <a
-  href="giohang.html"
-  class="bg-[#1f2937] text-white px-4 py-2 rounded hover:bg-black transition inline-block"
->
-  Mua ngay
-</a>
-
-          </div>
-
-        </div>
-      </div>
-
-      <!-- CARD 4 -->
-      <div class="bg-white border border-gray-200 rounded overflow-hidden hover:shadow-xl transition duration-300">
-
-        <div class="bg-gray-100 p-5 flex justify-center">
-          <img
-            src="../images/product/Tinh_cam/ngon-ngu-yeu-thuong_bia_tap-10-dd.webp"
-             class="w-full h-[320px] object-cover"
-          />
-        </div>
-
-        <div class="p-5">
-
-          <h3 class="font-semibold text-lg mb-2 min-h-[56px]">
-            Ngôn Ngữ Yêu Thương
-          </h3>
-
-          <div class="text-yellow-400 mb-2">
-            ★★★★★
-          </div>
-
-          <div class="mb-5">
-            <span class="font-semibold">65.500₫</span>
-            <span class="line-through text-gray-400 ml-2">
-              139.000₫
-            </span>
-          </div>
-
-          <div class="flex gap-3">
-
-            <button
-              class="border border-gray-400 px-4 py-2 rounded hover:bg-gray-100 transition"
-            >
-              Thêm vào giỏ
-            </button>
-
-            <a
-  href="giohang.html"
-  class="bg-[#1f2937] text-white px-4 py-2 rounded hover:bg-black transition inline-block"
->
-  Mua ngay
-</a>
-
-          </div>
-
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
       
+  <!-- PRODUCT -->
+  <section class="py-16">
 
+    <div class="max-w-6xl mx-auto px-4">
 
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-14">
 
+        <!-- IMAGE -->
+        <div class="flex justify-center">
 
+          <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
 
+            <img
+              src="../images/product/Tinh_cam/trangchieurucro.jpg"
+              alt="Trăng Chiều Rực Rỡ"
+              class="w-full max-w-md rounded-lg"
+            />
 
-       <!----
-       
-       
-       
-       
-       
-       
-       -->
-      <footer class="bg-ink text-white pt-12 pb-6 mt-10">
-        <div class="max-w-5xl mx-auto px-4">
-          <div
-            class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 pb-8 border-b border-white/10"
-          >
-            <div>
-              <h6
-                class="font-semibold text-sm uppercase tracking-wider mb-4 text-amber"
-              >
-                Về chúng tôi
-              </h6>
-              <ul class="space-y-2 text-sm text-white/60">
-                <li>
-                  <a
-                    href="./gioithieu.html"
-                    class="hover:text-white transition-colors"
-                    >Giới thiệu</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="tranglienhe.html"
-                    class="hover:text-white transition-colors"
-                    >Liên hệ</a
-                  >
-                </li>
-                <li>
-                  <a href="#" class="hover:text-white transition-colors"
-                    >Hệ thống cửa hàng</a
-                  >
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h6
-                class="font-semibold text-sm uppercase tracking-wider mb-4 text-amber"
-              >
-                Hỗ trợ
-              </h6>
-              <ul class="space-y-2 text-sm text-white/60">
-                <li>
-                  <a href="./chinhsachvanchuyen.html" class="hover:text-white transition-colors"
-                    >Chính sách vận chuyển</a
-                  >
-                </li>
-                <li>
-                  <a href="./chinhsachbaohanh.html" class="hover:text-white transition-colors"
-                    >Chính sách bảo hành</a
-                  >
-                </li>
-                <li>
-                  <a href="./doi_tra_hoantien.html" class="hover:text-white transition-colors"
-                    >Đổi - trả - hoàn tiền</a
-                  >
-                </li>
-                
-              </ul>
-            </div>
-            <div>
-              <h6
-                class="font-semibold text-sm uppercase tracking-wider mb-4 text-amber"
-              >
-                Dịch vụ
-              </h6>
-              <ul class="space-y-2 text-sm text-white/60">
-                <li>
-                  <a href="./dieukhoansudung.html" class="hover:text-white transition-colors"
-                    >Điều khoản sử dụng</a
-                  >
-                </li>
-                <li>
-                  <a href="./baomatthanhtoan.html" class="hover:text-white transition-colors"
-                    >Bảo mật thanh toán</a
-                  >
-                </li>
-                <li>
-                  <a href="./chinhsachbaomat.html" class="hover:text-white transition-colors"
-                    >Bảo mật thông tin</a
-                  >
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h6
-                class="font-semibold text-sm uppercase tracking-wider mb-4 text-amber"
-              >
-                Nhận thông tin
-              </h6>
-              <form @submit.prevent="subscribeEmail" class="flex mb-5">
-                <input
-                  v-model="emailSubscribe"
-                  type="email"
-                  placeholder="Email của bạn"
-                  class="flex-1 bg-white/10 border border-white/20 text-white text-sm px-3 py-2 rounded-l placeholder-white/40 focus:outline-none focus:border-amber"
-                />
-                <button
-                  type="submit"
-                  class="bg-amber text-ink text-sm px-3 py-2 rounded-r font-medium hover:bg-yellow-500 transition-colors"
-                >
-                  Đăng ký
-                </button>
-              </form>
-              <h6
-                class="font-semibold text-sm uppercase tracking-wider mb-3 text-amber"
-              >
-                Theo dõi
-              </h6>
-              <div class="flex gap-4">
-                <a
-                  href="#"
-                  class="text-white/60 hover:text-white transition-colors"
-                  ><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path
-                      d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
-                    /></svg
-                ></a>
-                <a
-                  href="#"
-                  class="text-white/60 hover:text-white transition-colors"
-                  ><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path
-                      d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069z"
-                    /></svg></a>
-                <a
-                  href="#"
-                  class="text-white/60 hover:text-white transition-colors"
-                  ><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path
-                      d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231z"
-                    /></svg
-                ></a>
-              </div>
-            </div>
           </div>
-          <div class="pt-6 text-center text-xs text-white/40">
-            © 2026 Đảo Truyện. All rights reserved.
-          </div>
+
         </div>
-      </footer>
 
-    <!-- Đồng bộ badge giỏ hàng từ localStorage -->
-    <script>
-      function updateCartBadge() {
-        const cart = JSON.parse(localStorage.getItem("daoTruyenCart") || "[]");
-        const total = cart.reduce((sum, item) => sum + item.qty, 0);
-        const badge = document.getElementById("cart-badge-chitiet");
-        if (badge) badge.textContent = total;
+        <!-- INFO -->
+        <div>
+
+          <h1 class="font-display text-5xl mb-4">
+            Trăng Chiều Rực Rỡ
+          </h1>
+
+          <p class="text-2xl text-gray-500 mb-4">
+            Mika Yamamori
+          </p>
+
+          <div class="text-yellow-400 text-2xl mb-4">
+            ★★★★★
+          </div>
+
+          <div class="text-4xl font-bold mb-8">
+            65.500₫
+          </div>
+
+          <p class="text-gray-600 leading-8 text-lg mb-8">
+            Trăng Chiều Rực Rỡ kể về Takiguchi Yoi,
+            một nữ sinh có vẻ ngoài nam tính được gọi là
+            "hoàng tử" trường, tình cờ va chạm với Ichimura.
+            Từ những hiểu lầm ban đầu, cả hai dần mở lòng
+            và phát triển một tình yêu học đường ngọt ngào.
+          </p>
+
+          <!-- QUANTITY -->
+          <div class="flex items-center border border-gray-300 w-fit mb-8">
+
+            <button
+              @click="decreaseQty"
+              class="w-12 h-12 hover:bg-gray-100 text-xl"
+            >
+              -
+            </button>
+
+            <div class="w-14 text-center text-lg">
+              {{ quantity }}
+            </div>
+
+            <button
+              @click="increaseQty"
+              class="w-12 h-12 hover:bg-gray-100 text-xl"
+            >
+              +
+            </button>
+
+          </div>
+
+          <!-- BUTTON -->
+          <div class="flex gap-4 flex-wrap">
+
+            <button
+              @click="addMainBook"
+              class="bg-gray-800 hover:bg-black text-white px-6 py-3 rounded-lg transition"
+            >
+              🛒 Thêm vào giỏ
+            </button>
+
+            <button
+              @click="buyNow"
+class="bg-black text-white px-6 py-3 rounded-lg"
+            >
+              Mua ngay
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- RELATED -->
+  <section class="max-w-6xl mx-auto px-4 py-14">
+
+    <div class="text-center mb-10">
+      <h2 class="font-display text-4xl">
+        Truyện Cùng Loại
+      </h2>
+
+      <div class="w-16 h-1 bg-amber mx-auto mt-3"></div>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+      <div
+        v-for="book in sachNoiBat"
+        :key="book.id"
+        class="book-card bg-white rounded-xl overflow-hidden border border-gray-200 flex flex-col"
+      >
+
+        <img
+          :src="book.img"
+          :alt="book.name"
+          class="w-full h-72 object-cover"
+        />
+
+        <div class="p-4 flex flex-col flex-1">
+
+          <h3 class="font-semibold mb-2 line-clamp-2">
+            {{ book.name }}
+          </h3>
+
+          <div class="text-yellow-400 mb-2">
+            ★★★★★
+          </div>
+
+          <div class="mb-4">
+            <span class="font-bold">
+              {{ book.price }}
+            </span>
+
+            <span
+              class="line-through text-gray-400 text-sm ml-2"
+            >
+              {{ book.originalPrice }}
+            </span>
+          </div>
+
+          <div class="mt-auto flex gap-2">
+
+            <button
+              @click="addToCart(book)"
+              class="flex-1 border border-ink py-2 rounded hover:bg-ink hover:text-white transition text-sm"
+            >
+              Thêm vào giỏ
+            </button>
+
+            <button
+              @click="buyNowBook(book)"
+              class="flex-1 bg-ink text-white py-2 rounded hover:bg-amber transition text-sm"
+            >
+              Mua ngay
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-ink text-white py-12 mt-10">
+
+    <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-10">
+
+      <div>
+        <h3 class="text-amber mb-4 font-semibold uppercase">
+          Về chúng tôi
+        </h3>
+
+        <ul class="space-y-2 text-white/70 text-sm">
+          <li><a href="#">Giới thiệu</a></li>
+          <li><a href="#">Liên hệ</a></li>
+          <li><a href="#">Hệ thống cửa hàng</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3 class="text-amber mb-4 font-semibold uppercase">
+          Hỗ trợ
+        </h3>
+
+        <ul class="space-y-2 text-white/70 text-sm">
+          <li><a href="#">Chính sách vận chuyển</a></li>
+          <li><a href="#">Bảo hành</a></li>
+          <li><a href="#">Đổi trả</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3 class="text-amber mb-4 font-semibold uppercase">
+          Dịch vụ
+        </h3>
+
+        <ul class="space-y-2 text-white/70 text-sm">
+          <li><a href="#">Điều khoản</a></li>
+<li><a href="#">Bảo mật</a></li>
+          <li><a href="#">Thanh toán</a></li>
+        </ul>
+      </div>
+
+      <div>
+
+        <h3 class="text-amber mb-4 font-semibold uppercase">
+          Nhận thông tin
+        </h3>
+
+        <form @submit.prevent="subscribeEmail" class="flex">
+
+          <input
+            v-model="emailSubscribe"
+            type="email"
+            placeholder="Email của bạn"
+            class="flex-1 px-3 py-2 bg-white/10 border border-white/20 rounded-l outline-none"
+          />
+
+          <button
+            class="bg-amber text-black px-4 rounded-r"
+          >
+            Gửi
+          </button>
+
+        </form>
+
+      </div>
+
+    </div>
+
+    <div class="text-center text-white/40 text-sm mt-10">
+      © 2026 Đảo Truyện
+    </div>
+
+  </footer>
+
+  <!-- TOAST -->
+  <transition name="fade">
+
+    <div
+      v-if="showToast"
+      class="fixed bottom-5 right-5 bg-black text-white px-5 py-3 rounded-lg shadow-xl"
+    >
+      {{ toastMsg }}
+    </div>
+
+  </transition>
+
+</div>
+
+<script>
+const { createApp } = Vue;
+
+createApp({
+
+  data() {
+    return {
+
+      mobileOpen: false,
+
+      quantity: 1,
+
+      cartCount: 0,
+
+      emailSubscribe: "",
+
+      showToast: false,
+
+      toastMsg: "",
+
+       sachNoiBat: [
+              {
+                id: 1,
+                name: 'Yêu Thầm',
+                img: '../images/product/Tinh_cam/bia_yeu-tham---tap-1_tb2025-1.0.jpg',
+                stars: 5,
+                price: "65.500₫",
+                originalPrice: "139.000₫",
+              },
+              {
+                id: 2,
+                name:  'Hôn Nhân Hạnh Phúc Của Tôi',
+                img: '../images/product/Tinh_cam/Hon_nhan_hanh_phuc_cua_toi.webp',
+                stars: 5,
+                price: "65.500₫",
+                originalPrice: "139.000₫",
+              },
+              {
+                id: 3,
+                name: "Nàng Juliet Ở Trường Nội Trú",
+                img: "../images/product/Tinh_cam/nang-juliet-o-truong-noi-tru_bia_tap-2.jpg",
+                stars: 5,
+                price: "65.500₫",
+                originalPrice: "139.000₫",
+              },
+              {
+                id: 4,
+                name: "Hananoi Và Triệu Chứng Tình Yêu",
+                img: "../images/product/Tinh_cam/Hananoi.webp",
+                stars: 5,
+                price: "65.500₫",
+                originalPrice: "139.000₫",
+              },
+              {
+                id: 5,
+                name: 'Úm Ba La Hô Biến Ra "Cô Bạn"',
+                img: "../images/product/Tinh_cam/Umbala.webp",
+                stars: 5,
+                price: "65.500₫",
+                originalPrice: "139.000₫",
+              },
+              {
+                id: 6,
+                name: 'Cô Bạn Tôi Thầm Thích Lại Quên Mang Kính Rồi',
+                img: '../images/product/Tinh_cam/co-ban-toi-tham-thich-lai-quen-mang-kinh-roi_ban-thuong_bia_tap-11.jpg',
+stars: 5,
+                price: "65.500₫",
+                originalPrice: "139.000₫",
+              },
+              {
+                id: 7,
+                name: 'Thiên Hà Cạnh Bên',
+                img: '../images/product/Tinh_cam/Thien_ha_canh_ben.webp',
+                stars: 5,
+                price: "65.500₫",
+                originalPrice: "139.000₫",
+              },
+               {
+                id: 8,
+                name: 'Ngôn Ngữ Yêu Thương',
+                img: '../images/product/Tinh_cam/ngon-ngu-yeu-thuong_bia_tap-10-dd.webp',
+                stars: 5,
+                price: "65.500₫",
+                originalPrice: "139.000₫",
+              },
+              
+            ],
+
+
+    }
+  },
+
+  methods: {
+
+    increaseQty() {
+      this.quantity++;
+    },
+
+    decreaseQty() {
+
+      if(this.quantity > 1){
+        this.quantity--;
       }
-      updateCartBadge();
-      window.addEventListener("storage", updateCartBadge);
-    </script>
-      </html>
+
+    },
+
+   addMainBook() {
+  const book = {
+    id: 999,
+    name: "Trăng Chiều Rực Rỡ",
+    price: "65.500₫",
+    originalPrice: "139.000₫", // Thêm dòng này
+    img: "../images/product/Tinh_cam/trangchieurucro.jpg", // Thêm dòng này
+    qty: this.quantity,
+  };
+
+  this.addToCart(book);
+},
+
+    addToCart(book){
+
+      let cart = JSON.parse(localStorage.getItem("daoTruyenCart")) || [];
+
+      const existing = cart.find(item => item.id === book.id);
+
+      if(existing){
+
+        existing.qty += book.qty || 1;
+
+      } else {
+
+        cart.push({
+          ...book,
+          qty: book.qty || 1
+        });
+
+      }
+
+      localStorage.setItem("daoTruyenCart", JSON.stringify(cart));
+
+      this.updateCart();
+
+      this.toastMsg = `Đã thêm "${book.name}" vào giỏ hàng`;
+
+      this.showToast = true;
+
+      setTimeout(() => {
+        this.showToast = false;
+      }, 2500);
+
+    },
+
+    buyNow(){
+
+      this.addMainBook();
+
+      window.location.href = "../Page/giohang.html";
+
+    },
+
+    buyNowBook(book){
+
+      this.addToCart({
+        ...book,
+        qty: 1
+      });
+
+      window.location.href = "../Page/giohang.html";
+
+    },
+
+    updateCart(){
+
+      let cart = JSON.parse(localStorage.getItem("daoTruyenCart")) || [];
+
+      this.cartCount = cart.reduce((sum,item)=> sum + item.qty ,0);
+
+    },
+
+    subscribeEmail(){
+
+      if(!this.emailSubscribe) return;
+
+      this.toastMsg = `Đã đăng ký: ${this.emailSubscribe}`;
+
+      this.showToast = true;
+
+      this.emailSubscribe = "";
+
+      setTimeout(() => {
+        this.showToast = false;
+      }, 2500);
+
+    }
+
+  },
+
+  mounted(){
+
+    this.updateCart();
+
+  }
+
+}).mount("#app");
+</script>
+
+</body>
+</html>
