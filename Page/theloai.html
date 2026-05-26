@@ -275,7 +275,7 @@
               <span
                 id="cart-badge-theloai"
                 class="bg-amber text-white text-xs rounded-full w-5 h-5 flex items-center justify-center"
-                >0</span
+                >{{ cartCount }}</span
               >
             </a>
           </div>
@@ -1045,10 +1045,15 @@
                 price: book.price,
                 originalPrice: book.originalPrice || null,
                 qty: 1,
-                image: book.image
+                image: (book.img || book.image || "").replace(/^\.?\/?\.{0,2}\/?/, "")
               });
             }
             localStorage.setItem("daoTruyenCart", JSON.stringify(cart));
+            // Phát sự kiện storage để các tab/page khác cập nhật
+            window.dispatchEvent(new StorageEvent('storage', {
+              key: 'daoTruyenCart',
+              newValue: JSON.stringify(cart)
+            }));
             this.cartCount = cart.reduce((sum, item) => sum + item.qty, 0);
             this.toastMsg = `📖 Đã thêm "${book.name}" vào giỏ hàng`;
             this.showToast = true;

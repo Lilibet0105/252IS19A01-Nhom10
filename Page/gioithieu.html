@@ -323,7 +323,7 @@
                 />
               </svg>
               Giỏ hàng
-              <span id="cart-badge-gioithieu" class="bg-amber text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
+              <span id="cart-badge-gioithieu" class="bg-amber text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">{{ cartCount }}</span>
             </a>
           </div>
         </nav>
@@ -769,6 +769,7 @@
           return {
             mobileOpen: false,
             emailSubscribe: "",
+            cartCount: 0,
           };
         },
         mounted() {
@@ -785,9 +786,7 @@
           },
           updateCartBadge() {
             const cart = JSON.parse(localStorage.getItem("daoTruyenCart") || "[]");
-            const total = cart.reduce((sum, item) => sum + item.qty, 0);
-            const badge = document.getElementById("cart-badge-gioithieu");
-            if (badge) badge.textContent = total;
+            this.cartCount = cart.reduce((sum, item) => sum + item.qty, 0);
           },
         },
       }).mount("#app");

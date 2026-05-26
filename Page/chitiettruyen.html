@@ -328,7 +328,7 @@ class="flex items-center gap-1.5 hover:text-amber transition-colors"
                 />
               </svg>
               Giỏ hàng
-              <span id="cart-badge-index" class="bg-amber text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
+              <span id="cart-badge-index" class="bg-amber text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">{{ cartCount }}</span>
             </a>
           </div>
         </nav>
@@ -729,12 +729,19 @@ stars: 5,
 
         cart.push({
           ...book,
+          image: (book.img || book.image || "").replace(/^\.?\/?\.{0,2}\/?/, ""),
           qty: book.qty || 1
         });
 
       }
 
       localStorage.setItem("daoTruyenCart", JSON.stringify(cart));
+
+      // Phát sự kiện storage để các tab/page khác cập nhật
+      window.dispatchEvent(new StorageEvent('storage', {
+        key: 'daoTruyenCart',
+        newValue: JSON.stringify(cart)
+      }));
 
       this.updateCart();
 
@@ -796,6 +803,13 @@ stars: 5,
   mounted(){
 
     this.updateCart();
+
+    // Lắng nghe thay đổi giỏ hàng từ tab/page khác
+    window.addEventListener('storage', (e) => {
+      if (e.key === 'daoTruyenCart') {
+        this.updateCart();
+      }
+    });
 
   }
 

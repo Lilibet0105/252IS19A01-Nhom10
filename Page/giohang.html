@@ -71,6 +71,9 @@
     </style>
   </head>
   <body class="bg-gradient-to-br from-cream via-white to-amber-50">
+    <!-- Vùng chứa thông báo tùy biến -->
+    <div id="toast-container" class="fixed top-4 right-4 z-50"></div>
+    
     <div id="app">
       <!-- ═══════════════════════════════════════════
            HEADER — Thanh điều hướng cố định trên cùng
@@ -222,9 +225,10 @@
                     <!-- Ảnh sản phẩm -->
                     <a :href="'./chitiettruyen.html?id=' + item.id" class="shrink-0">
                       <img
-                        :src="item.image"
+                        :src="item.image.startsWith('images/') ? '../' + item.image : item.image"
                         :alt="item.name"
                         class="w-20 h-28 md:w-24 md:h-32 object-cover rounded-xl"
+                        @error="$event.target.src='data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2796%27 height=%27128%27 viewBox=%270 0 96 128%27%3E%3Crect fill=%27%23f3f4f6%27 width=%2796%27 height=%27128%27/%3E%3Ctext fill=%27%239ca3af%27 font-family=%27sans-serif%27 font-size=%2710%27 text-anchor=%27middle%27 x=%2748%27 y=%2768%27%3EKh%C3%B4ng c%C3%B3 %E1%BA%A3nh%3C/text%3E%3C/svg%3E'"
                       />
                     </a>
 
@@ -392,7 +396,7 @@
             >
               <a :href="'./chitiettruyen.html?id=' + book.id" class="block">
                 <div class="aspect-[3/4] overflow-hidden">
-                  <img :src="book.image" :alt="book.name" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"/>
+                  <img :src="book.image" :alt="book.name" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" @error="$event.target.src='data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27120%27 height=%27160%27 viewBox=%270 0 120 160%27%3E%3Crect fill=%27%23f3f4f6%27 width=%27120%27 height=%27160%27/%3E%3Ctext fill=%27%239ca3af%27 font-family=%27sans-serif%27 font-size=%2712%27 text-anchor=%27middle%27 x=%2760%27 y=%2785%27%3EKh%C3%B4ng c%C3%B3 %E1%BA%A3nh%3C/text%3E%3C/svg%3E'"/>
                 </div>
               </a>
               <div class="p-3">
@@ -494,8 +498,11 @@
             couponValid: false,
             showToast: false,
             toastMsg: "",
-            // Đọc giỏ hàng từ localStorage, nếu không có thì mảng rỗng
-            cartItems: JSON.parse(localStorage.getItem("daoTruyenCart") || "[]"),
+            // Đọc giỏ hàng từ localStorage, chuẩn hoá đường dẫn ảnh
+            cartItems: JSON.parse(localStorage.getItem("daoTruyenCart") || "[]").map(item => ({
+              ...item,
+              image: (item.image || '').replace(/^\.?\/?\.{0,2}\//, '')
+            })),
             // Sản phẩm gợi ý
             suggestedBooks: [
               { id: 1, name: "One Piece - Tập 1", price: 25000, category: "Truyện tranh hành động", image: "../images/product/Hanh_dong/One_piece.webp" },
@@ -516,7 +523,10 @@
           },
           // Tạm tính
           subtotal() {
-            return this.cartItems.reduce((sum, item) => sum + item.price * item.qty, 0);
+            return this.cartItems.reduce((sum, item) => {
+              const p = typeof item.price === 'string' ? parseFloat(item.price.replace(/[^\d]/g, '')) : item.price;
+              return sum + p * item.qty;
+            }, 0);
           },
           // Giảm giá
           discount() {
@@ -538,13 +548,22 @@
           cartItems: {
             handler(newVal) {
               localStorage.setItem("daoTruyenCart", JSON.stringify(newVal));
+              // Phát sự kiện storage để các tab/page khác cập nhật
+              window.dispatchEvent(new StorageEvent('storage', {
+                key: 'daoTruyenCart',
+                newValue: JSON.stringify(newVal)
+              }));
             },
             deep: true
           }
         },
         methods: {
-          // Định dạng giá tiền VND
+          // Định dạng giá tiền VND (hỗ trợ cả số và chuỗi dạng "65.500₫")
           formatPrice(price) {
+            // Nếu giá là chuỗi đã định dạng (vd "65.500₫"), trả về nguyên bản
+            if (typeof price === 'string' && isNaN(price)) {
+              return price;
+            }
             return new Intl.NumberFormat("vi-VN", {
               style: "currency",
               currency: "VND"
@@ -563,7 +582,7 @@
                 price: book.price,
                 originalPrice: book.originalPrice || null,
                 qty: 1,
-                image: book.image
+                image: (book.img || book.image || "").replace(/^\.?\/?\.{0,2}\/?/, "")
               });
             }
             this.toast("Đã thêm \"" + book.name + "\" vào giỏ hàng!");
@@ -620,6 +639,19 @@
               this.emailSubscribe = "";
             }
           }
+        },
+        mounted() {
+          // Lắng nghe thay đổi từ localStorage (từ tab/page khác)
+          const handleStorage = (e) => {
+            if (e.key === 'daoTruyenCart') {
+              this.cartItems = JSON.parse(e.newValue || '[]');
+            }
+          };
+          window.addEventListener('storage', handleStorage);
+          // Dọn dẹp khi component bị hủy
+          this.$once('hook:beforeUnmount', () => {
+            window.removeEventListener('storage', handleStorage);
+          });
         }
       }).mount("#app");
     </script>

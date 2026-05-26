@@ -319,7 +319,7 @@
                 />
               </svg>
               Giỏ hàng
-              <span id="cart-badge-index" class="bg-amber text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
+              <span class="bg-amber text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">{{ cartCount }}</span>
             </a>
           </div>
         </nav>
@@ -1028,7 +1028,7 @@
               {
                 id: 6,
                 name: "Thanh Gươm Diệt Quỷ",
-                img: "./images/product//Hanh_dong/8935352624715.jpg",
+                img: "./images/product/Hanh_dong/8935352624715.jpg",
                 stars: 5,
                 price: "40.000₫",
               },
@@ -1071,7 +1071,7 @@
               {
                 id: 14,
                 name: "One Piece",
-                img: "./images/product/Hanh_dong/One_Piece.webp",
+                img: "./images/product/Hanh_dong/One_piece.webp",
                 stars: 5,
                 price: "65.500₫",
                 originalPrice: "139.000₫",
@@ -1079,7 +1079,7 @@
               {
                 id: 15,
                 name: "Attack on Titan",
-                img: "./images/product/Hanh_dong/Attack_on_Titan.webp",
+                img: "./images/product/Hanh_dong/Attack_on_titan.webp",
                 stars: 5,
                 price: "65.500₫",
                 originalPrice: "139.000₫",
@@ -1182,10 +1182,15 @@
                 price: book.price,
                 originalPrice: book.originalPrice || null,
                 qty: 1,
-                image: book.image
+                image: (book.img || book.image || "").replace(/^\.?\/?\.{0,2}\/?/, "")
               });
             }
             localStorage.setItem("daoTruyenCart", JSON.stringify(cart));
+            // Phát sự kiện storage để các tab/page khác cập nhật badge
+            window.dispatchEvent(new StorageEvent('storage', {
+              key: 'daoTruyenCart',
+              newValue: JSON.stringify(cart)
+            }));
             this.cartCount = cart.reduce((sum, item) => sum + item.qty, 0);
             this.toastMsg = `Đã thêm "${book.name}" vào giỏ hàng`;
             this.showToast = true;
@@ -1209,8 +1214,6 @@
           updateCartBadge() {
             const cart = JSON.parse(localStorage.getItem("daoTruyenCart") || "[]");
             this.cartCount = cart.reduce((sum, item) => sum + item.qty, 0);
-            const badge = document.getElementById("cart-badge-index");
-            if (badge) badge.textContent = this.cartCount;
           },
         },
 
