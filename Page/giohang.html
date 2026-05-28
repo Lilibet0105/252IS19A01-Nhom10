@@ -15,8 +15,8 @@
       rel="stylesheet"
     />
 
-    <link rel="stylesheet" href="../css/style.css" />
-    <link rel="stylesheet" href="../css/style_lh.css" />
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/style_lh.css">
 
     <script>
       tailwind.config = {
@@ -43,12 +43,7 @@
         background-color: #faf7f2;
         color: #1a1a1a;
       }
-      h1,
-      h2,
-      h3,
-      h4,
-      h5,
-      h6 {
+      h1, h2, h3, h4, h5, h6 {
         font-family: "Playfair Display", serif;
       }
       .nav-dropdown:hover .dropdown-menu {
@@ -67,12 +62,10 @@
         transform: translateX(-20px);
       }
       /* Hiệu ứng fade cho toast */
-      .fade-enter-active,
-      .fade-leave-active {
+      .fade-enter-active, .fade-leave-active {
         transition: opacity 0.3s ease;
       }
-      .fade-enter-from,
-      .fade-leave-to {
+      .fade-enter-from, .fade-leave-to {
         opacity: 0;
       }
     </style>
@@ -80,254 +73,92 @@
   <body class="bg-gradient-to-br from-cream via-white to-amber-50">
     <!-- Vùng chứa thông báo tùy biến -->
     <div id="toast-container" class="fixed top-4 right-4 z-50"></div>
-
+    
     <div id="app">
       <!-- ═══════════════════════════════════════════
            HEADER — Thanh điều hướng cố định trên cùng
       ═══════════════════════════════════════════ -->
-      <header
-        class="sticky top-0 z-50 bg-cream border-b border-gray-200 shadow-sm"
-      >
+      <header class="sticky top-0 z-50 bg-cream border-b border-gray-200 shadow-sm">
         <!-- Tầng 1 — Top bar liên hệ & đăng nhập -->
         <div class="bg-ink text-white text-xs py-1.5">
           <div class="max-w-5xl mx-auto px-4 flex items-center justify-between">
             <div class="flex gap-5">
-              <a
-                href="tel:0981109909"
-                class="flex items-center gap-1.5 hover:text-amber transition-colors"
-              >
-                <svg
-                  class="w-3.5 h-3.5"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"
-                  />
+              <a href="tel:0981109909" class="flex items-center gap-1.5 hover:text-amber transition-colors">
+                <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
                 </svg>
                 0981109909
               </a>
-              <a
-                href="mailto:Daotruyen@gmail.com"
-                class="hidden sm:flex items-center gap-1.5 hover:text-amber transition-colors"
-              >
-                <svg
-                  class="w-3.5 h-3.5"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"
-                  />
-                  <path
-                    d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"
-                  />
+              <a href="mailto:Daotruyen@gmail.com" class="hidden sm:flex items-center gap-1.5 hover:text-amber transition-colors">
+                <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+                  <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
                 </svg>
                 daotruyen@gmail.com
               </a>
             </div>
             <div class="flex items-center gap-2">
-              <!-- Đã đăng nhập: hiện tên + nút đăng xuất -->
-              <template v-if="currentUser">
-                <span
-                  class="flex items-center gap-1.5 text-amber font-semibold"
-                >
-                  <svg
-                    class="w-3.5 h-3.5"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
-                  {{ currentUser.name }}
-                </span>
-                <button
-                  @click="logout"
-                  class="border border-white/30 rounded px-2.5 py-0.5 hover:bg-white/10 transition-colors text-xs"
-                >
-                  Đăng xuất
-                </button>
-              </template>
-              <!-- Chưa đăng nhập: hiện nút Đăng ký / Đăng nhập -->
-              <template v-else>
-                <a
-                  href="./dangky.html"
-                  class="flex items-center gap-1 bg-amber/90 text-white rounded px-2.5 py-0.5 hover:bg-amber transition-colors"
-                >
-                  <svg
-                    class="w-3.5 h-3.5"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"
-                    />
-                  </svg>
-                  Đăng ký
-                </a>
-                <a
-                  href="./dangnhap.html"
-                  class="flex items-center gap-1 border border-white/50 rounded px-2.5 py-0.5 hover:bg-white hover:text-ink transition-colors"
-                >
-                  <svg
-                    class="w-3.5 h-3.5"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
-                  Đăng nhập
-                </a>
-              </template>
+              <a href="./dangky.html" class="flex items-center gap-1 bg-amber/90 text-white rounded px-2.5 py-0.5 hover:bg-amber transition-colors">
+                <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"/>
+                </svg>
+                Đăng ký
+              </a>
+              <a href="./dangnhap.html" class="flex items-center gap-1 border border-white/50 rounded px-2.5 py-0.5 hover:bg-white hover:text-ink transition-colors">
+                <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+                </svg>
+                Đăng nhập
+              </a>
             </div>
           </div>
         </div>
 
         <!-- Tầng 2 — Logo -->
-        <div
-          class="flex justify-center items-center py-2 border-b border-gray-100"
-        >
+        <div class="flex justify-center items-center py-2 border-b border-gray-100">
           <a href="../index.html" class="block">
-            <img
-              src="../assets/logo.jpg"
-              alt="Đảo Truyện"
-              class="h-14 md:h-16 w-auto object-contain"
-            />
+            <img src="../assets/logo.jpg" alt="Đảo Truyện" class="h-14 md:h-16 w-auto object-contain"/>
           </a>
         </div>
 
         <!-- Tầng 3 — Navigation -->
         <nav class="max-w-5xl mx-auto px-4">
           <div class="flex items-center justify-between">
-            <button
-              @click="mobileOpen = !mobileOpen"
-              class="md:hidden p-2 rounded hover:bg-gray-100 transition-colors"
-            >
-              <svg
-                v-if="!mobileOpen"
-                class="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
+            <button @click="mobileOpen = !mobileOpen" class="md:hidden p-2 rounded hover:bg-gray-100 transition-colors">
+              <svg v-if="!mobileOpen" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
               </svg>
-              <svg
-                v-else
-                class="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M6 18L18 6M6 6l12 12"
-                />
+              <svg v-else class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
               </svg>
             </button>
-            <div
-              :class="['w-full md:flex md:items-center', mobileOpen ? 'block' : 'hidden md:flex']"
-            >
-              <ul
-                class="flex flex-col md:flex-row md:gap-6 py-2 md:py-0 text-sm font-medium"
-              >
-                <li>
-                  <a
-                    href="../index.html"
-                    class="block py-2 md:py-4 border-b-2 border-transparent hover:border-amber text-ink hover:text-amber transition-colors"
-                    >Trang chủ</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="./gioithieu.html"
-                    class="block py-2 md:py-4 border-b-2 border-transparent hover:border-amber text-ink hover:text-amber transition-colors"
-                    >Giới thiệu</a
-                  >
-                </li>
+            <div :class="['w-full md:flex md:items-center', mobileOpen ? 'block' : 'hidden md:flex']">
+              <ul class="flex flex-col md:flex-row md:gap-6 py-2 md:py-0 text-sm font-medium">
+                <li><a href="../index.html" class="block py-2 md:py-4 border-b-2 border-transparent hover:border-amber text-ink hover:text-amber transition-colors">Trang chủ</a></li>
+                <li><a href="./gioithieu.html" class="block py-2 md:py-4 border-b-2 border-transparent hover:border-amber text-ink hover:text-amber transition-colors">Giới thiệu</a></li>
                 <li class="relative group">
-                  <a
-                    href="./theloai.html"
-                    class="flex items-center gap-1 py-2 md:py-4 border-b-2 border-transparent group-hover:border-amber text-ink group-hover:text-amber transition-colors"
-                  >
+                  <a href="./theloai.html" class="flex items-center gap-1 py-2 md:py-4 border-b-2 border-transparent group-hover:border-amber text-ink group-hover:text-amber transition-colors">
                     Truyện tranh
-                    <svg
-                      class="w-3.5 h-3.5 mt-0.5"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M19 9l-7 7-7-7"
-                      />
+                    <svg class="w-3.5 h-3.5 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                     </svg>
                   </a>
-                  <div
-                    class="hidden group-hover:block absolute left-0 top-full w-44 bg-white border border-gray-200 shadow-lg rounded-b z-40"
-                  >
-                    <a
-                      href="./theloai.html?type=tinh-cam"
-                      class="block px-4 py-2.5 text-sm hover:bg-cream hover:text-amber transition-colors"
-                      >Truyện tranh tình cảm</a
-                    >
-                    <a
-                      href="./theloai.html?type=shounen"
-                      class="block px-4 py-2.5 text-sm hover:bg-cream hover:text-amber transition-colors"
-                      >Truyện tranh hành động</a
-                    >
-                    <a
-                      href="./theloai.html?type=trinh-tham"
-                      class="block px-4 py-2.5 text-sm hover:bg-cream hover:text-amber transition-colors"
-                      >Truyện tranh trinh thám</a
-                    >
-                    <a
-                      href="./theloai.html?type=thieu-nhi"
-                      class="block px-4 py-2.5 text-sm hover:bg-cream hover:text-amber transition-colors"
-                      >Truyện tranh thiếu nhi</a
-                    >
+                  <div class="hidden group-hover:block absolute left-0 top-full w-44 bg-white border border-gray-200 shadow-lg rounded-b z-40">
+                    <a href="./theloai.html?type=tinh-cam" class="block px-4 py-2.5 text-sm hover:bg-cream hover:text-amber transition-colors">Truyện tranh tình cảm</a>
+                    <a href="./theloai.html?type=shounen" class="block px-4 py-2.5 text-sm hover:bg-cream hover:text-amber transition-colors">Truyện tranh hành động</a>
+                    <a href="./theloai.html?type=trinh-tham" class="block px-4 py-2.5 text-sm hover:bg-cream hover:text-amber transition-colors">Truyện tranh trinh thám</a>
+                    <a href="./theloai.html?type=thieu-nhi" class="block px-4 py-2.5 text-sm hover:bg-cream hover:text-amber transition-colors">Truyện tranh thiếu nhi</a>
                   </div>
                 </li>
-                <li>
-                  <a
-                    href="./tranglienhe.html"
-                    class="block py-2 md:py-4 border-b-2 border-transparent hover:border-amber text-ink hover:text-amber transition-colors"
-                    >Liên hệ</a
-                  >
-                </li>
+                <li><a href="./tranglienhe.html" class="block py-2 md:py-4 border-b-2 border-transparent hover:border-amber text-ink hover:text-amber transition-colors">Liên hệ</a></li>
               </ul>
             </div>
-            <a
-              href="./giohang.html"
-              class="flex items-center gap-1.5 border border-ink rounded px-3 py-1.5 text-sm font-medium hover:bg-ink hover:text-white transition-colors shrink-0"
-            >
+            <a href="./giohang.html" class="flex items-center gap-1.5 border border-ink rounded px-3 py-1.5 text-sm font-medium hover:bg-ink hover:text-white transition-colors shrink-0">
               <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                <path
-                  d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"
-                />
+                <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"/>
               </svg>
               Giỏ hàng
-              <span
-                class="bg-amber text-white text-xs rounded-full w-5 h-5 flex items-center justify-center"
-                >{{ totalItems }}</span
-              >
+              <span class="bg-amber text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">{{ totalItems }}</span>
             </a>
           </div>
         </nav>
@@ -340,9 +171,7 @@
         <!-- Breadcrumb -->
         <div class="max-w-5xl mx-auto px-4 pt-6">
           <nav class="text-sm text-muted">
-            <a href="../index.html" class="hover:text-amber transition-colors"
-              >Trang chủ</a
-            >
+            <a href="../index.html" class="hover:text-amber transition-colors">Trang chủ</a>
             <span class="mx-2">/</span>
             <span class="text-ink font-medium">Giỏ hàng</span>
           </nav>
@@ -352,16 +181,10 @@
         <div class="max-w-5xl mx-auto px-4 pt-6 pb-4">
           <div class="flex items-center gap-3">
             <div class="h-px w-10 bg-amber"></div>
-            <h1 class="text-3xl md:text-4xl font-bold text-ink font-display">
-              Giỏ hàng
-            </h1>
+            <h1 class="text-3xl md:text-4xl font-bold text-ink font-display">Giỏ hàng</h1>
           </div>
           <p class="mt-2 text-sm text-muted">
-            <span v-if="cartItems.length > 0"
-              >Bạn đang có
-              <span class="font-semibold text-ink">{{ totalItems }}</span> sản
-              phẩm trong giỏ hàng</span
-            >
+            <span v-if="cartItems.length > 0">Bạn đang có <span class="font-semibold text-ink">{{ totalItems }}</span> sản phẩm trong giỏ hàng</span>
             <span v-else>Chưa có sản phẩm nào trong giỏ hàng</span>
           </p>
         </div>
@@ -369,51 +192,18 @@
         <!-- ╔══════════════════════════════════════╗
              ║  GIỎ HÀNG TRỐNG                      ║
              ╚══════════════════════════════════════╝ -->
-        <div
-          v-if="cartItems.length === 0"
-          class="max-w-5xl mx-auto px-4 py-16 text-center"
-        >
-          <div
-            class="inline-flex items-center justify-center w-24 h-24 rounded-full bg-amber/10 mb-6"
-          >
-            <svg
-              class="w-12 h-12 text-amber"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="1.5"
-                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"
-              />
+        <div v-if="cartItems.length === 0" class="max-w-5xl mx-auto px-4 py-16 text-center">
+          <div class="inline-flex items-center justify-center w-24 h-24 rounded-full bg-amber/10 mb-6">
+            <svg class="w-12 h-12 text-amber" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"/>
             </svg>
           </div>
-          <h2 class="text-2xl font-bold text-ink font-display mb-3">
-            Giỏ hàng trống
-          </h2>
-          <p class="text-muted mb-8 max-w-md mx-auto">
-            Bạn chưa thêm sản phẩm nào vào giỏ hàng. Hãy khám phá các bộ truyện
-            tranh hấp dẫn tại Đảo Truyện!
-          </p>
-          <a
-            href="./theloai.html"
-            class="inline-flex items-center gap-2 rounded-full bg-ink px-8 py-3 text-base font-semibold text-white hover:bg-ink/80 transition-colors"
-          >
+          <h2 class="text-2xl font-bold text-ink font-display mb-3">Giỏ hàng trống</h2>
+          <p class="text-muted mb-8 max-w-md mx-auto">Bạn chưa thêm sản phẩm nào vào giỏ hàng. Hãy khám phá các bộ truyện tranh hấp dẫn tại Đảo Truyện!</p>
+          <a href="./theloai.html" class="inline-flex items-center gap-2 rounded-full bg-ink px-8 py-3 text-base font-semibold text-white hover:bg-ink/80 transition-colors">
             <span>Khám phá truyện</span>
-            <svg
-              class="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M17 8l4 4m0 0l-4 4m4-4H3"
-              />
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
             </svg>
           </a>
         </div>
@@ -433,10 +223,7 @@
                 >
                   <div class="flex gap-4 md:gap-6">
                     <!-- Ảnh sản phẩm -->
-                    <a
-                      :href="'./chitiettruyen.html?id=' + item.id"
-                      class="shrink-0"
-                    >
+                    <a :href="'./chitiettruyen.html?id=' + item.id" class="shrink-0">
                       <img
                         :src="item.image.startsWith('images/') ? '../' + item.image : item.image"
                         :alt="item.name"
@@ -449,15 +236,10 @@
                     <div class="flex-1 min-w-0">
                       <div class="flex items-start justify-between gap-2">
                         <div>
-                          <a
-                            :href="'./chitiettruyen.html?id=' + item.id"
-                            class="text-[10px] md:text-xs font-bold text-ink font-display hover:text-amber transition-colors whitespace-nowrap overflow-hidden text-ellipsis"
-                          >
+                          <a :href="'./chitiettruyen.html?id=' + item.id" class="text-[10px] md:text-xs font-bold text-ink font-display hover:text-amber transition-colors whitespace-nowrap overflow-hidden text-ellipsis">
                             {{ item.name }}
                           </a>
-                          <p class="text-[10px] text-muted mt-1">
-                            {{ item.category }}
-                          </p>
+                          <p class="text-[10px] text-muted mt-1">{{ item.category }}</p>
                         </div>
                         <!-- Nút xoá -->
                         <button
@@ -465,18 +247,8 @@
                           class="shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-muted hover:bg-red-50 hover:text-red-500 transition-colors"
                           title="Xoá sản phẩm"
                         >
-                          <svg
-                            class="w-5 h-5"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
-                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                            />
+                          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                           </svg>
                         </button>
                       </div>
@@ -485,15 +257,10 @@
                       <div class="flex items-end justify-between mt-3 md:mt-4">
                         <!-- Giá -->
                         <div>
-                          <p
-                            class="text-lg md:text-xl font-bold text-amber font-display"
-                          >
+                          <p class="text-lg md:text-xl font-bold text-amber font-display">
                             {{ formatPrice(item.price) }}
                           </p>
-                          <p
-                            v-if="item.originalPrice"
-                            class="text-sm text-muted line-through"
-                          >
+                          <p v-if="item.originalPrice" class="text-sm text-muted line-through">
                             {{ formatPrice(item.originalPrice) }}
                           </p>
                         </div>
@@ -506,39 +273,17 @@
                             :class="{ 'opacity-40 cursor-not-allowed': item.qty <= 1 }"
                             :disabled="item.qty <= 1"
                           >
-                            <svg
-                              class="w-4 h-4"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
-                                d="M20 12H4"
-                              />
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"/>
                             </svg>
                           </button>
-                          <span class="w-10 text-center font-semibold text-ink"
-                            >{{ item.qty }}</span
-                          >
+                          <span class="w-10 text-center font-semibold text-ink">{{ item.qty }}</span>
                           <button
                             @click="increaseQty(index)"
                             class="w-8 h-8 rounded-lg border border-gray-200 flex items-center justify-center text-ink hover:bg-gray-100 transition-colors"
                           >
-                            <svg
-                              class="w-4 h-4"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
-                                d="M12 4v16m8-8H4"
-                              />
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
                             </svg>
                           </button>
                         </div>
@@ -554,18 +299,8 @@
                   @click="clearCart"
                   class="text-sm text-red-500 hover:text-red-700 transition-colors flex items-center gap-1"
                 >
-                  <svg
-                    class="w-4 h-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                    />
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                   </svg>
                   Xoá tất cả
                 </button>
@@ -574,35 +309,22 @@
 
             <!-- Cột phải: Tóm tắt đơn hàng (chiếm 1/3) -->
             <div class="lg:col-span-1">
-              <div
-                class="rounded-2xl bg-white border border-gray-200 p-6 shadow-sm sticky top-40"
-              >
-                <h2 class="text-xl font-bold text-ink font-display mb-6">
-                  Tóm tắt đơn hàng
-                </h2>
+              <div class="rounded-2xl bg-white border border-gray-200 p-6 shadow-sm sticky top-40">
+                <h2 class="text-xl font-bold text-ink font-display mb-6">Tóm tắt đơn hàng</h2>
 
                 <!-- Chi tiết -->
                 <div class="space-y-3 text-sm">
                   <div class="flex justify-between">
-                    <span class="text-muted"
-                      >Tạm tính ({{ totalItems }} sản phẩm)</span
-                    >
-                    <span class="font-medium text-ink"
-                      >{{ formatPrice(subtotal) }}</span
-                    >
+                    <span class="text-muted">Tạm tính ({{ totalItems }} sản phẩm)</span>
+                    <span class="font-medium text-ink">{{ formatPrice(subtotal) }}</span>
                   </div>
                   <div class="flex justify-between">
                     <span class="text-muted">Giảm giá</span>
-                    <span class="font-medium text-green-600"
-                      >-{{ formatPrice(discount) }}</span
-                    >
+                    <span class="font-medium text-green-600">-{{ formatPrice(discount) }}</span>
                   </div>
                   <div class="flex justify-between">
                     <span class="text-muted">Phí vận chuyển</span>
-                    <span class="font-medium text-ink"
-                      >{{ shippingFee === 0 ? 'Miễn phí' :
-                      formatPrice(shippingFee) }}</span
-                    >
+                    <span class="font-medium text-ink">{{ shippingFee === 0 ? 'Miễn phí' : formatPrice(shippingFee) }}</span>
                   </div>
                 </div>
 
@@ -611,9 +333,7 @@
 
                 <!-- Mã giảm giá -->
                 <div class="mb-4">
-                  <label class="text-sm text-muted block mb-2"
-                    >Mã giảm giá</label
-                  >
+                  <label class="text-sm text-muted block mb-2">Mã giảm giá</label>
                   <div class="flex gap-2">
                     <input
                       v-model="couponCode"
@@ -628,11 +348,7 @@
                       Áp dụng
                     </button>
                   </div>
-                  <p
-                    v-if="couponMessage"
-                    :class="couponValid ? 'text-green-600' : 'text-red-500'"
-                    class="text-xs mt-1"
-                  >
+                  <p v-if="couponMessage" :class="couponValid ? 'text-green-600' : 'text-red-500'" class="text-xs mt-1">
                     {{ couponMessage }}
                   </p>
                 </div>
@@ -642,21 +358,17 @@
 
                 <!-- Tổng cộng -->
                 <div class="flex justify-between items-center mb-6">
-                  <span class="text-lg font-bold text-ink font-display"
-                    >Tổng cộng</span
-                  >
-                  <span class="text-2xl font-black text-amber font-display"
-                    >{{ formatPrice(total) }}</span
-                  >
+                  <span class="text-lg font-bold text-ink font-display">Tổng cộng</span>
+                  <span class="text-2xl font-black text-amber font-display">{{ formatPrice(total) }}</span>
                 </div>
 
                 <!-- Nút thanh toán -->
-                <button
-                  @click="goCheckout"
+                <a
+                  href="./hoadon.html"
                   class="block w-full text-center rounded-xl bg-amber py-3.5 text-base font-bold text-ink hover:bg-yellow-500 transition-colors shadow-md"
                 >
                   Tiến hành thanh toán
-                </button>
+                </a>
 
                 <!-- Tiếp tục mua sắm -->
                 <a
@@ -674,13 +386,9 @@
         <div class="max-w-5xl mx-auto px-4 pb-16">
           <div class="flex items-center gap-3 mb-6">
             <div class="h-px w-10 bg-amber"></div>
-            <h2 class="text-2xl font-bold text-ink font-display">
-              Có thể bạn thích
-            </h2>
+            <h2 class="text-2xl font-bold text-ink font-display">Có thể bạn thích</h2>
           </div>
-          <div
-            class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"
-          >
+          <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
             <div
               v-for="book in suggestedBooks"
               :key="book.id"
@@ -688,25 +396,14 @@
             >
               <a :href="'./chitiettruyen.html?id=' + book.id" class="block">
                 <div class="aspect-[3/4] overflow-hidden">
-                  <img
-                    :src="book.image"
-                    :alt="book.name"
-                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    @error="$event.target.src='data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27120%27 height=%27160%27 viewBox=%270 0 120 160%27%3E%3Crect fill=%27%23f3f4f6%27 width=%27120%27 height=%27160%27/%3E%3Ctext fill=%27%239ca3af%27 font-family=%27sans-serif%27 font-size=%2712%27 text-anchor=%27middle%27 x=%2760%27 y=%2785%27%3EKh%C3%B4ng c%C3%B3 %E1%BA%A3nh%3C/text%3E%3C/svg%3E'"
-                  />
+                  <img :src="book.image" :alt="book.name" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" @error="$event.target.src='data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27120%27 height=%27160%27 viewBox=%270 0 120 160%27%3E%3Crect fill=%27%23f3f4f6%27 width=%27120%27 height=%27160%27/%3E%3Ctext fill=%27%239ca3af%27 font-family=%27sans-serif%27 font-size=%2712%27 text-anchor=%27middle%27 x=%2760%27 y=%2785%27%3EKh%C3%B4ng c%C3%B3 %E1%BA%A3nh%3C/text%3E%3C/svg%3E'"/>
                 </div>
               </a>
               <div class="p-3">
                 <a :href="'./chitiettruyen.html?id=' + book.id" class="block">
-                  <h3
-                    class="text-sm font-semibold text-ink line-clamp-2 group-hover:text-amber transition-colors"
-                  >
-                    {{ book.name }}
-                  </h3>
+                  <h3 class="text-sm font-semibold text-ink line-clamp-2 group-hover:text-amber transition-colors">{{ book.name }}</h3>
                 </a>
-                <p class="text-sm font-bold text-amber mt-1">
-                  {{ formatPrice(book.price) }}
-                </p>
+                <p class="text-sm font-bold text-amber mt-1">{{ formatPrice(book.price) }}</p>
                 <button
                   @click="addToCart(book)"
                   class="mt-2 w-full text-center text-xs font-medium rounded-lg bg-ink text-white py-1.5 hover:bg-ink/80 transition-colors"
@@ -720,299 +417,51 @@
       </main>
 
       <!-- ═══════════════════════════════════════════
-           MODAL ĐĂNG NHẬP — hiện khi chưa đăng nhập mà bấm thanh toán
-      ═══════════════════════════════════════════ -->
-      <transition name="fade">
-        <div
-          v-if="showLoginModal"
-          class="fixed inset-0 z-50 flex items-center justify-center px-4"
-          style="background: rgba(0, 0, 0, 0.55); backdrop-filter: blur(6px)"
-          @click.self="showLoginModal = false"
-        >
-          <div
-            class="bg-white rounded-[1.5rem] w-full max-w-sm shadow-2xl overflow-hidden"
-          >
-            <!-- Header modal -->
-            <div
-              class="bg-ink text-white px-6 py-5 flex items-center justify-between"
-            >
-              <div>
-                <p
-                  class="text-amber text-xs uppercase tracking-widest font-semibold"
-                >
-                  Đảo Truyện
-                </p>
-                <h3 class="text-xl font-black mt-0.5">Đăng nhập</h3>
-              </div>
-              <button
-                @click="showLoginModal = false"
-                class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
-              >
-                <svg
-                  class="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </button>
-            </div>
-            <div class="p-6 space-y-4">
-              <!-- Thông báo yêu cầu -->
-              <div
-                class="bg-amber/10 border border-amber/25 rounded-xl p-4 flex gap-3 text-sm text-muted"
-              >
-                <svg
-                  class="w-5 h-5 text-amber shrink-0 mt-0.5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-                <p>
-                  Bạn cần <strong class="text-ink">đăng nhập</strong> để tiến
-                  hành thanh toán.
-                </p>
-              </div>
-              <!-- Form -->
-              <div>
-                <label
-                  class="block text-xs font-semibold text-ink mb-1.5 uppercase tracking-wide"
-                  >Email</label
-                >
-                <input
-                  v-model="loginEmail"
-                  type="email"
-                  placeholder="example@email.com"
-                  class="w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm outline-none focus:border-amber transition-colors"
-                  :class="loginError ? 'border-red-400' : ''"
-                />
-              </div>
-              <div>
-                <label
-                  class="block text-xs font-semibold text-ink mb-1.5 uppercase tracking-wide"
-                  >Mật khẩu</label
-                >
-                <input
-                  v-model="loginPassword"
-                  type="password"
-                  placeholder="••••••••"
-                  class="w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm outline-none focus:border-amber transition-colors"
-                  :class="loginError ? 'border-red-400' : ''"
-                  @keyup.enter="doLogin"
-                />
-                <p v-if="loginError" class="text-xs text-red-500 mt-1">
-                  {{ loginError }}
-                </p>
-              </div>
-              <button
-                @click="doLogin"
-                :disabled="loginLoading"
-                class="w-full rounded-2xl bg-gradient-to-r from-amber to-yellow-500 py-3.5 text-sm font-bold text-white shadow-lg shadow-amber/20 hover:from-yellow-500 hover:to-amber transition-all flex items-center justify-center gap-2"
-              >
-                <svg
-                  v-if="loginLoading"
-                  class="w-4 h-4 animate-spin"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-                  />
-                </svg>
-                {{ loginLoading ? 'Đang xử lý...' : 'Đăng nhập & Thanh toán' }}
-              </button>
-              <!-- Gợi ý demo -->
-              <div
-                class="bg-gray-50 border border-gray-200 rounded-xl p-3 text-xs text-muted text-center"
-              >
-                💡 Demo: nhập bất kỳ email + mật khẩu ≥ 6 ký tự
-              </div>
-              <p class="text-center text-sm text-muted">
-                Chưa có tài khoản?
-                <a
-                  href="./dangky.html"
-                  class="font-semibold text-amber hover:underline"
-                  >Đăng ký ngay</a
-                >
-              </p>
-            </div>
-          </div>
-        </div>
-      </transition>
-
-      <!-- ═══════════════════════════════════════════
            FOOTER — Đồng bộ với trang chủ
       ═══════════════════════════════════════════ -->
       <footer class="bg-ink text-white pt-12 pb-6">
         <div class="max-w-5xl mx-auto px-4">
-          <div
-            class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 pb-8 border-b border-white/10"
-          >
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 pb-8 border-b border-white/10">
             <div>
-              <h6
-                class="font-semibold text-sm uppercase tracking-wider mb-4 text-amber"
-              >
-                Về chúng tôi
-              </h6>
+              <h6 class="font-semibold text-sm uppercase tracking-wider mb-4 text-amber">Về chúng tôi</h6>
               <ul class="space-y-2 text-sm text-white/60">
-                <li>
-                  <a
-                    href="./gioithieu.html"
-                    class="hover:text-white transition-colors"
-                    >Giới thiệu</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="./tranglienhe.html"
-                    class="hover:text-white transition-colors"
-                    >Liên hệ</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="./hethongcuahang.html"
-                    class="hover:text-white transition-colors"
-                    >Hệ thống cửa hàng</a
-                  >
-                </li>
+                <li><a href="./gioithieu.html" class="hover:text-white transition-colors">Giới thiệu</a></li>
+                <li><a href="./tranglienhe.html" class="hover:text-white transition-colors">Liên hệ</a></li>
+                <li><a href="./hethongcuahang.html" class="hover:text-white transition-colors">Hệ thống cửa hàng</a></li>
               </ul>
             </div>
             <div>
-              <h6
-                class="font-semibold text-sm uppercase tracking-wider mb-4 text-amber"
-              >
-                Hỗ trợ
-              </h6>
+              <h6 class="font-semibold text-sm uppercase tracking-wider mb-4 text-amber">Hỗ trợ</h6>
               <ul class="space-y-2 text-sm text-white/60">
-                <li>
-                  <a
-                    href="./chinhsachvanchuyen.html"
-                    class="hover:text-white transition-colors"
-                    >Chính sách vận chuyển</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="./chinhsachbaohanh.html"
-                    class="hover:text-white transition-colors"
-                    >Chính sách bảo hành</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="./doi_tra_hoantien.html"
-                    class="hover:text-white transition-colors"
-                    >Đổi - trả - hoàn tiền</a
-                  >
-                </li>
+                <li><a href="./chinhsachvanchuyen.html" class="hover:text-white transition-colors">Chính sách vận chuyển</a></li>
+                <li><a href="./chinhsachbaohanh.html" class="hover:text-white transition-colors">Chính sách bảo hành</a></li>
+                <li><a href="./doi_tra_hoantien.html" class="hover:text-white transition-colors">Đổi - trả - hoàn tiền</a></li>
               </ul>
             </div>
             <div>
-              <h6
-                class="font-semibold text-sm uppercase tracking-wider mb-4 text-amber"
-              >
-                Dịch vụ
-              </h6>
+              <h6 class="font-semibold text-sm uppercase tracking-wider mb-4 text-amber">Dịch vụ</h6>
               <ul class="space-y-2 text-sm text-white/60">
-                <li>
-                  <a
-                    href="./dieukhoansudung.html"
-                    class="hover:text-white transition-colors"
-                    >Điều khoản sử dụng</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="./baomatthanhtoan.html"
-                    class="hover:text-white transition-colors"
-                    >Bảo mật thanh toán</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="./chinhsachbaomat.html"
-                    class="hover:text-white transition-colors"
-                    >Bảo mật thông tin</a
-                  >
-                </li>
+                <li><a href="./dieukhoansudung.html" class="hover:text-white transition-colors">Điều khoản sử dụng</a></li>
+                <li><a href="./baomatthanhtoan.html" class="hover:text-white transition-colors">Bảo mật thanh toán</a></li>
+                <li><a href="./chinhsachbaomat.html" class="hover:text-white transition-colors">Bảo mật thông tin</a></li>
               </ul>
             </div>
             <div>
-              <h6
-                class="font-semibold text-sm uppercase tracking-wider mb-4 text-amber"
-              >
-                Nhận thông tin
-              </h6>
+              <h6 class="font-semibold text-sm uppercase tracking-wider mb-4 text-amber">Nhận thông tin</h6>
               <form @submit.prevent="subscribeEmail" class="flex mb-5">
-                <input
-                  v-model="emailSubscribe"
-                  type="email"
-                  placeholder="Email của bạn"
-                  class="flex-1 bg-white/10 border border-white/20 text-white text-sm px-3 py-2 rounded-l placeholder-white/40 focus:outline-none focus:border-amber"
-                />
-                <button
-                  type="submit"
-                  class="bg-amber text-ink text-sm px-3 py-2 rounded-r font-medium hover:bg-yellow-500 transition-colors"
-                >
-                  Đăng ký
-                </button>
+                <input v-model="emailSubscribe" type="email" placeholder="Email của bạn" class="flex-1 bg-white/10 border border-white/20 text-white text-sm px-3 py-2 rounded-l placeholder-white/40 focus:outline-none focus:border-amber"/>
+                <button type="submit" class="bg-amber text-ink text-sm px-3 py-2 rounded-r font-medium hover:bg-yellow-500 transition-colors">Đăng ký</button>
               </form>
-              <h6
-                class="font-semibold text-sm uppercase tracking-wider mb-3 text-amber"
-              >
-                Theo dõi
-              </h6>
+              <h6 class="font-semibold text-sm uppercase tracking-wider mb-3 text-amber">Theo dõi</h6>
               <div class="flex gap-4">
-                <a
-                  href="https://www.facebook.com/"
-                  target="_blank"
-                  class="text-white/60 hover:text-white transition-colors"
-                >
-                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path
-                      d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
-                    />
-                  </svg>
+                <a href="https://www.facebook.com/" target="_blank" class="text-white/60 hover:text-white transition-colors">
+                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
                 </a>
-                <a
-                  href="https://www.instagram.com/"
-                  target="_blank"
-                  class="text-white/60 hover:text-white transition-colors"
-                >
-                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path
-                      d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"
-                    />
-                  </svg>
+                <a href="https://www.instagram.com/" target="_blank" class="text-white/60 hover:text-white transition-colors">
+                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
                 </a>
-                <a
-                  href="https://twitter.com/"
-                  target="_blank"
-                  class="text-white/60 hover:text-white transition-colors"
-                >
-                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path
-                      d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
-                    />
-                  </svg>
+                <a href="https://twitter.com/" target="_blank" class="text-white/60 hover:text-white transition-colors">
+                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
                 </a>
               </div>
             </div>
@@ -1025,20 +474,9 @@
 
       <!-- Toast thông báo -->
       <transition name="fade">
-        <div
-          v-if="showToast"
-          class="fixed bottom-6 right-6 bg-ink text-white text-sm px-5 py-3 rounded-xl shadow-xl z-50 flex items-center gap-2"
-        >
-          <svg
-            class="w-4 h-4 text-amber"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-              clip-rule="evenodd"
-            />
+        <div v-if="showToast" class="fixed bottom-6 right-6 bg-ink text-white text-sm px-5 py-3 rounded-xl shadow-xl z-50 flex items-center gap-2">
+          <svg class="w-4 h-4 text-amber" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
           </svg>
           {{ toastMsg }}
         </div>
@@ -1052,11 +490,6 @@
 
       createApp({
         data() {
-          // Đọc user từ localStorage
-          const savedUser = JSON.parse(
-            localStorage.getItem("daoTruyenUser") || "null",
-          );
-
           return {
             mobileOpen: false,
             emailSubscribe: "",
@@ -1065,80 +498,22 @@
             couponValid: false,
             showToast: false,
             toastMsg: "",
-            // Auth
-            currentUser: savedUser,
-            showLoginModal: false,
-            loginEmail: "",
-            loginPassword: "",
-            loginError: "",
-            loginLoading: false,
             // Đọc giỏ hàng từ localStorage, chuẩn hoá đường dẫn ảnh
-            cartItems: JSON.parse(
-              localStorage.getItem("daoTruyenCart") || "[]",
-            ).map((item) => ({
+            cartItems: JSON.parse(localStorage.getItem("daoTruyenCart") || "[]").map(item => ({
               ...item,
-              image: (item.image || "").replace(/^\.?\/?\.{0,2}\//, ""),
+              image: (item.image || '').replace(/^\.?\/?\.{0,2}\//, '')
             })),
             // Sản phẩm gợi ý
             suggestedBooks: [
-              {
-                id: 1,
-                name: "One Piece - Tập 1",
-                price: 25000,
-                category: "Truyện tranh hành động",
-                image: "../images/product/Hanh_dong/One_piece.webp",
-              },
-              {
-                id: 2,
-                name: "Chainsaw Man - Tập 1",
-                price: 30000,
-                category: "Truyện tranh hành động",
-                image: "../images/product/Hanh_dong/Chainsaw_man.webp",
-              },
-              {
-                id: 3,
-                name: "Hananoi-kun đến từ từ",
-                price: 28000,
-                category: "Truyện tranh tình cảm",
-                image: "../images/product/Tinh_cam/Hananoi.webp",
-              },
-              {
-                id: 4,
-                name: "Attack on Titan - Tập 1",
-                price: 35000,
-                category: "Truyện tranh hành động",
-                image: "../images/product/Hanh_dong/Attack_on_titan.webp",
-              },
-              {
-                id: 5,
-                name: "Naruto - Tập 1",
-                price: 22000,
-                category: "Truyện tranh hành động",
-                image: "../images/product/Hanh_dong/Naruto.jpg",
-              },
-              {
-                id: 6,
-                name: "Sakamoto Days - Tập 1",
-                price: 28000,
-                category: "Truyện tranh hành động",
-                image: "../images/product/Hanh_dong/Sakamoto_day.jpg",
-              },
-              {
-                id: 7,
-                name: "Hôn nhân hạnh phúc của tôi",
-                price: 26000,
-                category: "Truyện tranh tình cảm",
-                image:
-                  "../images/product/Tinh_cam/Hon_nhan_hanh_phuc_cua_toi.webp",
-              },
-              {
-                id: 8,
-                name: "Thiên hạ canh bên",
-                price: 24000,
-                category: "Truyện tranh tình cảm",
-                image: "../images/product/Tinh_cam/Thien_ha_canh_ben.webp",
-              },
-            ],
+              { id: 1, name: "One Piece - Tập 1", price: 25000, category: "Truyện tranh hành động", image: "../images/product/Hanh_dong/One_piece.webp" },
+              { id: 2, name: "Chainsaw Man - Tập 1", price: 30000, category: "Truyện tranh hành động", image: "../images/product/Hanh_dong/Chainsaw_man.webp" },
+              { id: 3, name: "Hananoi-kun đến từ từ", price: 28000, category: "Truyện tranh tình cảm", image: "../images/product/Tinh_cam/Hananoi.webp" },
+              { id: 4, name: "Attack on Titan - Tập 1", price: 35000, category: "Truyện tranh hành động", image: "../images/product/Hanh_dong/Attack_on_titan.webp" },
+              { id: 5, name: "Naruto - Tập 1", price: 22000, category: "Truyện tranh hành động", image: "../images/product/Hanh_dong/Naruto.jpg" },
+              { id: 6, name: "Sakamoto Days - Tập 1", price: 28000, category: "Truyện tranh hành động", image: "../images/product/Hanh_dong/Sakamoto_day.jpg" },
+              { id: 7, name: "Hôn nhân hạnh phúc của tôi", price: 26000, category: "Truyện tranh tình cảm", image: "../images/product/Tinh_cam/Hon_nhan_hanh_phuc_cua_toi.webp" },
+              { id: 8, name: "Thiên hạ canh bên", price: 24000, category: "Truyện tranh tình cảm", image: "../images/product/Tinh_cam/Thien_ha_canh_ben.webp" }
+            ]
           };
         },
         computed: {
@@ -1149,10 +524,7 @@
           // Tạm tính
           subtotal() {
             return this.cartItems.reduce((sum, item) => {
-              const p =
-                typeof item.price === "string"
-                  ? parseFloat(item.price.replace(/[^\d]/g, ""))
-                  : item.price;
+              const p = typeof item.price === 'string' ? parseFloat(item.price.replace(/[^\d]/g, '')) : item.price;
               return sum + p * item.qty;
             }, 0);
           },
@@ -1163,14 +535,13 @@
           },
           // Phí vận chuyển (miễn phí nếu > 100K)
           shippingFee() {
-            if (this.subtotal >= 100000 || this.cartItems.length === 0)
-              return 0;
+            if (this.subtotal >= 100000 || this.cartItems.length === 0) return 0;
             return 20000;
           },
           // Tổng cộng
           total() {
             return this.subtotal - this.discount + this.shippingFee;
-          },
+          }
         },
         watch: {
           // Đồng bộ giỏ hàng vào localStorage mỗi khi thay đổi
@@ -1178,31 +549,29 @@
             handler(newVal) {
               localStorage.setItem("daoTruyenCart", JSON.stringify(newVal));
               // Phát sự kiện storage để các tab/page khác cập nhật
-              window.dispatchEvent(
-                new StorageEvent("storage", {
-                  key: "daoTruyenCart",
-                  newValue: JSON.stringify(newVal),
-                }),
-              );
+              window.dispatchEvent(new StorageEvent('storage', {
+                key: 'daoTruyenCart',
+                newValue: JSON.stringify(newVal)
+              }));
             },
-            deep: true,
-          },
+            deep: true
+          }
         },
         methods: {
           // Định dạng giá tiền VND (hỗ trợ cả số và chuỗi dạng "65.500₫")
           formatPrice(price) {
             // Nếu giá là chuỗi đã định dạng (vd "65.500₫"), trả về nguyên bản
-            if (typeof price === "string" && isNaN(price)) {
+            if (typeof price === 'string' && isNaN(price)) {
               return price;
             }
             return new Intl.NumberFormat("vi-VN", {
               style: "currency",
-              currency: "VND",
+              currency: "VND"
             }).format(price);
           },
           // Thêm sản phẩm vào giỏ hàng
           addToCart(book) {
-            const existing = this.cartItems.find((item) => item.id === book.id);
+            const existing = this.cartItems.find(item => item.id === book.id);
             if (existing) {
               existing.qty++;
             } else {
@@ -1213,13 +582,10 @@
                 price: book.price,
                 originalPrice: book.originalPrice || null,
                 qty: 1,
-                image: (book.img || book.image || "").replace(
-                  /^\.?\/?\.{0,2}\/?/,
-                  "",
-                ),
+                image: (book.img || book.image || "").replace(/^\.?\/?\.{0,2}\/?/, "")
               });
             }
-            this.toast('Đã thêm "' + book.name + '" vào giỏ hàng!');
+            this.toast("Đã thêm \"" + book.name + "\" vào giỏ hàng!");
           },
           // Tăng số lượng
           increaseQty(index) {
@@ -1235,13 +601,11 @@
           removeItem(index) {
             const name = this.cartItems[index].name;
             this.cartItems.splice(index, 1);
-            this.toast('Đã xoá "' + name + '" khỏi giỏ hàng');
+            this.toast("Đã xoá \"" + name + "\" khỏi giỏ hàng");
           },
           // Xoá tất cả
           clearCart() {
-            if (
-              confirm("Bạn có chắc muốn xoá tất cả sản phẩm khỏi giỏ hàng?")
-            ) {
+            if (confirm("Bạn có chắc muốn xoá tất cả sản phẩm khỏi giỏ hàng?")) {
               this.cartItems = [];
               this.toast("Đã xoá tất cả sản phẩm khỏi giỏ hàng");
             }
@@ -1260,47 +624,6 @@
               this.couponMessage = "Mã giảm giá không hợp lệ";
             }
           },
-          // Đăng xuất
-          logout() {
-            localStorage.removeItem("daoTruyenUser");
-            this.currentUser = null;
-            this.toast("Đã đăng xuất thành công");
-          },
-          // Xử lý bấm nút thanh toán
-          goCheckout() {
-            if (this.currentUser) {
-              window.location.href = "./hoadon.html";
-            } else {
-              this.showLoginModal = true;
-              this.loginEmail = "";
-              this.loginPassword = "";
-              this.loginError = "";
-            }
-          },
-          // Đăng nhập nhanh từ modal
-          async doLogin() {
-            this.loginError = "";
-            if (!this.loginEmail || !/\S+@\S+\.\S+/.test(this.loginEmail)) {
-              this.loginError = "Vui lòng nhập email hợp lệ";
-              return;
-            }
-            if (!this.loginPassword || this.loginPassword.length < 6) {
-              this.loginError = "Mật khẩu ít nhất 6 ký tự";
-              return;
-            }
-            this.loginLoading = true;
-            await new Promise((r) => setTimeout(r, 800));
-            const namePart = this.loginEmail.split("@")[0];
-            const displayName =
-              namePart.charAt(0).toUpperCase() +
-              namePart.slice(1).replace(/[._]/g, " ");
-            const user = { name: displayName, email: this.loginEmail };
-            localStorage.setItem("daoTruyenUser", JSON.stringify(user));
-            this.currentUser = user;
-            this.loginLoading = false;
-            this.showLoginModal = false;
-            window.location.href = "./hoadon.html";
-          },
           // Hiển thị toast
           toast(msg) {
             this.toastMsg = msg;
@@ -1315,22 +638,24 @@
               alert("Cảm ơn bạn đã đăng ký nhận thông tin!");
               this.emailSubscribe = "";
             }
-          },
+          }
         },
         mounted() {
           // Lắng nghe thay đổi từ localStorage (từ tab/page khác)
           const handleStorage = (e) => {
-            if (e.key === "daoTruyenCart") {
-              this.cartItems = JSON.parse(e.newValue || "[]");
+            if (e.key === 'daoTruyenCart') {
+              this.cartItems = JSON.parse(e.newValue || '[]');
             }
           };
-          window.addEventListener("storage", handleStorage);
+          window.addEventListener('storage', handleStorage);
           // Dọn dẹp khi component bị hủy
-          this.$once("hook:beforeUnmount", () => {
-            window.removeEventListener("storage", handleStorage);
+          this.$once('hook:beforeUnmount', () => {
+            window.removeEventListener('storage', handleStorage);
           });
-        },
+        }
       }).mount("#app");
     </script>
   </body>
 </html>
+
+
