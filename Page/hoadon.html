@@ -641,122 +641,23 @@
       </div>
 
       <!-- ══ NỘI DUNG CHÍNH ══ -->
-      <div :class="!currentUser ? 'pointer-events-none select-none' : ''">
-        <div
-          :style="!currentUser ? 'filter:blur(4px);opacity:0.4;' : ''"
-          style="
-            transition:
-              filter 0.4s,
-              opacity 0.4s;
-          "
-        >
-          <!-- Progress steps -->
-          <div class="no-print max-w-lg mx-auto px-4 pt-8 fu1">
-            <div class="flex items-center">
-              <div
-                v-for="(step, i) in steps"
-                :key="i"
-                class="flex items-center"
-                :class="i < steps.length-1 ? 'flex-1':''"
-              >
-                <div class="flex flex-col items-center">
-                  <div
-                    class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all"
-                    :class="step.done?'bg-amber text-white':step.active?'bg-ink text-white':'bg-gray-200 text-gray-400'"
-                  >
-                    <svg
-                      v-if="step.done"
-                      class="w-4 h-4"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="3"
-                        d="M5 13l4 4L19 7"
-                      />
-                    </svg>
-                    <span v-else>{{i+1}}</span>
-                  </div>
-                  <span
-                    class="text-xs mt-1 hidden sm:block whitespace-nowrap"
-                    :class="step.done?'text-amber font-semibold':step.active?'text-ink font-semibold':'text-gray-400'"
-                  >
-                    {{step.label}}
-                  </span>
-                </div>
+      <div>
+        <!-- Progress steps -->
+        <div class="no-print max-w-lg mx-auto px-4 pt-8 fu1">
+          <div class="flex items-center">
+            <div
+              v-for="(step, i) in steps"
+              :key="i"
+              class="flex items-center"
+              :class="i < steps.length-1 ? 'flex-1':''"
+            >
+              <div class="flex flex-col items-center">
                 <div
-                  v-if="i<steps.length-1"
-                  class="step-connector mx-2 mb-4"
-                  :class="step.done?'bg-amber':'bg-gray-200'"
-                ></div>
-              </div>
-            </div>
-          </div>
-
-          <main class="max-w-4xl mx-auto px-4 py-8 pb-20 space-y-6">
-            <!-- ── SUCCESS BANNER ── -->
-            <div class="fu1 text-center py-4">
-              <div class="inline-block relative">
-                <div
-                  class="absolute inset-0 rounded-full pulse-ring border-4 border-amber/30"
-                ></div>
-                <svg width="88" height="88" viewBox="0 0 88 88">
-                  <circle
-                    cx="44"
-                    cy="44"
-                    r="40"
-                    fill="none"
-                    stroke="#f3f4f6"
-                    stroke-width="4"
-                  />
-                  <circle
-                    cx="44"
-                    cy="44"
-                    r="40"
-                    fill="none"
-                    stroke="#d97706"
-                    stroke-width="4"
-                    stroke-linecap="round"
-                    transform="rotate(-90 44 44)"
-                    class="success-circle"
-                  />
-                  <polyline
-                    points="26,45 38,57 62,33"
-                    fill="none"
-                    stroke="#d97706"
-                    stroke-width="5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    class="success-check"
-                  />
-                </svg>
-              </div>
-              <h1 class="text-3xl md:text-4xl font-black text-ink mt-5 fu2">
-                Đặt hàng thành công! 🎉
-              </h1>
-              <p class="text-muted mt-2 fu2">
-                Cảm ơn
-                <strong class="text-ink"
-                  >{{ currentUser?.name || "Khách" }}</strong
-                >
-                đã tin tưởng mua sắm tại Đảo Truyện.
-              </p>
-              <div
-                class="inline-flex items-center gap-2 mt-3 bg-amber/10 border border-amber/30 rounded-full px-4 py-1.5 fu3"
-              >
-                <span class="text-sm text-muted">Mã đơn hàng:</span>
-                <span class="font-mono font-black text-amber text-base"
-                  >#{{ order.id }}</span
-                >
-                <button
-                  @click="copyOrderId"
-                  class="text-gray-400 hover:text-amber transition-colors ml-1"
-                  title="Sao chép mã"
+                  class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all"
+                  :class="step.done?'bg-amber text-white':step.active?'bg-ink text-white':'bg-gray-200 text-gray-400'"
                 >
                   <svg
+                    v-if="step.done"
                     class="w-4 h-4"
                     fill="none"
                     stroke="currentColor"
@@ -765,505 +666,87 @@
                     <path
                       stroke-linecap="round"
                       stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+                      stroke-width="3"
+                      d="M5 13l4 4L19 7"
                     />
                   </svg>
-                </button>
+                  <span v-else>{{i+1}}</span>
+                </div>
+                <span
+                  class="text-xs mt-1 hidden sm:block whitespace-nowrap"
+                  :class="step.done?'text-amber font-semibold':step.active?'text-ink font-semibold':'text-gray-400'"
+                >
+                  {{step.label}}
+                </span>
               </div>
+              <div
+                v-if="i<steps.length-1"
+                class="step-connector mx-2 mb-4"
+                :class="step.done?'bg-amber':'bg-gray-200'"
+              ></div>
             </div>
+          </div>
+        </div>
 
-            <!-- ── CARD HÓA ĐƠN ── -->
+        <main class="max-w-4xl mx-auto px-4 py-8 pb-20 space-y-6">
+          <!-- ── SUCCESS BANNER ── -->
+          <div class="fu1 text-center py-4">
+            <div class="inline-block relative">
+              <div
+                class="absolute inset-0 rounded-full pulse-ring border-4 border-amber/30"
+              ></div>
+              <svg width="88" height="88" viewBox="0 0 88 88">
+                <circle
+                  cx="44"
+                  cy="44"
+                  r="40"
+                  fill="none"
+                  stroke="#f3f4f6"
+                  stroke-width="4"
+                />
+                <circle
+                  cx="44"
+                  cy="44"
+                  r="40"
+                  fill="none"
+                  stroke="#d97706"
+                  stroke-width="4"
+                  stroke-linecap="round"
+                  transform="rotate(-90 44 44)"
+                  class="success-circle"
+                />
+                <polyline
+                  points="26,45 38,57 62,33"
+                  fill="none"
+                  stroke="#d97706"
+                  stroke-width="5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="success-check"
+                />
+              </svg>
+            </div>
+            <h1 class="text-3xl md:text-4xl font-black text-ink mt-5 fu2">
+              Đặt hàng thành công! 🎉
+            </h1>
+            <p class="text-muted mt-2 fu2">
+              Cảm ơn
+              <strong class="text-ink"
+                >{{ currentUser?.name || "Khách" }}</strong
+              >
+              đã tin tưởng mua sắm tại Đảo Truyện.
+            </p>
             <div
-              class="print-card bg-white rounded-[2rem] border border-gray-200 shadow-xl shadow-amber/8 overflow-hidden fu3"
+              class="inline-flex items-center gap-2 mt-3 bg-amber/10 border border-amber/30 rounded-full px-4 py-1.5 fu3"
             >
-              <!-- Header -->
-              <div
-                class="bg-ink text-white px-6 md:px-8 py-5 flex flex-col sm:flex-row justify-between gap-3"
+              <span class="text-sm text-muted">Mã đơn hàng:</span>
+              <span class="font-mono font-black text-amber text-base"
+                >#{{ order.id }}</span
               >
-                <div>
-                  <p
-                    class="text-amber text-xs uppercase tracking-widest font-semibold"
-                  >
-                    Đảo Truyện
-                  </p>
-                  <h2 class="text-xl font-black mt-0.5">XÁC NHẬN ĐƠN HÀNG</h2>
-                  <p class="text-white/60 text-xs mt-1 font-mono">
-                    {{ order.id }}
-                  </p>
-                </div>
-                <div class="text-left sm:text-right">
-                  <p class="text-white/60 text-xs">Ngày đặt</p>
-                  <p class="text-white font-semibold text-sm">
-                    {{ order.date }}
-                  </p>
-                  <div class="mt-2">
-                    <span
-                      class="inline-flex items-center gap-1.5 text-xs px-3 py-1 rounded-full font-semibold bg-amber/20 text-amber"
-                    >
-                      <span
-                        class="w-1.5 h-1.5 rounded-full bg-current animate-pulse"
-                      ></span>
-                      Đang xử lý
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <div class="p-6 md:p-8 space-y-7">
-                <!-- Timeline -->
-                <div>
-                  <p
-                    class="text-xs uppercase tracking-widest text-amber font-semibold mb-4"
-                  >
-                    Hành trình đơn hàng
-                  </p>
-                  <div class="space-y-0">
-                    <div
-                      v-for="(ev, i) in order.timeline"
-                      :key="i"
-                      class="relative flex gap-4 pb-5"
-                    >
-                      <div class="relative flex flex-col items-center">
-                        <div
-                          class="w-6 h-6 rounded-full flex items-center justify-center shrink-0"
-                          :class="ev.done?'bg-amber':ev.active?'bg-amber/30 border-2 border-amber':'bg-gray-200'"
-                        >
-                          <svg
-                            v-if="ev.done"
-                            class="w-3.5 h-3.5 text-white"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="3"
-                              d="M5 13l4 4L19 7"
-                            />
-                          </svg>
-                          <div
-                            v-else-if="ev.active"
-                            class="w-2 h-2 bg-amber rounded-full"
-                          ></div>
-                        </div>
-                        <div
-                          v-if="i<order.timeline.length-1"
-                          class="w-0.5 flex-1 mt-1"
-                          :class="ev.done?'bg-amber':'bg-gray-200'"
-                        ></div>
-                      </div>
-                      <div class="pb-1 pt-0.5">
-                        <p
-                          class="text-sm font-semibold"
-                          :class="ev.done||ev.active?'text-ink':'text-gray-400'"
-                        >
-                          {{ ev.label }}
-                        </p>
-                        <p class="text-xs text-muted mt-0.5">{{ ev.time }}</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Thông tin giao hàng -->
-                <div class="grid sm:grid-cols-2 gap-4">
-                  <div class="bg-cream rounded-2xl p-5">
-                    <p
-                      class="text-xs uppercase tracking-widest text-amber font-semibold mb-3"
-                    >
-                      Người nhận
-                    </p>
-                    <div class="space-y-1.5 text-sm">
-                      <p class="font-bold text-base text-ink">
-                        {{ currentUser?.name || "Khách" }}
-                      </p>
-                      <p class="text-muted flex items-center gap-2">
-                        <svg
-                          class="w-3.5 h-3.5 shrink-0"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                        >
-                          <path
-                            d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"
-                          />
-                        </svg>
-                        {{ currentUser?.phone || "(chưa cập nhật)" }}
-                      </p>
-                      <p class="text-muted flex items-center gap-2">
-                        <svg
-                          class="w-3.5 h-3.5 shrink-0"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                        >
-                          <path
-                            d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"
-                          />
-                          <path
-                            d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"
-                          />
-                        </svg>
-                        {{ currentUser?.email || "" }}
-                      </p>
-                      <p class="text-muted flex items-start gap-2 mt-1">
-                        <svg
-                          class="w-3.5 h-3.5 shrink-0 mt-0.5"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
-                            clip-rule="evenodd"
-                          />
-                        </svg>
-                        <span
-                          >{{ currentUser?.address || "(chưa cập nhật)" }}</span
-                        >
-                      </p>
-                    </div>
-                  </div>
-                  <div class="bg-cream rounded-2xl p-5 space-y-4">
-                    <div>
-                      <p
-                        class="text-xs uppercase tracking-widest text-amber font-semibold mb-2"
-                      >
-                        Vận chuyển
-                      </p>
-                      <p class="text-sm font-semibold text-ink">
-                        Giao hàng nhanh (1–2 ngày)
-                      </p>
-                      <p
-                        class="text-xs text-muted mt-1 flex items-center gap-1"
-                      >
-                        <svg
-                          class="w-3.5 h-3.5"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                          />
-                        </svg>
-                        Dự kiến:
-                        <strong class="text-ink ml-1"
-                          >{{ order.estimatedDate }}</strong
-                        >
-                      </p>
-                    </div>
-                    <div class="border-t border-gray-200 pt-3">
-                      <p
-                        class="text-xs uppercase tracking-widest text-amber font-semibold mb-2"
-                      >
-                        Thanh toán
-                      </p>
-                      <p class="text-sm font-semibold text-ink">
-                        Thanh toán khi nhận hàng (COD)
-                      </p>
-                      <span
-                        class="inline-block mt-1.5 text-xs bg-yellow-50 text-yellow-700 border border-yellow-200 rounded-full px-2.5 py-0.5 font-semibold"
-                      >
-                        Chờ thanh toán
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- ── DANH SÁCH SẢN PHẨM TỪ GIỎ HÀNG THỰC TẾ ── -->
-                <div>
-                  <p
-                    class="text-xs uppercase tracking-widest text-amber font-semibold mb-3"
-                  >
-                    Sản phẩm đã đặt ({{ order.items.length }} sản phẩm)
-                  </p>
-
-                  <!-- Giỏ hàng rỗng -->
-                  <div
-                    v-if="order.items.length === 0"
-                    class="rounded-2xl border border-dashed border-gray-300 py-12 text-center text-muted text-sm"
-                  >
-                    <svg
-                      class="w-10 h-10 mx-auto text-gray-300 mb-3"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="1.5"
-                        d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"
-                      />
-                    </svg>
-                    <p>Không có sản phẩm nào trong đơn hàng này.</p>
-                    <a
-                      href="./theloai.html"
-                      class="inline-block mt-3 text-amber font-semibold hover:underline"
-                      >Khám phá truyện →</a
-                    >
-                  </div>
-
-                  <!-- Có sản phẩm -->
-                  <div
-                    v-else
-                    class="rounded-2xl border border-gray-100 overflow-hidden"
-                  >
-                    <!-- Header bảng -->
-                    <div
-                      class="hidden sm:grid grid-cols-12 bg-gray-50 px-5 py-2.5 text-xs uppercase tracking-wider text-muted font-semibold"
-                    >
-                      <div class="col-span-6">Sản phẩm</div>
-                      <div class="col-span-2 text-center">Đơn giá</div>
-                      <div class="col-span-2 text-center">Số lượng</div>
-                      <div class="col-span-2 text-right">Thành tiền</div>
-                    </div>
-                    <!-- Rows -->
-                    <div
-                      v-for="(item, i) in order.items"
-                      :key="item.id + i"
-                      class="flex sm:grid sm:grid-cols-12 items-center gap-3 px-5 py-4"
-                      :class="i < order.items.length-1 ? 'border-b border-gray-100' : ''"
-                    >
-                      <!-- Ảnh + tên -->
-                      <div
-                        class="col-span-6 flex items-center gap-3 flex-1 min-w-0"
-                      >
-                        <div
-                          class="w-12 h-16 rounded-xl overflow-hidden bg-gray-100 shrink-0 border border-gray-100 flex items-center justify-center text-2xl"
-                        >
-                          <img
-                            v-if="item.image"
-                            :src="item.image.startsWith('images/') ? '../' + item.image : item.image"
-                            :alt="item.name"
-                            class="w-full h-full object-cover"
-                            onerror="
-                              this.style.display = 'none';
-                              this.nextElementSibling.style.display = 'flex';
-                            "
-                          />
-                          <span
-                            style="display: none"
-                            class="text-2xl flex items-center justify-center w-full h-full"
-                            >📖</span
-                          >
-                          <span
-                            v-if="!item.image"
-                            class="flex items-center justify-center w-full h-full"
-                            >📖</span
-                          >
-                        </div>
-                        <div class="min-w-0">
-                          <p
-                            class="font-semibold text-sm text-ink leading-tight line-clamp-2"
-                          >
-                            {{ item.name }}
-                          </p>
-                          <p class="text-xs text-muted mt-0.5">
-                            {{ item.category || 'Truyện tranh' }}
-                          </p>
-                          <!-- Mobile: giá nhanh -->
-                          <p
-                            class="text-xs text-amber font-bold sm:hidden mt-1"
-                          >
-                            {{ formatPrice(parsePrice(item.price)) }} × {{
-                            item.qty }} = {{ formatPrice(parsePrice(item.price)
-                            * item.qty) }}
-                          </p>
-                        </div>
-                      </div>
-                      <!-- Desktop cols -->
-                      <div
-                        class="hidden sm:block col-span-2 text-center text-sm text-muted"
-                      >
-                        {{ formatPrice(parsePrice(item.price)) }}
-                      </div>
-                      <div class="hidden sm:block col-span-2 text-center">
-                        <span
-                          class="inline-block bg-gray-100 rounded-lg px-3 py-1 text-sm font-semibold text-ink"
-                          >{{ item.qty }}</span
-                        >
-                      </div>
-                      <div class="text-right sm:col-span-2 shrink-0">
-                        <span class="text-sm font-bold text-amber">
-                          {{ formatPrice(parsePrice(item.price) * item.qty) }}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Tóm tắt thanh toán -->
-                <div class="flex justify-end">
-                  <div class="w-full sm:max-w-xs space-y-2.5 text-sm">
-                    <div class="flex justify-between text-muted">
-                      <span>Tạm tính ({{ order.totalQty }} sản phẩm)</span>
-                      <span>{{ formatPrice(order.subtotal) }}</span>
-                    </div>
-                    <div
-                      v-if="order.discount > 0"
-                      class="flex justify-between text-green-600 font-medium"
-                    >
-                      <span
-                        >Giảm giá
-                        <span
-                          class="text-xs bg-green-100 text-green-700 px-1.5 py-0.5 rounded ml-1"
-                          >{{ order.couponCode || '' }}</span
-                        ></span
-                      >
-                      <span>-{{ formatPrice(order.discount) }}</span>
-                    </div>
-                    <div class="flex justify-between text-muted">
-                      <span>Phí vận chuyển</span>
-                      <span
-                        :class="order.shippingFee===0?'text-green-600 font-semibold':''"
-                      >
-                        {{ order.shippingFee===0?'Miễn
-                        phí':formatPrice(order.shippingFee) }}
-                      </span>
-                    </div>
-                    <div
-                      class="border-t-2 border-dashed border-gray-200 pt-3 flex justify-between items-center"
-                    >
-                      <span class="font-bold text-base text-ink"
-                        >Tổng thanh toán</span
-                      >
-                      <span class="text-2xl font-black text-amber"
-                        >{{ formatPrice(order.total) }}</span
-                      >
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Lưu ý -->
-                <div
-                  class="bg-amber/5 border border-amber/20 rounded-2xl p-4 flex gap-3"
-                >
-                  <svg
-                    class="w-5 h-5 text-amber shrink-0 mt-0.5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                  </svg>
-                  <p class="text-sm text-muted">
-                    Vui lòng kiểm tra kỹ sản phẩm, tem niêm phong và số lượng
-                    khi nhận hàng. Thắc mắc liên hệ
-                    <span class="text-amber font-semibold">0981109909</span>.
-                  </p>
-                </div>
-              </div>
-
-              <!-- Footer card -->
-              <div
-                class="border-t border-gray-100 bg-gray-50 px-8 py-3 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-muted"
-              >
-                <span>Đảo Truyện — 12 Chùa Bộc, Đống Đa, Hà Nội</span>
-                <span>daotruyen@gmail.com | 0981109909</span>
-              </div>
-            </div>
-
-            <!-- ── CÁC NÚT HÀNH ĐỘNG ── -->
-            <div class="no-print grid grid-cols-2 sm:grid-cols-4 gap-3 fu4">
-              <!-- Gửi lại email -->
               <button
-                @click="resendEmail"
-                :disabled="emailSent"
-                class="flex flex-col items-center gap-2 rounded-2xl border-2 px-4 py-4 text-sm font-semibold transition-all duration-300 group"
-                :class="emailSent?'border-green-300 bg-green-50 text-green-700':'border-gray-200 hover:border-amber hover:bg-amber/5 text-ink'"
-              >
-                <svg
-                  class="w-5 h-5 transition-colors"
-                  :class="emailSent?'text-green-600':'text-muted group-hover:text-amber'"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                  />
-                </svg>
-                <span>{{ emailSent?'Đã gửi ✓':'Gửi lại email' }}</span>
-              </button>
-              <!-- In đơn -->
-              <button
-                @click="printInvoice"
-                class="flex flex-col items-center gap-2 rounded-2xl border-2 border-gray-200 hover:border-amber hover:bg-amber/5 px-4 py-4 text-sm font-semibold text-ink transition-all duration-300 group"
-              >
-                <svg
-                  class="w-5 h-5 text-muted group-hover:text-amber transition-colors"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"
-                  />
-                </svg>
-                <span>In đơn hàng</span>
-              </button>
-              <!-- Xem chi tiết -->
-              <button
-                @click="showDetailModal=true"
-                class="flex flex-col items-center gap-2 rounded-2xl border-2 border-gray-200 hover:border-amber hover:bg-amber/5 px-4 py-4 text-sm font-semibold text-ink transition-all duration-300 group"
-              >
-                <svg
-                  class="w-5 h-5 text-muted group-hover:text-amber transition-colors"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                  />
-                </svg>
-                <span>Xem chi tiết</span>
-              </button>
-              <!-- Tiếp tục mua -->
-              <a
-                href="./theloai.html"
-                class="flex flex-col items-center gap-2 rounded-2xl bg-amber px-4 py-4 text-sm font-semibold text-white hover:bg-yellow-500 transition-all shadow-lg shadow-amber/20 group"
-              >
-                <svg
-                  class="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.082.477 4.253 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.503 1.253v13"
-                  />
-                </svg>
-                <span>Mua tiếp</span>
-              </a>
-            </div>
-
-            <div class="no-print text-center fu4">
-              <a
-                href="../index.html"
-                class="inline-flex items-center gap-2 text-sm text-muted hover:text-amber transition-colors"
+                @click="copyOrderId"
+                class="text-gray-400 hover:text-amber transition-colors ml-1"
+                title="Sao chép mã"
               >
                 <svg
                   class="w-4 h-4"
@@ -1275,75 +758,729 @@
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     stroke-width="2"
-                    d="M10 19l-7-7m0 0l7-7m-7 7h18"
+                    d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
                   />
                 </svg>
-                Quay về trang chủ
+              </button>
+            </div>
+          </div>
+
+          <!-- ── CARD HÓA ĐƠN ── -->
+          <div
+            class="print-card bg-white rounded-[2rem] border border-gray-200 shadow-xl shadow-amber/8 overflow-hidden fu3"
+          >
+            <!-- Header -->
+            <div
+              class="bg-ink text-white px-6 md:px-8 py-5 flex flex-col sm:flex-row justify-between gap-3"
+            >
+              <div>
+                <p
+                  class="text-amber text-xs uppercase tracking-widest font-semibold"
+                >
+                  Đảo Truyện
+                </p>
+                <h2 class="text-xl font-black mt-0.5">XÁC NHẬN ĐƠN HÀNG</h2>
+                <p class="text-white/60 text-xs mt-1 font-mono">
+                  {{ order.id }}
+                </p>
+              </div>
+              <div class="text-left sm:text-right">
+                <p class="text-white/60 text-xs">Ngày đặt</p>
+                <p class="text-white font-semibold text-sm">{{ order.date }}</p>
+                <div class="mt-2">
+                  <span
+                    class="inline-flex items-center gap-1.5 text-xs px-3 py-1 rounded-full font-semibold bg-amber/20 text-amber"
+                  >
+                    <span
+                      class="w-1.5 h-1.5 rounded-full bg-current animate-pulse"
+                    ></span>
+                    Đang xử lý
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-6 md:p-8 space-y-7">
+              <!-- Timeline -->
+              <div>
+                <p
+                  class="text-xs uppercase tracking-widest text-amber font-semibold mb-4"
+                >
+                  Hành trình đơn hàng
+                </p>
+                <div class="space-y-0">
+                  <div
+                    v-for="(ev, i) in order.timeline"
+                    :key="i"
+                    class="relative flex gap-4 pb-5"
+                  >
+                    <div class="relative flex flex-col items-center">
+                      <div
+                        class="w-6 h-6 rounded-full flex items-center justify-center shrink-0"
+                        :class="ev.done?'bg-amber':ev.active?'bg-amber/30 border-2 border-amber':'bg-gray-200'"
+                      >
+                        <svg
+                          v-if="ev.done"
+                          class="w-3.5 h-3.5 text-white"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="3"
+                            d="M5 13l4 4L19 7"
+                          />
+                        </svg>
+                        <div
+                          v-else-if="ev.active"
+                          class="w-2 h-2 bg-amber rounded-full"
+                        ></div>
+                      </div>
+                      <div
+                        v-if="i<order.timeline.length-1"
+                        class="w-0.5 flex-1 mt-1"
+                        :class="ev.done?'bg-amber':'bg-gray-200'"
+                      ></div>
+                    </div>
+                    <div class="pb-1 pt-0.5">
+                      <p
+                        class="text-sm font-semibold"
+                        :class="ev.done||ev.active?'text-ink':'text-gray-400'"
+                      >
+                        {{ ev.label }}
+                      </p>
+                      <p class="text-xs text-muted mt-0.5">{{ ev.time }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Thông tin giao hàng -->
+              <div class="grid sm:grid-cols-2 gap-4">
+                <div class="bg-cream rounded-2xl p-5">
+                  <p
+                    class="text-xs uppercase tracking-widest text-amber font-semibold mb-3"
+                  >
+                    Người nhận
+                  </p>
+                  <div class="space-y-1.5 text-sm">
+                    <p class="font-bold text-base text-ink">
+                      {{ currentUser?.name || "Khách" }}
+                    </p>
+                    <p class="text-muted flex items-center gap-2">
+                      <svg
+                        class="w-3.5 h-3.5 shrink-0"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"
+                        />
+                      </svg>
+                      {{ currentUser?.phone || '(chưa cập nhật)' }}
+                    </p>
+                    <p class="text-muted flex items-center gap-2">
+                      <svg
+                        class="w-3.5 h-3.5 shrink-0"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"
+                        />
+                        <path
+                          d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"
+                        />
+                      </svg>
+                      {{ currentUser?.email }}
+                    </p>
+                    <p class="text-muted flex items-start gap-2 mt-1">
+                      <svg
+                        class="w-3.5 h-3.5 shrink-0 mt-0.5"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+                          clip-rule="evenodd"
+                        />
+                      </svg>
+                      <span
+                        >{{ currentUser?.address || '(chưa cập nhật)' }}</span
+                      >
+                    </p>
+                  </div>
+                </div>
+                <div class="bg-cream rounded-2xl p-5 space-y-4">
+                  <div>
+                    <p
+                      class="text-xs uppercase tracking-widest text-amber font-semibold mb-2"
+                    >
+                      Vận chuyển
+                    </p>
+                    <p class="text-sm font-semibold text-ink">
+                      Giao hàng nhanh (1–2 ngày)
+                    </p>
+                    <p class="text-xs text-muted mt-1 flex items-center gap-1">
+                      <svg
+                        class="w-3.5 h-3.5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                        />
+                      </svg>
+                      Dự kiến:
+                      <strong class="text-ink ml-1"
+                        >{{ order.estimatedDate }}</strong
+                      >
+                    </p>
+                  </div>
+                  <div class="border-t border-gray-200 pt-3">
+                    <p
+                      class="text-xs uppercase tracking-widest text-amber font-semibold mb-2"
+                    >
+                      Thanh toán
+                    </p>
+                    <p class="text-sm font-semibold text-ink">
+                      Thanh toán khi nhận hàng (COD)
+                    </p>
+                    <span
+                      class="inline-block mt-1.5 text-xs bg-yellow-50 text-yellow-700 border border-yellow-200 rounded-full px-2.5 py-0.5 font-semibold"
+                    >
+                      Chờ thanh toán
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ── DANH SÁCH SẢN PHẨM TỪ GIỎ HÀNG THỰC TẾ ── -->
+              <div>
+                <p
+                  class="text-xs uppercase tracking-widest text-amber font-semibold mb-3"
+                >
+                  Sản phẩm đã đặt ({{ order.items.length }} sản phẩm)
+                </p>
+
+                <!-- Giỏ hàng rỗng -->
+                <div
+                  v-if="order.items.length === 0"
+                  class="rounded-2xl border border-dashed border-gray-300 py-12 text-center text-muted text-sm"
+                >
+                  <svg
+                    class="w-10 h-10 mx-auto text-gray-300 mb-3"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="1.5"
+                      d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"
+                    />
+                  </svg>
+                  <p>Không có sản phẩm nào trong đơn hàng này.</p>
+                  <a
+                    href="./theloai.html"
+                    class="inline-block mt-3 text-amber font-semibold hover:underline"
+                    >Khám phá truyện →</a
+                  >
+                </div>
+
+                <!-- Có sản phẩm -->
+                <div
+                  v-else
+                  class="rounded-2xl border border-gray-100 overflow-hidden"
+                >
+                  <!-- Header bảng -->
+                  <div
+                    class="hidden sm:grid grid-cols-12 bg-gray-50 px-5 py-2.5 text-xs uppercase tracking-wider text-muted font-semibold"
+                  >
+                    <div class="col-span-6">Sản phẩm</div>
+                    <div class="col-span-2 text-center">Đơn giá</div>
+                    <div class="col-span-2 text-center">Số lượng</div>
+                    <div class="col-span-2 text-right">Thành tiền</div>
+                  </div>
+                  <!-- Rows -->
+                  <div
+                    v-for="(item, i) in order.items"
+                    :key="item.id + i"
+                    class="flex sm:grid sm:grid-cols-12 items-center gap-3 px-5 py-4"
+                    :class="i < order.items.length-1 ? 'border-b border-gray-100' : ''"
+                  >
+                    <!-- Ảnh + tên -->
+                    <div
+                      class="col-span-6 flex items-center gap-3 flex-1 min-w-0"
+                    >
+                      <div
+                        class="w-12 h-16 rounded-xl overflow-hidden bg-gray-100 shrink-0 border border-gray-100 flex items-center justify-center text-2xl"
+                      >
+                        <img
+                          v-if="item.image"
+                          :src="item.image.startsWith('images/') ? '../' + item.image : item.image"
+                          :alt="item.name"
+                          class="w-full h-full object-cover"
+                          onerror="
+                            this.style.display = 'none';
+                            this.nextElementSibling.style.display = 'flex';
+                          "
+                        />
+                        <span
+                          style="display: none"
+                          class="text-2xl flex items-center justify-center w-full h-full"
+                          >📖</span
+                        >
+                        <span
+                          v-if="!item.image"
+                          class="flex items-center justify-center w-full h-full"
+                          >📖</span
+                        >
+                      </div>
+                      <div class="min-w-0">
+                        <p
+                          class="font-semibold text-sm text-ink leading-tight line-clamp-2"
+                        >
+                          {{ item.name }}
+                        </p>
+                        <p class="text-xs text-muted mt-0.5">
+                          {{ item.category || 'Truyện tranh' }}
+                        </p>
+                        <!-- Mobile: giá nhanh -->
+                        <p class="text-xs text-amber font-bold sm:hidden mt-1">
+                          {{ formatPrice(parsePrice(item.price)) }} × {{
+                          item.qty }} = {{ formatPrice(parsePrice(item.price) *
+                          item.qty) }}
+                        </p>
+                      </div>
+                    </div>
+                    <!-- Desktop cols -->
+                    <div
+                      class="hidden sm:block col-span-2 text-center text-sm text-muted"
+                    >
+                      {{ formatPrice(parsePrice(item.price)) }}
+                    </div>
+                    <div class="hidden sm:block col-span-2 text-center">
+                      <span
+                        class="inline-block bg-gray-100 rounded-lg px-3 py-1 text-sm font-semibold text-ink"
+                        >{{ item.qty }}</span
+                      >
+                    </div>
+                    <div class="text-right sm:col-span-2 shrink-0">
+                      <span class="text-sm font-bold text-amber">
+                        {{ formatPrice(parsePrice(item.price) * item.qty) }}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Tóm tắt thanh toán -->
+              <div class="flex justify-end">
+                <div class="w-full sm:max-w-xs space-y-2.5 text-sm">
+                  <div class="flex justify-between text-muted">
+                    <span>Tạm tính ({{ order.totalQty }} sản phẩm)</span>
+                    <span>{{ formatPrice(order.subtotal) }}</span>
+                  </div>
+                  <div
+                    v-if="order.discount > 0"
+                    class="flex justify-between text-green-600 font-medium"
+                  >
+                    <span
+                      >Giảm giá
+                      <span
+                        class="text-xs bg-green-100 text-green-700 px-1.5 py-0.5 rounded ml-1"
+                        >{{ order.couponCode || '' }}</span
+                      ></span
+                    >
+                    <span>-{{ formatPrice(order.discount) }}</span>
+                  </div>
+                  <div class="flex justify-between text-muted">
+                    <span>Phí vận chuyển</span>
+                    <span
+                      :class="order.shippingFee===0?'text-green-600 font-semibold':''"
+                    >
+                      {{ order.shippingFee===0 ? 'Miễn phí' :
+                      formatPrice(order.shippingFee) }}
+                    </span>
+                  </div>
+                  <div
+                    class="border-t-2 border-dashed border-gray-200 pt-3 flex justify-between items-center"
+                  >
+                    <span class="font-bold text-base text-ink"
+                      >Tổng thanh toán</span
+                    >
+                    <span class="text-2xl font-black text-amber"
+                      >{{ formatPrice(order.total) }}</span
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <!-- Lưu ý -->
+              <div
+                class="bg-amber/5 border border-amber/20 rounded-2xl p-4 flex gap-3"
+              >
+                <svg
+                  class="w-5 h-5 text-amber shrink-0 mt-0.5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                <p class="text-sm text-muted">
+                  Vui lòng kiểm tra kỹ sản phẩm, tem niêm phong và số lượng khi
+                  nhận hàng. Thắc mắc liên hệ
+                  <span class="text-amber font-semibold">0981109909</span>.
+                </p>
+              </div>
+            </div>
+
+            <!-- Footer card -->
+            <div
+              class="border-t border-gray-100 bg-gray-50 px-8 py-3 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-muted"
+            >
+              <span>Đảo Truyện — 12 Chùa Bộc, Đống Đa, Hà Nội</span>
+              <span>daotruyen@gmail.com | 0981109909</span>
+            </div>
+          </div>
+
+          <!-- ── CÁC NÚT HÀNH ĐỘNG ── -->
+          <div class="no-print grid grid-cols-2 sm:grid-cols-4 gap-3 fu4">
+            <!-- Gửi lại email -->
+            <button
+              @click="resendEmail"
+              :disabled="emailSent"
+              class="flex flex-col items-center gap-2 rounded-2xl border-2 px-4 py-4 text-sm font-semibold transition-all duration-300 group"
+              :class="emailSent?'border-green-300 bg-green-50 text-green-700':'border-gray-200 hover:border-amber hover:bg-amber/5 text-ink'"
+            >
+              <svg
+                class="w-5 h-5 transition-colors"
+                :class="emailSent?'text-green-600':'text-muted group-hover:text-amber'"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                />
+              </svg>
+              <span>{{ emailSent?'Đã gửi ✓':'Gửi lại email' }}</span>
+            </button>
+            <!-- In đơn -->
+            <button
+              @click="printInvoice"
+              class="flex flex-col items-center gap-2 rounded-2xl border-2 border-gray-200 hover:border-amber hover:bg-amber/5 px-4 py-4 text-sm font-semibold text-ink transition-all duration-300 group"
+            >
+              <svg
+                class="w-5 h-5 text-muted group-hover:text-amber transition-colors"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"
+                />
+              </svg>
+              <span>In đơn hàng</span>
+            </button>
+            <!-- Xem chi tiết -->
+            <button
+              @click="showDetailModal=true"
+              class="flex flex-col items-center gap-2 rounded-2xl border-2 border-gray-200 hover:border-amber hover:bg-amber/5 px-4 py-4 text-sm font-semibold text-ink transition-all duration-300 group"
+            >
+              <svg
+                class="w-5 h-5 text-muted group-hover:text-amber transition-colors"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                />
+              </svg>
+              <span>Xem chi tiết</span>
+            </button>
+            <!-- Tiếp tục mua -->
+            <a
+              href="./theloai.html"
+              class="flex flex-col items-center gap-2 rounded-2xl bg-amber px-4 py-4 text-sm font-semibold text-white hover:bg-yellow-500 transition-all shadow-lg shadow-amber/20 group"
+            >
+              <svg
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.082.477 4.253 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.503 1.253v13"
+                />
+              </svg>
+              <span>Mua tiếp</span>
+            </a>
+          </div>
+
+          <div class="no-print text-center fu4">
+            <a
+              href="../index.html"
+              class="inline-flex items-center gap-2 text-sm text-muted hover:text-amber transition-colors"
+            >
+              <svg
+                class="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M10 19l-7-7m0 0l7-7m-7 7h18"
+                />
+              </svg>
+              Quay về trang chủ
+            </a>
+          </div>
+
+          <!-- Gợi ý sản phẩm -->
+          <div class="no-print fu5 pt-4">
+            <div class="flex items-center gap-3 mb-5">
+              <div class="h-px w-8 bg-amber"></div>
+              <h2 class="text-xl font-bold text-ink">Có thể bạn sẽ thích</h2>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+              <a
+                v-for="p in suggestedProducts"
+                :key="p.id"
+                href="./chitiettruyen.html"
+                class="product-card bg-white rounded-2xl border border-gray-100 overflow-hidden block"
+              >
+                <div
+                  class="aspect-[3/4] bg-gray-100 flex items-center justify-center overflow-hidden"
+                >
+                  <img
+                    :src="p.image"
+                    :alt="p.name"
+                    class="w-full h-full object-cover"
+                    onerror="
+                      this.style.display = 'none';
+                      this.nextElementSibling.style.display = 'flex';
+                    "
+                  />
+                  <span
+                    style="display: none"
+                    class="flex items-center justify-center w-full h-full text-4xl"
+                    >{{ p.emoji }}</span
+                  >
+                </div>
+                <div class="p-3">
+                  <p
+                    class="text-xs font-semibold text-ink line-clamp-2 leading-snug"
+                  >
+                    {{ p.name }}
+                  </p>
+                  <p class="text-sm font-black text-amber mt-1">
+                    {{ formatPrice(p.price) }}
+                  </p>
+                </div>
               </a>
             </div>
+          </div>
+        </main>
 
-            <!-- Gợi ý sản phẩm -->
-            <div class="no-print fu5 pt-4">
-              <div class="flex items-center gap-3 mb-5">
-                <div class="h-px w-8 bg-amber"></div>
-                <h2 class="text-xl font-bold text-ink">Có thể bạn sẽ thích</h2>
+        <!-- ── MODAL CHI TIẾT ĐƠN HÀNG ── -->
+        <div
+          v-if="showDetailModal"
+          class="modal-backdrop"
+          @click.self="showDetailModal=false"
+        >
+          <div class="modal-box">
+            <div
+              class="bg-ink text-white px-6 py-5 flex items-center justify-between rounded-t-[1.5rem]"
+            >
+              <h3 class="text-lg font-black">
+                Chi tiết đơn hàng #{{ order.id }}
+              </h3>
+              <button
+                @click="showDetailModal=false"
+                class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+              >
+                <svg
+                  class="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </div>
+            <div class="p-6 space-y-5">
+              <div class="flex items-center gap-3 p-4 rounded-2xl bg-amber/5">
+                <div
+                  class="w-10 h-10 rounded-full bg-amber flex items-center justify-center shrink-0"
+                >
+                  <svg
+                    class="w-5 h-5 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <p class="font-bold text-ink text-sm">Đang xử lý</p>
+                  <p class="text-xs text-muted">
+                    Đơn hàng đã được tiếp nhận và đang chờ xác nhận từ kho.
+                  </p>
+                </div>
               </div>
-              <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                <a
-                  v-for="p in suggestedProducts"
-                  :key="p.id"
-                  href="./chitiettruyen.html"
-                  class="product-card bg-white rounded-2xl border border-gray-100 overflow-hidden block"
+              <div class="grid sm:grid-cols-2 gap-3 text-sm">
+                <div class="bg-cream rounded-xl p-4 space-y-2">
+                  <p
+                    class="text-xs text-amber font-semibold uppercase tracking-wider"
+                  >
+                    Thông tin đơn
+                  </p>
+                  <p>
+                    <span class="text-muted">Mã đơn:</span>
+                    <strong class="font-mono text-amber">{{ order.id }}</strong>
+                  </p>
+                  <p>
+                    <span class="text-muted">Ngày đặt:</span>
+                    <strong>{{ order.date }}</strong>
+                  </p>
+                  <p>
+                    <span class="text-muted">Phương thức TT:</span>
+                    <strong>COD</strong>
+                  </p>
+                </div>
+                <div class="bg-cream rounded-xl p-4 space-y-2">
+                  <p
+                    class="text-xs text-amber font-semibold uppercase tracking-wider"
+                  >
+                    Giao hàng
+                  </p>
+                  <p>
+                    <span class="text-muted">Người nhận:</span>
+                    <strong>{{ currentUser?.name || "Khách" }}</strong>
+                  </p>
+                  <p>
+                    <span class="text-muted">SĐT:</span>
+                    <strong>{{ currentUser?.phone || 'Chưa cập nhật' }}</strong>
+                  </p>
+                  <p>
+                    <span class="text-muted">Dự kiến:</span>
+                    <strong>{{ order.estimatedDate }}</strong>
+                  </p>
+                </div>
+              </div>
+              <div class="rounded-xl border border-gray-200 overflow-hidden">
+                <div
+                  v-for="(item,i) in order.items"
+                  :key="i"
+                  class="flex items-center gap-3 px-4 py-3"
+                  :class="i<order.items.length-1?'border-b border-gray-100':''"
                 >
                   <div
-                    class="aspect-[3/4] bg-gray-100 flex items-center justify-center overflow-hidden"
+                    class="w-10 h-14 bg-gray-100 rounded-lg shrink-0 overflow-hidden flex items-center justify-center"
                   >
                     <img
-                      :src="p.image"
-                      :alt="p.name"
+                      v-if="item.image"
+                      :src="item.image.startsWith('images/')?'../'+item.image:item.image"
+                      :alt="item.name"
                       class="w-full h-full object-cover"
-                      onerror="
-                        this.style.display = 'none';
-                        this.nextElementSibling.style.display = 'flex';
-                      "
+                      onerror="this.style.display = 'none'"
                     />
-                    <span
-                      style="display: none"
-                      class="flex items-center justify-center w-full h-full text-4xl"
-                      >{{ p.emoji }}</span
-                    >
+                    <span v-else class="text-xl">📖</span>
                   </div>
-                  <div class="p-3">
-                    <p
-                      class="text-xs font-semibold text-ink line-clamp-2 leading-snug"
-                    >
-                      {{ p.name }}
+                  <div class="flex-1 min-w-0">
+                    <p class="text-sm font-semibold text-ink line-clamp-1">
+                      {{ item.name }}
                     </p>
-                    <p class="text-sm font-black text-amber mt-1">
-                      {{ formatPrice(p.price) }}
+                    <p class="text-xs text-muted">
+                      {{ item.category || 'Truyện tranh' }}
                     </p>
                   </div>
-                </a>
+                  <div class="text-right shrink-0">
+                    <p class="text-sm font-bold text-amber">
+                      {{ formatPrice(parsePrice(item.price)*item.qty) }}
+                    </p>
+                    <p class="text-xs text-muted">
+                      {{ formatPrice(parsePrice(item.price)) }} × {{ item.qty }}
+                    </p>
+                  </div>
+                </div>
               </div>
-            </div>
-          </main>
-
-          <!-- ── MODAL CHI TIẾT ĐƠN HÀNG ── -->
-          <div
-            v-if="showDetailModal"
-            class="modal-backdrop"
-            @click.self="showDetailModal=false"
-          >
-            <div class="modal-box">
-              <div
-                class="bg-ink text-white px-6 py-5 flex items-center justify-between rounded-t-[1.5rem]"
-              >
-                <h3 class="text-lg font-black">
-                  Chi tiết đơn hàng #{{ order.id }}
-                </h3>
+              <div class="bg-ink text-white rounded-2xl p-5 space-y-2 text-sm">
+                <div class="flex justify-between text-white/60">
+                  <span>Tạm tính</span
+                  ><span>{{ formatPrice(order.subtotal) }}</span>
+                </div>
+                <div
+                  v-if="order.discount>0"
+                  class="flex justify-between text-green-400"
+                >
+                  <span>Giảm giá</span
+                  ><span>-{{ formatPrice(order.discount) }}</span>
+                </div>
+                <div class="flex justify-between text-white/60">
+                  <span>Vận chuyển</span
+                  ><span
+                    >{{ order.shippingFee===0 ? 'Miễn phí' :
+                    formatPrice(order.shippingFee) }}</span
+                  >
+                </div>
+                <div
+                  class="border-t border-white/20 pt-2 flex justify-between items-center"
+                >
+                  <span class="font-bold">Tổng thanh toán</span>
+                  <span class="text-xl font-black text-amber"
+                    >{{ formatPrice(order.total) }}</span
+                  >
+                </div>
+              </div>
+              <div class="flex gap-3">
                 <button
-                  @click="showDetailModal=false"
-                  class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+                  @click="resendEmail();showDetailModal=false"
+                  class="flex-1 flex items-center justify-center gap-2 border-2 border-gray-200 hover:border-amber rounded-xl py-3 text-sm font-semibold text-ink hover:text-amber transition-all"
                 >
                   <svg
                     class="w-4 h-4"
@@ -1355,194 +1492,34 @@
                       stroke-linecap="round"
                       stroke-linejoin="round"
                       stroke-width="2"
-                      d="M6 18L18 6M6 6l12 12"
+                      d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
                     />
                   </svg>
+                  Gửi lại email
                 </button>
-              </div>
-              <div class="p-6 space-y-5">
-                <div class="flex items-center gap-3 p-4 rounded-2xl bg-amber/5">
-                  <div
-                    class="w-10 h-10 rounded-full bg-amber flex items-center justify-center shrink-0"
-                  >
-                    <svg
-                      class="w-5 h-5 text-white"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                      />
-                    </svg>
-                  </div>
-                  <div>
-                    <p class="font-bold text-ink text-sm">Đang xử lý</p>
-                    <p class="text-xs text-muted">
-                      Đơn hàng đã được tiếp nhận và đang chờ xác nhận từ kho.
-                    </p>
-                  </div>
-                </div>
-                <div class="grid sm:grid-cols-2 gap-3 text-sm">
-                  <div class="bg-cream rounded-xl p-4 space-y-2">
-                    <p
-                      class="text-xs text-amber font-semibold uppercase tracking-wider"
-                    >
-                      Thông tin đơn
-                    </p>
-                    <p>
-                      <span class="text-muted">Mã đơn:</span>
-                      <strong class="font-mono text-amber"
-                        >{{ order.id }}</strong
-                      >
-                    </p>
-                    <p>
-                      <span class="text-muted">Ngày đặt:</span>
-                      <strong>{{ order.date }}</strong>
-                    </p>
-                    <p>
-                      <span class="text-muted">Phương thức TT:</span>
-                      <strong>COD</strong>
-                    </p>
-                  </div>
-                  <div class="bg-cream rounded-xl p-4 space-y-2">
-                    <p
-                      class="text-xs text-amber font-semibold uppercase tracking-wider"
-                    >
-                      Giao hàng
-                    </p>
-                    <p>
-                      <span class="text-muted">Người nhận:</span>
-                      <strong>{{ currentUser?.name || "Khách" }}</strong>
-                    </p>
-                    <p>
-                      <span class="text-muted">SĐT:</span>
-                      <strong
-                        >{{ currentUser?.phone || "Chưa cập nhật" }}</strong
-                      >
-                    </p>
-                    <p>
-                      <span class="text-muted">Dự kiến:</span>
-                      <strong>{{ order.estimatedDate }}</strong>
-                    </p>
-                  </div>
-                </div>
-                <div class="rounded-xl border border-gray-200 overflow-hidden">
-                  <div
-                    v-for="(item,i) in order.items"
-                    :key="i"
-                    class="flex items-center gap-3 px-4 py-3"
-                    :class="i<order.items.length-1?'border-b border-gray-100':''"
-                  >
-                    <div
-                      class="w-10 h-14 bg-gray-100 rounded-lg shrink-0 overflow-hidden flex items-center justify-center"
-                    >
-                      <img
-                        v-if="item.image"
-                        :src="item.image.startsWith('images/')?'../'+item.image:item.image"
-                        :alt="item.name"
-                        class="w-full h-full object-cover"
-                        onerror="this.style.display = 'none'"
-                      />
-                      <span v-else class="text-xl">📖</span>
-                    </div>
-                    <div class="flex-1 min-w-0">
-                      <p class="text-sm font-semibold text-ink line-clamp-1">
-                        {{ item.name }}
-                      </p>
-                      <p class="text-xs text-muted">
-                        {{ item.category || 'Truyện tranh' }}
-                      </p>
-                    </div>
-                    <div class="text-right shrink-0">
-                      <p class="text-sm font-bold text-amber">
-                        {{ formatPrice(parsePrice(item.price)*item.qty) }}
-                      </p>
-                      <p class="text-xs text-muted">
-                        {{ formatPrice(parsePrice(item.price)) }} × {{ item.qty
-                        }}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="bg-ink text-white rounded-2xl p-5 space-y-2 text-sm"
+                <button
+                  @click="showDetailModal=false;printInvoice()"
+                  class="flex-1 flex items-center justify-center gap-2 bg-amber text-white rounded-xl py-3 text-sm font-semibold hover:bg-yellow-500 transition-all shadow-lg shadow-amber/20"
                 >
-                  <div class="flex justify-between text-white/60">
-                    <span>Tạm tính</span
-                    ><span>{{ formatPrice(order.subtotal) }}</span>
-                  </div>
-                  <div
-                    v-if="order.discount>0"
-                    class="flex justify-between text-green-400"
+                  <svg
+                    class="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
                   >
-                    <span>Giảm giá</span
-                    ><span>-{{ formatPrice(order.discount) }}</span>
-                  </div>
-                  <div class="flex justify-between text-white/60">
-                    <span>Vận chuyển</span
-                    ><span
-                      >{{ order.shippingFee===0?'Miễn
-                      phí':formatPrice(order.shippingFee) }}</span
-                    >
-                  </div>
-                  <div
-                    class="border-t border-white/20 pt-2 flex justify-between items-center"
-                  >
-                    <span class="font-bold">Tổng thanh toán</span>
-                    <span class="text-xl font-black text-amber"
-                      >{{ formatPrice(order.total) }}</span
-                    >
-                  </div>
-                </div>
-                <div class="flex gap-3">
-                  <button
-                    @click="resendEmail();showDetailModal=false"
-                    class="flex-1 flex items-center justify-center gap-2 border-2 border-gray-200 hover:border-amber rounded-xl py-3 text-sm font-semibold text-ink hover:text-amber transition-all"
-                  >
-                    <svg
-                      class="w-4 h-4"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                      />
-                    </svg>
-                    Gửi lại email
-                  </button>
-                  <button
-                    @click="showDetailModal=false;printInvoice()"
-                    class="flex-1 flex items-center justify-center gap-2 bg-amber text-white rounded-xl py-3 text-sm font-semibold hover:bg-yellow-500 transition-all shadow-lg shadow-amber/20"
-                  >
-                    <svg
-                      class="w-4 h-4"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"
-                      />
-                    </svg>
-                    In đơn hàng
-                  </button>
-                </div>
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"
+                    />
+                  </svg>
+                  In đơn hàng
+                </button>
               </div>
             </div>
           </div>
         </div>
-        <!-- end blur wrapper -->
       </div>
       <!-- end main content -->
 
@@ -1732,22 +1709,20 @@
             localStorage.getItem("daoTruyenUser") || "null",
           );
 
-          // ── Snapshot giỏ hàng NGAY LẬP TỨC (trước khi login xóa nó) ──
-          // Ưu tiên snapshot đã lưu (sessionStorage) để không mất sau khi đăng nhập
-          let cartSnapshot = JSON.parse(
-            sessionStorage.getItem("daoTruyenOrderSnapshot") || "null",
-          );
-          if (!cartSnapshot) {
-            cartSnapshot = JSON.parse(
+          // ── Snapshot giỏ hàng ngay khi vào trang (trước khi login có thể xóa) ──
+          let cartItems = [];
+          const _snap = sessionStorage.getItem("daoTruyenOrderSnapshot");
+          if (_snap) {
+            cartItems = JSON.parse(_snap);
+          } else {
+            cartItems = JSON.parse(
               localStorage.getItem("daoTruyenCart") || "[]",
             );
-            // Lưu snapshot vào sessionStorage để dùng lại sau khi đăng nhập
             sessionStorage.setItem(
               "daoTruyenOrderSnapshot",
-              JSON.stringify(cartSnapshot),
+              JSON.stringify(cartItems),
             );
           }
-          let cartItems = cartSnapshot;
 
           // ── Tính toán đơn hàng ──
           const subtotal = cartItems.reduce((s, item) => {
@@ -1868,7 +1843,6 @@
         },
 
         mounted() {
-          // Xóa giỏ hàng & snapshot sau khi đã hiển thị đơn
           if (this.currentUser) {
             localStorage.removeItem("daoTruyenCart");
             sessionStorage.removeItem("daoTruyenOrderSnapshot");
@@ -1947,7 +1921,6 @@
             this.showAuthModal = false;
             this.authLoading = false;
 
-            // Xóa giỏ hàng gốc (snapshot đã được giữ trong sessionStorage)
             localStorage.removeItem("daoTruyenCart");
             sessionStorage.removeItem("daoTruyenOrderSnapshot");
             this.showToast(
