@@ -1,0 +1,849 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Thanh toán — Đảo Truyện</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:i…@0,600;0,700;1,600&family=Lora:wght@400;500;600&display=swap" rel="stylesheet"/>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ["Playfair Display", "serif"],
+            body: ["Lora", "serif"],
+          },
+          colors: {
+            cream: "#faf7f2",
+            ink: "#1a1a1a",
+            amber: "#d97706",
+            muted: "#6b7280",
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: "Lora", serif; background-color: #faf7f2; color: #1a1a1a; }
+
+    /* Inputs */
+    .field-input {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1.5px solid #e5e0d8;
+      border-radius: 8px;
+      background: #fff;
+      font-family: "Lora", serif;
+      font-size: 14px;
+      color: #1a1a1a;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+    }
+    .field-input:focus {
+      border-color: #d97706;
+      box-shadow: 0 0 0 3px rgba(217,119,6,0.12);
+    }
+    .field-input::placeholder { color: #b0a899; }
+    textarea.field-input { resize: vertical; min-height: 80px; }
+
+    /* Radio payment cards */
+    .pay-card {
+      border: 1.5px solid #e5e0d8;
+      border-radius: 10px;
+      padding: 14px 16px;
+      background: #fff;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .pay-card:hover { border-color: #d97706; background: #fffbf5; }
+    .pay-card.selected {
+      border-color: #d97706;
+      background: #fffbf5;
+      box-shadow: 0 0 0 3px rgba(217,119,6,0.10);
+    }
+    .pay-radio {
+      width: 18px; height: 18px;
+      border: 2px solid #d97706;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .pay-radio-dot {
+      width: 9px; height: 9px;
+      background: #d97706;
+      border-radius: 50%;
+    }
+
+    /* Order summary item */
+    .summary-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid #ede8e0;
+    }
+    .summary-item:last-child { border-bottom: none; }
+
+    /* Breadcrumb */
+    .breadcrumb-step { display: flex; align-items: center; gap: 6px; font-size: 13px; }
+    .step-dot {
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 700;
+    }
+.step-active { background: #d97706; color: #fff; }
+    .step-done { background: #1a1a1a; color: #fff; }
+    .step-inactive { background: #e5e0d8; color: #6b7280; }
+    .step-line { width: 36px; height: 2px; background: #e5e0d8; }
+    .step-line.done { background: #1a1a1a; }
+
+    /* Submit button */
+    .btn-submit {
+      background: #1a1a1a;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 13px 28px;
+      font-family: "Lora", serif;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .btn-submit:hover { background: #d97706; transform: translateY(-1px); }
+
+    .btn-back {
+      background: transparent;
+      border: 1.5px solid #d0c9be;
+      color: #6b7280;
+      border-radius: 8px;
+      padding: 12px 20px;
+      font-family: "Lora", serif;
+      font-size: 14px;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+      display: flex; align-items: center; gap: 6px;
+      text-decoration: none;
+    }
+    .btn-back:hover { border-color: #1a1a1a; color: #1a1a1a; }
+
+    /* Nav dropdown */
+    .nav-dropdown:hover .dropdown-menu { display: block; }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #faf7f2; }
+    ::-webkit-scrollbar-thumb { background: #d0c9be; border-radius: 3px; }
+
+    /* Fade-in animation */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { animation: fadeUp 0.45s ease both; }
+    .delay-1 { animation-delay: 0.08s; }
+    .delay-2 { animation-delay: 0.16s; }
+
+    /* ── POPUP OVERLAY ── */
+    .popup-overlay {
+      position: fixed; inset: 0; z-index: 100;
+      background: rgba(26,26,26,0.55);
+      backdrop-filter: blur(3px);
+      display: flex; align-items: center; justify-content: center;
+      padding: 16px;
+    }
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.93) translateY(20px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .popup-box {
+      background: #fff;
+      border-radius: 20px;
+      width: 100%; max-width: 560px;
+      max-height: 90vh;
+      overflow-y: auto;
+      animation: popIn 0.3s cubic-bezier(0.34,1.56,0.64,1) both;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.18);
+    }
+    .popup-box::-webkit-scrollbar { width: 4px; }
+    .popup-box::-webkit-scrollbar-thumb { background: #e5e0d8; border-radius: 2px; }
+
+    .popup-header {
+      padding: 24px 24px 16px;
+      border-bottom: 1px solid #f0ebe3;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; background: #fff; z-index: 1;
+      border-radius: 20px 20px 0 0;
+    }
+    .popup-close {
+      width: 32px; height: 32px; border-radius: 50%;
+border: none; background: #f5f0e8; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      color: #6b7280; transition: background 0.2s, color 0.2s;
+    }
+    .popup-close:hover { background: #fde8c8; color: #d97706; }
+
+    .popup-section {
+      padding: 16px 24px;
+      border-bottom: 1px solid #f0ebe3;
+    }
+    .popup-section:last-child { border-bottom: none; }
+    .popup-label {
+      font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: #6b7280; margin-bottom: 10px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .popup-row {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      font-size: 13.5px; padding: 4px 0; gap: 8px;
+    }
+    .popup-row-label { color: #6b7280; flex-shrink: 0; }
+    .popup-row-value { font-weight: 500; color: #1a1a1a; text-align: right; }
+
+    .popup-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 0; border-bottom: 1px solid #f5f0e8;
+    }
+    .popup-item:last-child { border-bottom: none; }
+
+    .popup-footer {
+      padding: 16px 24px 24px;
+      display: flex; gap: 10px;
+    }
+    .popup-btn-confirm {
+      flex: 1; background: #1a1a1a; color: #fff;
+      border: none; border-radius: 10px; padding: 13px;
+      font-family: "Lora", serif; font-size: 14px; font-weight: 600;
+      cursor: pointer; transition: background 0.2s, transform 0.15s;
+      display: flex; align-items: center; justify-content: center; gap:6px;
+    }
+    .popup-btn-confirm:hover { background: #d97706; transform: translateY(-1px); }
+    .popup-btn-cancel {
+      flex: 0 0 auto; background: transparent;
+      border: 1.5px solid #e5e0d8; color: #6b7280;
+      border-radius: 10px; padding: 13px 18px;
+      font-family: "Lora", serif; font-size: 14px;
+      cursor: pointer; transition: border-color 0.2s, color 0.2s;
+    }
+    .popup-btn-cancel:hover { border-color: #1a1a1a; color: #1a1a1a; }
+
+    /* overlay fade transition */
+    .overlay-enter-active { transition: opacity 0.2s ease; }
+    .overlay-leave-active { transition: opacity 0.2s ease; }
+    .overlay-enter-from, .overlay-leave-to { opacity: 0; }
+    .overlay-enter-active .popup-box { animation: popIn 0.3s cubic-bezier(0.34,1.56,0.64,1) both; }
+    .overlay-leave-active .popup-box { animation: popIn 0.2s ease reverse both; }
+  </style>
+</head>
+<body>
+<div id="app">
+
+  <!-- ─── HEADER ─── -->
+  <header class="sticky top-0 z-50 bg-cream border-b border-gray-200 shadow-sm">
+
+    <!-- Top bar -->
+    <div class="bg-ink text-white text-xs py-1.5">
+      <div class="max-w-5xl mx-auto px-4 flex items-center justify-between">
+        <div class="flex gap-5">
+          <a href="tel:0981109909" class="flex items-center gap-1.5 hover:text-amber transition-colors">
+            <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+<path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
+            </svg>
+            0981109909
+          </a>
+          <a href="mailto:daotruyen@gmail.com" class="hidden sm:flex items-center gap-1.5 hover:text-amber transition-colors">
+            <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+              <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+            </svg>
+            daotruyen@gmail.com
+          </a>
+        </div>
+        <div class="flex items-center gap-2">
+          <a href="dangky.html" class="flex items-center gap-1 bg-amber/90 text-white rounded px-2.5 py-0.5 hover:bg-amber transition-colors">
+            <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"/>
+            </svg>
+            Đăng ký
+          </a>
+          <a href="dangnhap.html" class="flex items-center gap-1 border border-white/50 rounded px-2.5 py-0.5 hover:bg-white hover:text-ink transition-colors">
+            <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+            </svg>
+            Đăng nhập
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Logo -->
+    <div class="flex justify-center items-center py-2 border-b border-gray-100">
+      <a href="index.html" class="block">
+        <div class="font-display text-2xl font-bold text-ink tracking-wide">Đảo Truyện</div>
+      </a>
+    </div>
+
+    <!-- Nav -->
+    <nav class="max-w-5xl mx-auto px-4">
+      <div class="flex items-center justify-between">
+        <button @click="mobileOpen = !mobileOpen" class="md:hidden p-2 rounded hover:bg-gray-100 transition-colors">
+          <svg v-if="!mobileOpen" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+          <svg v-else class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+
+        <div :class="['w-full md:flex md:items-center', mobileOpen ? 'block' : 'hidden md:flex']">
+          <ul class="flex flex-col md:flex-row md:gap-6 py-2 md:py-0 text-sm font-medium">
+<li><a href="../index.html" class="block py-2 md:py-4 border-b-2 border-transparent hover:border-amber text-ink hover:text-amber transition-colors">Trang chủ</a></li>
+            <li><a href="gioithieu.html" class="block py-2 md:py-4 border-b-2 border-transparent hover:border-amber text-ink hover:text-amber transition-colors">Giới thiệu</a></li>
+            <li class="relative group">
+              <a href="theloai.html" class="flex items-center gap-1 py-2 md:py-4 border-b-2 border-transparent group-hover:border-amber text-ink group-hover:text-amber transition-colors">
+                Truyện tranh
+                <svg class="w-3.5 h-3.5 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </a>
+              <div class="hidden group-hover:block absolute left-0 top-full w-48 bg-white border border-gray-200 shadow-lg rounded-b z-40">
+                <a href="theloai.html?type=tinh-cam" class="block px-4 py-2.5 text-sm hover:bg-cream hover:text-amber transition-colors">Truyện tranh tình cảm</a>
+                <a href="theloai.html?type=shounen" class="block px-4 py-2.5 text-sm hover:bg-cream hover:text-amber transition-colors">Truyện tranh hành động</a>
+                <a href="theloai.html?type=trinh-tham" class="block px-4 py-2.5 text-sm hover:bg-cream hover:text-amber transition-colors">Truyện tranh trinh thám</a>
+                <a href="theloai.html?type=thieu-nhi" class="block px-4 py-2.5 text-sm hover:bg-cream hover:text-amber transition-colors">Truyện tranh thiếu nhi</a>
+              </div>
+            </li>
+            <li><a href="tranglienhe.html" class="block py-2 md:py-4 border-b-2 border-transparent hover:border-amber text-ink hover:text-amber transition-colors">Liên hệ</a></li>
+          </ul>
+        </div>
+
+        <a href="giohang.html" class="flex items-center gap-1.5 border border-ink rounded px-3 py-1.5 text-sm font-medium hover:bg-ink hover:text-white transition-colors shrink-0">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"/>
+          </svg>
+          Giỏ hàng
+          <span class="bg-amber text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">{{ cartCount }}</span>
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ─── BREADCRUMB STEPS ─── -->
+  <div class="bg-white border-b border-gray-100">
+    <div class="max-w-5xl mx-auto px-4 py-4 flex items-center gap-1 text-sm text-muted">
+<a href="giohang.html" class="hover:text-amber transition-colors">Giỏ hàng</a>
+      <svg class="w-4 h-4 text-gray-300 mx-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+      </svg>
+      <span class="text-amber font-semibold">Thanh toán</span>
+      <svg class="w-4 h-4 text-gray-300 mx-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+      </svg>
+      <span class="text-gray-300">Xác nhận đơn</span>
+    </div>
+  </div>
+
+  <!-- ─── MAIN ─── -->
+  <main class="max-w-5xl mx-auto px-4 py-10">
+    <div class="mb-8 fade-up">
+      <h1 class="font-display text-3xl font-bold text-ink">Thanh toán</h1>
+      <p class="text-muted text-sm mt-1">Vui lòng kiểm tra thông tin trước khi xác nhận đơn hàng.</p>
+    </div>
+
+    <div class="flex flex-col lg:flex-row gap-8 items-start">
+
+      <!-- ─── LEFT: FORM ─── -->
+      <div class="flex-1 fade-up delay-1">
+
+        <!-- Section: Thông tin đặt hàng -->
+        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 md:p-8 mb-6">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-8 h-8 rounded-full bg-ink text-white flex items-center justify-center text-sm font-bold">1</div>
+            <h2 class="font-display text-xl font-bold">Thông tin đặt hàng</h2>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-muted uppercase tracking-wider mb-1.5">Họ và tên đệm <span class="text-red-400">*</span></label>
+              <input type="text" v-model="form.firstName" class="field-input" placeholder="Họ và tên đệm"/>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-muted uppercase tracking-wider mb-1.5">Tên <span class="text-red-400">*</span></label>
+              <input type="text" v-model="form.lastName" class="field-input" placeholder="Tên"/>
+            </div>
+            <div class="sm:col-span-2">
+              <label class="block text-xs font-semibold text-muted uppercase tracking-wider mb-1.5">Email <span class="text-gray-300 font-normal normal-case">(Tuỳ chọn)</span></label>
+              <input type="email" v-model="form.email" class="field-input" placeholder="you@example.com"/>
+            </div>
+            <div class="sm:col-span-2">
+              <label class="block text-xs font-semibold text-muted uppercase tracking-wider mb-1.5">Địa chỉ giao hàng <span class="text-red-400">*</span></label>
+              <input type="text" v-model="form.address" class="field-input" placeholder="Số nhà, đường, phường/xã, quận/huyện, tỉnh/thành phố"/>
+            </div>
+            <div>
+<label class="block text-xs font-semibold text-muted uppercase tracking-wider mb-1.5">Số điện thoại <span class="text-red-400">*</span></label>
+              <input type="tel" v-model="form.phone" class="field-input" placeholder="0xxx xxx xxx"/>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-muted uppercase tracking-wider mb-1.5">Mã bưu điện <span class="text-gray-300 font-normal normal-case">(Tuỳ chọn)</span></label>
+              <input type="text" v-model="form.zip" class="field-input" placeholder="e.g. 70000"/>
+            </div>
+            <div class="sm:col-span-2">
+              <label class="block text-xs font-semibold text-muted uppercase tracking-wider mb-1.5">Ghi chú đơn hàng <span class="text-gray-300 font-normal normal-case">(Tuỳ chọn)</span></label>
+              <textarea v-model="form.note" class="field-input" placeholder="Ghi chú thêm cho người giao hàng (ví dụ: gọi trước khi giao)…"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section: Phương thức thanh toán -->
+        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 md:p-8">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-8 h-8 rounded-full bg-ink text-white flex items-center justify-center text-sm font-bold">2</div>
+            <h2 class="font-display text-xl font-bold">Phương thức thanh toán</h2>
+          </div>
+
+          <div class="space-y-3">
+            <!-- COD -->
+            <div :class="['pay-card', payment === 'cod' ? 'selected' : '']" @click="payment = 'cod'">
+              <div class="pay-radio">
+                <div v-if="payment === 'cod'" class="pay-radio-dot"></div>
+              </div>
+              <div class="w-10 h-10 rounded-lg bg-amber/10 flex items-center justify-center flex-shrink-0">
+                <svg class="w-5 h-5 text-amber" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z"/>
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clip-rule="evenodd"/>
+                </svg>
+              </div>
+              <div>
+                <div class="font-semibold text-sm text-ink">Thanh toán khi nhận hàng (COD)</div>
+<div class="text-xs text-muted mt-0.5">Trả tiền mặt khi nhận được hàng tại địa chỉ giao</div>
+              </div>
+            </div>
+
+            <!-- Bank transfer -->
+            <div :class="['pay-card', payment === 'bank' ? 'selected' : '']" @click="payment = 'bank'">
+              <div class="pay-radio">
+                <div v-if="payment === 'bank'" class="pay-radio-dot"></div>
+              </div>
+              <div class="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center flex-shrink-0">
+                <svg class="w-5 h-5 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z"/>
+                  <path fill-rule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" clip-rule="evenodd"/>
+                </svg>
+              </div>
+              <div>
+                <div class="font-semibold text-sm text-ink">Chuyển khoản ngân hàng</div>
+                <div class="text-xs text-muted mt-0.5">Chuyển khoản trực tiếp qua tài khoản ngân hàng</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bank info — hiện khi chọn chuyển khoản -->
+          <div v-if="payment === 'bank'" class="mt-4 p-4 bg-blue-50 rounded-xl border border-blue-100 text-sm space-y-1.5">
+            <div class="font-semibold text-ink mb-2 flex items-center gap-2">
+              <svg class="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+              </svg>
+              Thông tin chuyển khoản
+            </div>
+            <div class="grid grid-cols-2 gap-x-4 gap-y-1.5 text-sm">
+              <span class="text-muted">Ngân hàng:</span><span class="font-medium">Vietcombank</span>
+              <span class="text-muted">Số tài khoản:</span><span class="font-medium font-mono">1234 5678 9012</span>
+              <span class="text-muted">Chủ tài khoản:</span><span class="font-medium">ĐẢO TRUYỆN</span>
+              <span class="text-muted">Nội dung CK:</span><span class="font-medium text-amber">ĐT + [Số điện thoại]</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── RIGHT: ORDER SUMMARY ─── -->
+      <div class="w-full lg:w-80 xl:w-96 fade-up delay-2">
+        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 sticky top-[140px]">
+          <h2 class="font-display text-xl font-bold mb-5">Đơn hàng của bạn</h2>
+
+          <!-- Items -->
+          <div class="mb-4">
+            <div class="summary-item" v-for="item in cartItems" :key="item.id">
+              <div class="w-12 h-16 rounded-lg bg-cream border border-gray-100 overflow-hidden flex-shrink-0">
+<img v-if="item.image || item.img"
+                  :src="item.image || item.img"
+                  :alt="item.name"
+                  class="w-full h-full object-cover"
+                  @error="$event.target.style.display='none'"
+                />
+                <div v-else class="w-full h-full flex items-center justify-center text-muted text-xl">📖</div>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="text-sm font-medium text-ink line-clamp-2">{{ item.name }}</div>
+                <div class="text-xs text-muted mt-0.5">{{ item.category || '' }} · x{{ item.qty }}</div>
+              </div>
+              <div class="text-sm font-semibold text-ink whitespace-nowrap">{{ formatPrice(parsePrice(item.price) * item.qty) }}</div>
+            </div>
+
+            <!-- Empty state -->
+            <div v-if="cartItems.length === 0" class="py-8 text-center text-muted text-sm">
+              <div class="text-3xl mb-2">🛒</div>
+              Chưa có sản phẩm nào
+            </div>
+          </div>
+
+          <!-- Divider -->
+          <div class="border-t border-dashed border-gray-200 my-4"></div>
+
+          <!-- Totals -->
+          <div class="space-y-2.5 text-sm">
+            <div class="flex justify-between text-muted">
+              <span>Tạm tính ({{ cartCount }} sản phẩm)</span>
+              <span>{{ formatPrice(subtotal) }}</span>
+            </div>
+            <div class="flex justify-between text-muted">
+              <span>Phí vận chuyển</span>
+              <span :class="shippingFee === 0 ? 'text-green-600 font-medium' : ''">
+                {{ shippingFee === 0 ? 'Miễn phí' : formatPrice(shippingFee) }}
+              </span>
+            </div>
+            <div v-if="subtotal > 0 && subtotal < 100000" class="text-xs text-amber bg-amber/10 rounded-lg px-3 py-2">
+              Mua thêm <strong>{{ formatPrice(100000 - subtotal) }}</strong> để được miễn phí vận chuyển!
+            </div>
+          </div>
+
+          <div class="border-t border-gray-200 mt-4 pt-4 flex justify-between items-center">
+            <span class="font-display text-lg font-bold">Tổng cộng</span>
+            <span class="font-display text-lg font-bold text-amber">{{ formatPrice(subtotal + shippingFee) }}</span>
+          </div>
+
+          <!-- Actions -->
+          <div class="mt-6 space-y-3">
+            <button @click="submitOrder" class="btn-submit w-full justify-center">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+              </svg>
+              Xác nhận đặt hàng
+            </button>
+            <a href="giohang.html" class="btn-back w-full justify-center">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+              </svg>
+              Quay lại giỏ hàng
+            </a>
+          </div>
+
+          <!-- Trust badges -->
+          <div class="mt-5 pt-4 border-t border-gray-100 grid grid-cols-3 gap-2 text-center">
+            <div class="text-xs text-muted">
+              <div class="text-base mb-1">🔒</div>
+              Bảo mật
+            </div>
+            <div class="text-xs text-muted">
+              <div class="text-base mb-1">🚚</div>
+              Giao nhanh
+            </div>
+            <div class="text-xs text-muted">
+              <div class="text-base mb-1">↩️</div>
+              Đổi trả
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ─── POPUP: XEM LẠI ĐƠN HÀNG ─── -->
+  <transition name="overlay">
+    <div v-if="showPopup" class="popup-overlay" @click.self="showPopup = false">
+      <div class="popup-box">
+
+        <!-- Header -->
+        <div class="popup-header">
+          <div>
+            <div class="font-display text-lg font-bold text-ink">Xác nhận đơn hàng</div>
+            <div class="text-xs text-muted mt-0.5">Kiểm tra lại thông tin trước khi đặt</div>
+          </div>
+          <button class="popup-close" @click="showPopup = false">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Section 1: Thông tin giao hàng -->
+        <div class="popup-section">
+          <div class="popup-label">
+            <svg class="w-3.5 h-3.5 text-amber" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+            </svg>
+            Thông tin giao hàng
+          </div>
+          <div class="popup-row">
+            <span class="popup-row-label">Họ tên</span>
+            <span class="popup-row-value">{{ form.firstName }} {{ form.lastName }}</span>
+          </div>
+          <div class="popup-row">
+            <span class="popup-row-label">Số điện thoại</span>
+            <span class="popup-row-value">{{ form.phone }}</span>
+          </div>
+          <div class="popup-row" v-if="form.email">
+            <span class="popup-row-label">Email</span>
+            <span class="popup-row-value">{{ form.email }}</span>
+          </div>
+          <div class="popup-row">
+            <span class="popup-row-label">Địa chỉ</span>
+            <span class="popup-row-value" style="max-width:60%">{{ form.address }}</span>
+          </div>
+          <div class="popup-row" v-if="form.note">
+            <span class="popup-row-label">Ghi chú</span>
+<span class="popup-row-value" style="max-width:60%; color:#6b7280; font-style:italic">{{ form.note }}</span>
+          </div>
+        </div>
+
+        <!-- Section 2: Phương thức thanh toán -->
+        <div class="popup-section">
+          <div class="popup-label">
+            <svg class="w-3.5 h-3.5 text-amber" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z"/>
+              <path fill-rule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" clip-rule="evenodd"/>
+            </svg>
+            Phương thức thanh toán
+          </div>
+          <div class="flex items-center gap-2">
+            <div v-if="payment === 'cod'" class="flex items-center gap-2">
+              <div class="w-7 h-7 rounded-lg bg-amber/10 flex items-center justify-center">
+                <svg class="w-4 h-4 text-amber" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clip-rule="evenodd"/>
+                </svg>
+              </div>
+              <span class="text-sm font-medium text-ink">Thanh toán khi nhận hàng (COD)</span>
+            </div>
+            <div v-else class="flex items-center gap-2">
+              <div class="w-7 h-7 rounded-lg bg-blue-50 flex items-center justify-center">
+                <svg class="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z"/>
+                  <path fill-rule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" clip-rule="evenodd"/>
+                </svg>
+              </div>
+              <span class="text-sm font-medium text-ink">Chuyển khoản ngân hàng</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 3: Danh sách sản phẩm -->
+        <div class="popup-section">
+          <div class="popup-label">
+            <svg class="w-3.5 h-3.5 text-amber" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"/>
+            </svg>
+            Sản phẩm ({{ cartCount }})
+</div>
+          <div v-for="item in cartItems" :key="item.id" class="popup-item">
+            <div class="w-10 h-14 rounded-lg bg-cream border border-gray-100 overflow-hidden flex-shrink-0">
+              <img v-if="item.image || item.img"
+                :src="item.image || item.img" :alt="item.name"
+                class="w-full h-full object-cover"
+                @error="$event.target.style.display='none'"
+              />
+              <div v-else class="w-full h-full flex items-center justify-center text-base">📖</div>
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="text-sm font-medium text-ink line-clamp-1">{{ item.name }}</div>
+              <div class="text-xs text-muted mt-0.5">{{ item.category || '' }}</div>
+              <div class="text-xs text-muted">x{{ item.qty }} × {{ formatPrice(parsePrice(item.price)) }}</div>
+            </div>
+            <div class="text-sm font-semibold text-amber whitespace-nowrap">
+              {{ formatPrice(parsePrice(item.price) * item.qty) }}
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 4: Tổng tiền -->
+        <div class="popup-section" style="background: #faf7f2; border-radius: 0;">
+          <div class="popup-row">
+            <span class="popup-row-label">Tạm tính</span>
+            <span class="popup-row-value">{{ formatPrice(subtotal) }}</span>
+          </div>
+          <div class="popup-row">
+            <span class="popup-row-label">Phí vận chuyển</span>
+            <span class="popup-row-value" :style="shippingFee === 0 ? 'color:#16a34a' : ''">
+              {{ shippingFee === 0 ? 'Miễn phí' : formatPrice(shippingFee) }}
+            </span>
+          </div>
+          <div class="popup-row" style="margin-top: 10px; padding-top: 10px; border-top: 1px solid #e5e0d8;">
+            <span style="font-size:15px; font-weight:700; font-family:'Playfair Display',serif; color:#1a1a1a;">Tổng cộng</span>
+            <span style="font-size:18px; font-weight:800; font-family:'Playfair Display',serif; color:#d97706;">
+              {{ formatPrice(subtotal + shippingFee) }}
+            </span>
+          </div>
+        </div>
+
+        <!-- Footer buttons -->
+        <div class="popup-footer">
+          <button class="popup-btn-cancel" @click="showPopup = false">
+            Chỉnh sửa lại
+          </button>
+          <button class="popup-btn-confirm" @click="confirmOrder">
+            <svg class="w-4 h-4 mr-1.5" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+            </svg>
+            Đặt hàng ngay
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </transition>
+
+  <!-- ─── FOOTER ─── -->
+  <footer class="bg-ink text-white py-12 mt-10">
+<div class="max-w-5xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-10">
+      <div>
+        <h3 class="text-amber mb-4 font-semibold text-xs uppercase tracking-widest">Về chúng tôi</h3>
+        <ul class="space-y-2 text-white/60 text-sm">
+          <li><a href="#" class="hover:text-white transition-colors">Giới thiệu</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Liên hệ</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Hệ thống cửa hàng</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-amber mb-4 font-semibold text-xs uppercase tracking-widest">Hỗ trợ</h3>
+        <ul class="space-y-2 text-white/60 text-sm">
+          <li><a href="#" class="hover:text-white transition-colors">Chính sách vận chuyển</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Bảo hành</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Đổi trả & Hoàn tiền</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-amber mb-4 font-semibold text-xs uppercase tracking-widest">Dịch vụ</h3>
+        <ul class="space-y-2 text-white/60 text-sm">
+          <li><a href="#" class="hover:text-white transition-colors">Điều khoản sử dụng</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Chính sách bảo mật</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Bảo mật thanh toán</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-amber mb-4 font-semibold text-xs uppercase tracking-widest">Nhận thông tin</h3>
+        <form @submit.prevent="subscribeEmail" class="flex">
+          <input v-model="emailSubscribe" type="email" placeholder="Email của bạn"
+            class="flex-1 px-3 py-2 bg-white/10 border border-white/20 rounded-l-lg outline-none text-sm focus:bg-white/15 transition-colors"/>
+          <button type="submit" class="bg-amber text-black px-4 rounded-r-lg text-sm font-semibold hover:bg-yellow-500 transition-colors">Gửi</button>
+        </form>
+        <div class="mt-4 flex gap-3">
+          <a href="https://facebook.com" target="_blank" class="text-white/50 hover:text-white transition-colors">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          </a>
+          <a href="https://instagram.com" target="_blank" class="text-white/50 hover:text-white transition-colors">
+<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+          </a>
+          <a href="https://twitter.com" target="_blank" class="text-white/50 hover:text-white transition-colors">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="text-center text-white/30 text-xs mt-10">© 2026 Đảo Truyện — Mang truyện đến tay bạn</div>
+  </footer>
+
+</div><!-- /#app -->
+
+<script>
+const { createApp } = Vue;
+createApp({
+  data() {
+    return {
+      mobileOpen: false,
+      payment: 'cod',
+      emailSubscribe: '',
+      showPopup: false,
+      form: {
+        firstName: '', lastName: '', email: '',
+        address: '', phone: '', zip: '', note: ''
+      },
+      // Load giỏ hàng từ localStorage — đồng bộ với giohang.html
+      cartItems: (() => {
+        try {
+          const items = JSON.parse(localStorage.getItem('daoTruyenCart') || '[]');
+          return items.map(item => {
+            let img = item.image || item.img || '';
+            // Giohang.html strip mất ../ khi lưu, cần restore lại
+            // Nếu path bắt đầu bằng images/ hoặc assets/ → thêm ../
+            if (img && !img.startsWith('http') && !img.startsWith('../') && !img.startsWith('/')) {
+              img = '../' + img;
+            }
+            return { ...item, image: img };
+          });
+        } catch(e) { return []; }
+      })()
+    };
+  },
+  computed: {
+    cartCount() {
+      return this.cartItems.reduce((s, i) => s + i.qty, 0);
+    },
+    subtotal() {
+      return this.cartItems.reduce((s, i) => s + this.parsePrice(i.price) * i.qty, 0);
+    },
+    shippingFee() {
+      if (this.cartItems.length === 0 || this.subtotal >= 100000) return 0;
+      return 20000;
+    }
+  },
+  methods: {
+    formatPrice(val) {
+      if (typeof val === 'string' && isNaN(val)) return val;
+return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(val);
+    },
+    parsePrice(val) {
+      if (typeof val === 'number') return val;
+      return parseFloat(String(val).replace(/[^\d]/g, '')) || 0;
+    },
+    submitOrder() {
+      const { firstName, lastName, address, phone } = this.form;
+      if (!firstName || !lastName || !address || !phone) {
+        alert('Vui lòng điền đầy đủ các trường bắt buộc (*).');
+        return;
+      }
+      this.showPopup = true;
+    },
+    confirmOrder() {
+      this.showPopup = false;
+      window.location.href = 'hoadon.html';
+    },
+    subscribeEmail() {
+      alert(`Đăng ký thành công: ${this.emailSubscribe}`);
+      this.emailSubscribe = '';
+    }
+  },
+  mounted() {
+    const fixImgPath = (items) => items.map(item => {
+      let img = item.image || item.img || '';
+      if (img && !img.startsWith('http') && !img.startsWith('../') && !img.startsWith('/')) {
+        img = '../' + img;
+      }
+      return { ...item, image: img };
+    });
+
+    window.addEventListener('storage', (e) => {
+      if (e.key === 'daoTruyenCart') {
+        try { this.cartItems = fixImgPath(JSON.parse(e.newValue || '[]')); } catch(e) {}
+      }
+    });
+    window.addEventListener('focus', () => {
+      try {
+        this.cartItems = fixImgPath(JSON.parse(localStorage.getItem('daoTruyenCart') || '[]'));
+      } catch(e) {}
+    });
+  }
+}).mount('#app');
+</script>
+</body>
+</html>
