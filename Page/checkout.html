@@ -1,38 +1,49 @@
 <!doctype html>
+<!-- ═══════════════════════════════════════════ TRANG THANH TOÁN — Đảo Truyện ═══════════════════════════════════════════
+     Trang thanh toán đa bước: nhập thông tin khách hàng → chọn phương thức thanh toán → xác nhận đơn hàng.
+     Sử dụng Vue 3 để quản lý trạng thái, Tailwind CSS cho giao diện, localStorage để đồng bộ giỏ hàng.
+-->
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Thanh toán — Đảo Truyện</title>
 
+  <!-- ═══════════════════════════════════════════ THƯ VIỆN CSS & JS — Khởi tạo các thư viện bên ngoài ═══════════════════════════════════════════ -->
+  <!-- Tailwind CSS — Framework CSS tiện ích, dùng để xây dựng giao diện nhanh chóng -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Vue 3 — Framework JavaScript phản ứng để quản lý trạng thái và render giao diện -->
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <!-- Google Fonts — Font chữ Playfair Display (tiêu đề) và Lora (nội dung) -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:i…@0,600;0,700;1,600&family=Lora:wght@400;500;600&display=swap" rel="stylesheet"/>
 
+  <!-- ═══════════════════════════════════════════ CẤU HÌNH TAILWIND — Mở rộng theme với font và màu sắc tùy chỉnh ═══════════════════════════════════════════ -->
   <script>
     tailwind.config = {
       theme: {
         extend: {
           fontFamily: {
-            display: ["Playfair Display", "serif"],
-            body: ["Lora", "serif"],
+            display: ["Playfair Display", "serif"],  // Font cho tiêu đề trang
+            body: ["Lora", "serif"],                   // Font cho nội dung chính
           },
           colors: {
-            cream: "#faf7f2",
-            ink: "#1a1a1a",
-            amber: "#d97706",
-            muted: "#6b7280",
+            cream: "#faf7f2",   // Màu nền kem — nền chính của trang
+            ink: "#1a1a1a",     // Màu mực đen — văn bản chính, nút bấm
+            amber: "#d97706",   // Màu hổ phách — điểm nhấn, nút CTA, hover
+            muted: "#6b7280",   // Màu xám — văn bản phụ, placeholder
           },
         },
       },
     };
   </script>
 
+  <!-- ═══════════════════════════════════════════ STYLE TÙY CHỈNH — CSS riêng cho trang thanh toán ═══════════════════════════════════════════ -->
   <style>
+    /* ── Reset & Base — Thiết lập cơ bản cho toàn trang ── */
     * { box-sizing: border-box; }
     body { font-family: "Lora", serif; background-color: #faf7f2; color: #1a1a1a; }
 
-    /* Inputs */
+    /* ── Inputs — Ô nhập liệu cho form thông tin khách hàng ── */
     .field-input {
       width: 100%;
       padding: 10px 14px;
@@ -52,7 +63,7 @@
     .field-input::placeholder { color: #b0a899; }
     textarea.field-input { resize: vertical; min-height: 80px; }
 
-    /* Radio payment cards */
+    /* ── Radio payment cards — Thẻ chọn phương thức thanh toán (COD / Chuyển khoản) ── */
     .pay-card {
       border: 1.5px solid #e5e0d8;
       border-radius: 10px;
@@ -83,7 +94,7 @@
       border-radius: 50%;
     }
 
-    /* Order summary item */
+    /* ── Order summary item — Mỗi dòng sản phẩm trong tóm tắt đơn hàng ── */
     .summary-item {
       display: flex;
       align-items: center;
@@ -93,7 +104,7 @@
     }
     .summary-item:last-child { border-bottom: none; }
 
-    /* Breadcrumb */
+    /* ── Breadcrumb — Breadcrumb điều hướng các bước thanh toán ── */
     .breadcrumb-step { display: flex; align-items: center; gap: 6px; font-size: 13px; }
     .step-dot {
       width: 24px; height: 24px;
@@ -107,7 +118,7 @@
     .step-line { width: 36px; height: 2px; background: #e5e0d8; }
     .step-line.done { background: #1a1a1a; }
 
-    /* Submit button */
+    /* ── Submit button — Nút xác nhận đặt hàng ── */
     .btn-submit {
       background: #1a1a1a;
       color: #fff;
@@ -123,6 +134,7 @@
     }
     .btn-submit:hover { background: #d97706; transform: translateY(-1px); }
 
+    /* ── Back button — Nút quay lại giỏ hàng ── */
     .btn-back {
       background: transparent;
       border: 1.5px solid #d0c9be;
@@ -138,15 +150,15 @@
     }
     .btn-back:hover { border-color: #1a1a1a; color: #1a1a1a; }
 
-    /* Nav dropdown */
+    /* ── Nav dropdown — Hiệu ứng dropdown cho menu điều hướng ── */
     .nav-dropdown:hover .dropdown-menu { display: block; }
 
-    /* Scrollbar */
+    /* ── Scrollbar — Thanh cuộn tùy chỉnh cho popup ── */
     ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: #faf7f2; }
     ::-webkit-scrollbar-thumb { background: #d0c9be; border-radius: 3px; }
 
-    /* Fade-in animation */
+    /* ── Fade-in animation — Hiệu ứng xuất hiện mượt mà khi tải trang ── */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(16px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -155,7 +167,7 @@
     .delay-1 { animation-delay: 0.08s; }
     .delay-2 { animation-delay: 0.16s; }
 
-    /* ── POPUP OVERLAY ── */
+    /* ═══════════════════════════════════════════ POPUP OVERLAY — Lớp phủ và hộp thoại xác nhận đơn hàng ═══════════════════════════════════════════ */
     .popup-overlay {
       position: fixed; inset: 0; z-index: 100;
       background: rgba(26,26,26,0.55);
@@ -163,10 +175,12 @@
       display: flex; align-items: center; justify-content: center;
       padding: 16px;
     }
+    /* ── Popup animation — Hiệu ứng pop-in cho hộp thoại ── */
     @keyframes popIn {
       from { opacity: 0; transform: scale(0.93) translateY(20px); }
       to   { opacity: 1; transform: scale(1) translateY(0); }
     }
+    /* ── Popup box — Hộp thoại chính chứa nội dung xác nhận ── */
     .popup-box {
       background: #fff;
       border-radius: 20px;
@@ -179,6 +193,7 @@
     .popup-box::-webkit-scrollbar { width: 4px; }
     .popup-box::-webkit-scrollbar-thumb { background: #e5e0d8; border-radius: 2px; }
 
+    /* ── Popup header — Tiêu đề và nút đóng của popup ── */
     .popup-header {
       padding: 24px 24px 16px;
       border-bottom: 1px solid #f0ebe3;
@@ -186,6 +201,7 @@
       position: sticky; top: 0; background: #fff; z-index: 1;
       border-radius: 20px 20px 0 0;
     }
+    /* ── Popup close button — Nút đóng popup ── */
     .popup-close {
       width: 32px; height: 32px; border-radius: 50%;
 border: none; background: #f5f0e8; cursor: pointer;
@@ -194,17 +210,20 @@ border: none; background: #f5f0e8; cursor: pointer;
     }
     .popup-close:hover { background: #fde8c8; color: #d97706; }
 
+    /* ── Popup section — Mỗi phần thông tin trong popup ── */
     .popup-section {
       padding: 16px 24px;
       border-bottom: 1px solid #f0ebe3;
     }
     .popup-section:last-child { border-bottom: none; }
+    /* ── Popup label — Nhãn tiêu đề mỗi phần trong popup ── */
     .popup-label {
       font-size: 10px; font-weight: 700;
       text-transform: uppercase; letter-spacing: 0.08em;
       color: #6b7280; margin-bottom: 10px;
       display: flex; align-items: center; gap: 6px;
     }
+    /* ── Popup row — Dòng hiển thị cặp nhãn-giá trị trong popup ── */
     .popup-row {
       display: flex; justify-content: space-between; align-items: flex-start;
       font-size: 13.5px; padding: 4px 0; gap: 8px;
@@ -212,16 +231,19 @@ border: none; background: #f5f0e8; cursor: pointer;
     .popup-row-label { color: #6b7280; flex-shrink: 0; }
     .popup-row-value { font-weight: 500; color: #1a1a1a; text-align: right; }
 
+    /* ── Popup item — Mỗi dòng sản phẩm trong popup ── */
     .popup-item {
       display: flex; align-items: center; gap: 10px;
       padding: 8px 0; border-bottom: 1px solid #f5f0e8;
     }
     .popup-item:last-child { border-bottom: none; }
 
+    /* ── Popup footer — Chứa nút chỉnh sửa và xác nhận đặt hàng ── */
     .popup-footer {
       padding: 16px 24px 24px;
       display: flex; gap: 10px;
     }
+    /* ── Popup confirm button — Nút xác nhận đặt hàng trong popup ── */
     .popup-btn-confirm {
       flex: 1; background: #1a1a1a; color: #fff;
       border: none; border-radius: 10px; padding: 13px;
@@ -230,6 +252,7 @@ border: none; background: #f5f0e8; cursor: pointer;
       display: flex; align-items: center; justify-content: center; gap:6px;
     }
     .popup-btn-confirm:hover { background: #d97706; transform: translateY(-1px); }
+    /* ── Popup cancel button — Nút chỉnh sửa lại thông tin trong popup ── */
     .popup-btn-cancel {
       flex: 0 0 auto; background: transparent;
       border: 1.5px solid #e5e0d8; color: #6b7280;
@@ -239,7 +262,7 @@ border: none; background: #f5f0e8; cursor: pointer;
     }
     .popup-btn-cancel:hover { border-color: #1a1a1a; color: #1a1a1a; }
 
-    /* overlay fade transition */
+    /* ── Overlay transition — Hiệu ứng chuyển cảnh mở/đóng popup ── */
     .overlay-enter-active { transition: opacity 0.2s ease; }
     .overlay-leave-active { transition: opacity 0.2s ease; }
     .overlay-enter-from, .overlay-leave-to { opacity: 0; }
@@ -262,10 +285,10 @@ border: none; background: #f5f0e8; cursor: pointer;
 <body>
 <div id="app">
 
-  <!-- ─── HEADER ─── -->
+  <!-- ═══════════════════════════════════════════ HEADER — Thanh điều hướng cố định trên cùng ═══════════════════════════════════════════ -->
   <header class="sticky top-0 z-50 bg-cream border-b border-gray-200 shadow-sm">
 
-    <!-- Top bar -->
+    <!-- ── Top bar — Thanh thông tin liên hệ và nút đăng ký/đăng nhập ── -->
     <div class="bg-ink text-white text-xs py-1.5">
       <div class="max-w-5xl mx-auto px-4 flex items-center justify-between">
         <div class="flex gap-5">
@@ -300,7 +323,7 @@ border: none; background: #f5f0e8; cursor: pointer;
       </div>
     </div>
 
-    <!-- Logo -->
+    <!-- ── Logo — Logo cửa hàng Đảo Truyện ── -->
     <div class="flex justify-center items-center py-2 border-b border-gray-100">
       <a href="index.html" class="block">
             <img
@@ -311,7 +334,7 @@ border: none; background: #f5f0e8; cursor: pointer;
           </a>
     </div>
 
-    <!-- Nav -->
+    <!-- ── Nav — Menu điều hướng chính (responsive, có dropdown thể loại) ── -->
     <nav class="max-w-5xl mx-auto px-4">
       <div class="flex items-center justify-between">
         <button @click="mobileOpen = !mobileOpen" class="md:hidden p-2 rounded hover:bg-gray-100 transition-colors">
@@ -356,7 +379,7 @@ border: none; background: #f5f0e8; cursor: pointer;
     </nav>
   </header>
 
-  <!-- ─── BREADCRUMB STEPS ─── -->
+  <!-- ═══════════════════════════════════════════ BREADCRUMB — Điều hướng các bước: Giỏ hàng → Thanh toán → Xác nhận ═══════════════════════════════════════════ -->
   <div class="bg-white border-b border-gray-100">
     <div class="max-w-5xl mx-auto px-4 py-4 flex items-center gap-1 text-sm text-muted">
 <a href="giohang.html" class="hover:text-amber transition-colors">Giỏ hàng</a>
@@ -371,7 +394,7 @@ border: none; background: #f5f0e8; cursor: pointer;
     </div>
   </div>
 
-  <!-- ─── MAIN ─── -->
+  <!-- ═══════════════════════════════════════════ MAIN — Nội dung chính: form thanh toán + tóm tắt đơn hàng ═══════════════════════════════════════════ -->
   <main class="max-w-5xl mx-auto px-4 py-10">
     <div class="mb-8 fade-up">
       <h1 class="font-display text-3xl font-bold text-ink">Thanh toán</h1>
@@ -380,10 +403,10 @@ border: none; background: #f5f0e8; cursor: pointer;
 
     <div class="flex flex-col lg:flex-row gap-8 items-start">
 
-      <!-- ─── LEFT: FORM ─── -->
+      <!-- ═══════════════════════════════════════════ CỘT TRÁI — Form nhập thông tin khách hàng và chọn thanh toán ═══════════════════════════════════════════ -->
       <div class="flex-1 fade-up delay-1">
 
-        <!-- Section: Thông tin đặt hàng -->
+        <!-- ── Bước 1: Thông tin đặt hàng — Form nhập họ tên, email, địa chỉ, SĐT, ghi chú ── -->
         <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 md:p-8 mb-6">
           <div class="flex items-center gap-3 mb-6">
             <div class="w-8 h-8 rounded-full bg-ink text-white flex items-center justify-center text-sm font-bold">1</div>
@@ -430,7 +453,7 @@ border: none; background: #f5f0e8; cursor: pointer;
           </div>
         </div>
 
-        <!-- Section: Phương thức thanh toán -->
+        <!-- ── Bước 2: Phương thức thanh toán — Chọn COD hoặc chuyển khoản ngân hàng ── -->
         <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 md:p-8">
           <div class="flex items-center gap-3 mb-6">
             <div class="w-8 h-8 rounded-full bg-ink text-white flex items-center justify-center text-sm font-bold">2</div>
@@ -438,7 +461,7 @@ border: none; background: #f5f0e8; cursor: pointer;
           </div>
 
           <div class="space-y-3">
-            <!-- COD -->
+            <!-- ── COD — Thanh toán tiền mặt khi nhận hàng ── -->
             <div :class="['pay-card', payment === 'cod' ? 'selected' : '']" @click="payment = 'cod'">
               <div class="pay-radio">
                 <div v-if="payment === 'cod'" class="pay-radio-dot"></div>
@@ -455,7 +478,7 @@ border: none; background: #f5f0e8; cursor: pointer;
               </div>
             </div>
 
-            <!-- Bank transfer -->
+            <!-- ── Bank transfer — Chuyển khoản ngân hàng ── -->
             <div :class="['pay-card', payment === 'bank' ? 'selected' : '']" @click="payment = 'bank'">
               <div class="pay-radio">
                 <div v-if="payment === 'bank'" class="pay-radio-dot"></div>
@@ -473,7 +496,7 @@ border: none; background: #f5f0e8; cursor: pointer;
             </div>
           </div>
 
-          <!-- Bank info — hiện khi chọn chuyển khoản -->
+          <!-- ── Bank info — Hiển thị thông tin tài khoản ngân hàng khi chọn chuyển khoản ── -->
           <div v-if="payment === 'bank'" class="mt-4 p-4 bg-blue-50 rounded-xl border border-blue-100 text-sm space-y-1.5">
             <div class="font-semibold text-ink mb-2 flex items-center gap-2">
               <svg class="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
@@ -491,12 +514,12 @@ border: none; background: #f5f0e8; cursor: pointer;
         </div>
       </div>
 
-      <!-- ─── RIGHT: ORDER SUMMARY ─── -->
+      <!-- ═══════════════════════════════════════════ CỘT PHẢI — Tóm tắt đơn hàng, tổng tiền, nút đặt hàng ═══════════════════════════════════════════ -->
       <div class="w-full lg:w-80 xl:w-96 fade-up delay-2">
         <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 sticky top-[140px]">
           <h2 class="font-display text-xl font-bold mb-5">Đơn hàng của bạn</h2>
 
-          <!-- Items -->
+          <!-- ── Items — Danh sách sản phẩm trong giỏ hàng ── -->
           <div class="mb-4">
             <div class="summary-item" v-for="item in cartItems" :key="item.id">
               <div class="w-12 h-16 rounded-lg bg-cream border border-gray-100 overflow-hidden flex-shrink-0">
@@ -515,17 +538,17 @@ border: none; background: #f5f0e8; cursor: pointer;
               <div class="text-sm font-semibold text-ink whitespace-nowrap">{{ formatPrice(parsePrice(item.price) * item.qty) }}</div>
             </div>
 
-            <!-- Empty state -->
+            <!-- ── Empty state — Hiển thị khi giỏ hàng trống ── -->
             <div v-if="cartItems.length === 0" class="py-8 text-center text-muted text-sm">
               <div class="text-3xl mb-2">🛒</div>
               Chưa có sản phẩm nào
             </div>
           </div>
 
-          <!-- Divider -->
+          <!-- ── Divider — Đường kẻ ngăn cách danh sách sản phẩm và tổng tiền ── -->
           <div class="border-t border-dashed border-gray-200 my-4"></div>
 
-          <!-- Totals -->
+          <!-- ── Totals — Tóm tắt tiền: tạm tính, phí vận chuyển, gợi ý miễn phí ── -->
           <div class="space-y-2.5 text-sm">
             <div class="flex justify-between text-muted">
               <span>Tạm tính ({{ cartCount }} sản phẩm)</span>
@@ -547,7 +570,7 @@ border: none; background: #f5f0e8; cursor: pointer;
             <span class="font-display text-lg font-bold text-amber">{{ formatPrice(subtotal + shippingFee) }}</span>
           </div>
 
-          <!-- Actions -->
+          <!-- ── Actions — Nút xác nhận đặt hàng và quay lại giỏ hàng ── -->
           <div class="mt-6 space-y-3">
             <button @click="submitOrder" class="btn-submit w-full justify-center">
               <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
@@ -563,7 +586,7 @@ border: none; background: #f5f0e8; cursor: pointer;
             </a>
           </div>
 
-          <!-- Trust badges -->
+          <!-- ── Trust badges — Các nhãn tin cậy: bảo mật, giao nhanh, đổi trả ── -->
           <div class="mt-5 pt-4 border-t border-gray-100 grid grid-cols-3 gap-2 text-center">
             <div class="text-xs text-muted">
               <div class="text-base mb-1">🔒</div>
@@ -584,12 +607,12 @@ border: none; background: #f5f0e8; cursor: pointer;
     </div>
   </main>
 
-  <!-- ─── POPUP: XEM LẠI ĐƠN HÀNG ─── -->
+  <!-- ═══════════════════════════════════════════ POPUP XÁC NHẬN ĐƠN HÀNG — Hiển thị lại toàn bộ thông tin trước khi đặt ═══════════════════════════════════════════ -->
   <transition name="overlay">
     <div v-if="showPopup" class="popup-overlay" @click.self="showPopup = false">
       <div class="popup-box">
 
-        <!-- Header -->
+        <!-- ── Popup header — Tiêu đề và nút đóng popup ── -->
         <div class="popup-header">
           <div>
             <div class="font-display text-lg font-bold text-ink">Xác nhận đơn hàng</div>
@@ -602,7 +625,7 @@ border: none; background: #f5f0e8; cursor: pointer;
           </button>
         </div>
 
-        <!-- Section 1: Thông tin giao hàng -->
+        <!-- ── Popup Section 1: Thông tin giao hàng — Hiển thị họ tên, SĐT, email, địa chỉ, ghi chú ── -->
         <div class="popup-section">
           <div class="popup-label">
             <svg class="w-3.5 h-3.5 text-amber" fill="currentColor" viewBox="0 0 20 20">
@@ -632,7 +655,7 @@ border: none; background: #f5f0e8; cursor: pointer;
           </div>
         </div>
 
-        <!-- Section 2: Phương thức thanh toán -->
+        <!-- ── Popup Section 2: Phương thức thanh toán — Hiển thị COD hoặc chuyển khoản ── -->
         <div class="popup-section">
           <div class="popup-label">
             <svg class="w-3.5 h-3.5 text-amber" fill="currentColor" viewBox="0 0 20 20">
@@ -662,7 +685,7 @@ border: none; background: #f5f0e8; cursor: pointer;
           </div>
         </div>
 
-        <!-- Section 3: Danh sách sản phẩm -->
+        <!-- ── Popup Section 3: Danh sách sản phẩm — Hiển thị từng sản phẩm trong đơn hàng ── -->
         <div class="popup-section">
           <div class="popup-label">
             <svg class="w-3.5 h-3.5 text-amber" fill="currentColor" viewBox="0 0 20 20">
@@ -690,7 +713,7 @@ border: none; background: #f5f0e8; cursor: pointer;
           </div>
         </div>
 
-        <!-- Section 4: Tổng tiền -->
+        <!-- ── Popup Section 4: Tổng tiền — Tạm tính + phí vận chuyển + tổng cộng ── -->
         <div class="popup-section" style="background: #faf7f2; border-radius: 0;">
           <div class="popup-row">
             <span class="popup-row-label">Tạm tính</span>
@@ -710,7 +733,7 @@ border: none; background: #f5f0e8; cursor: pointer;
           </div>
         </div>
 
-        <!-- Footer buttons -->
+        <!-- ── Popup footer — Nút chỉnh sửa lại và đặt hàng ngay ── -->
         <div class="popup-footer">
           <button class="popup-btn-cancel" @click="showPopup = false">
             Chỉnh sửa lại
@@ -727,7 +750,7 @@ border: none; background: #f5f0e8; cursor: pointer;
     </div>
   </transition>
 
-  <!-- ─── FOOTER ─── -->
+  <!-- ═══════════════════════════════════════════ FOOTER — Chân trang: thông tin cửa hàng, liên kết, đăng ký email ═══════════════════════════════════════════ -->
   <footer class="bg-ink text-white py-12 mt-10">
 <div class="max-w-5xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-10">
       <div>
@@ -780,23 +803,29 @@ border: none; background: #f5f0e8; cursor: pointer;
 </div><!-- /#app -->
 
 <script>
+// ═══════════════════════════════════════════ VUE.JS APP — Ứng dụng Vue 3 quản lý toàn bộ logic trang thanh toán ═══════════════════════════════════════════
 const { createApp } = Vue;
 createApp({
+
+  // ═══════════════════════════════════════════ data() — Khởi tạo dữ liệu phản ứng cho component ═══════════════════════════════════════════
   data() {
     return {
       mobileOpen: false,
       payment: 'cod',
       emailSubscribe: '',
       showPopup: false,
-      errors: {
-        email: '',
-        phone: ''
-      },
       form: {
-        firstName: '', lastName: '', email: '',
-        address: '', phone: '', zip: '', note: ''
+        firstName: '',          // Họ và tên đệm — trường bắt buộc
+        lastName: '',           // Tên — trường bắt buộc
+        email: '',              // Email — trường tuỳ chọn
+        address: '',            // Địa chỉ giao hàng — trường bắt buộc
+        phone: '',              // Số điện thoại — trường bắt buộc
+        zip: '',                // Mã bưu điện — trường tuỳ chọn
+        note: '',               // Ghi chú đơn hàng — trường tuỳ chọn
       },
-      // Load giỏ hàng từ localStorage — đồng bộ với giohang.html
+      // ── cartItems — Danh sách sản phẩm trong giỏ hàng, load từ localStorage ──
+      // Đồng bộ với giohang.html qua key 'daoTruyenCart'
+      // Sửa đường dẫn ảnh: giohang.html strip mất '../' khi lưu, cần restore lại
       cartItems: (() => {
         try {
           const items = JSON.parse(localStorage.getItem('daoTruyenCart') || '[]');
@@ -813,27 +842,46 @@ createApp({
       })()
     };
   },
+
+  // ═══════════════════════════════════════════ computed — Các thuộc tính tính toán tự động ═══════════════════════════════════════════
   computed: {
+    // ── cartCount — Tổng số lượng sản phẩm trong giỏ hàng ──
     cartCount() {
       return this.cartItems.reduce((s, i) => s + i.qty, 0);
     },
+    // ── subtotal — Tổng tiền tạm tính (chưa gồm phí vận chuyển) ──
     subtotal() {
       return this.cartItems.reduce((s, i) => s + this.parsePrice(i.price) * i.qty, 0);
     },
+    // ── shippingFee — Phí vận chuyển: miễn phí nếu đơn ≥ 100.000đ, ngược lại 20.000đ ──
     shippingFee() {
       if (this.cartItems.length === 0 || this.subtotal >= 100000) return 0;
       return 20000;
     }
   },
+
+  // ═══════════════════════════════════════════ methods — Các phương thức xử lý sự kiện và logic nghiệp vụ ═══════════════════════════════════════════
   methods: {
+    // ─────────────────────────────────────────
+    // formatPrice — Định dạng số tiền theo chuẩn Việt Nam (VND)
+    //   Ví dụ: 150000 → "150.000 ₫"
+    // ─────────────────────────────────────────
     formatPrice(val) {
       if (typeof val === 'string' && isNaN(val)) return val;
 return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(val);
     },
+    // ─────────────────────────────────────────
+    // parsePrice — Chuyển chuỗi giá tiền thành số
+    //   Loại bỏ tất cả ký tự không phải số, trả về giá trị số nguyên
+    // ─────────────────────────────────────────
     parsePrice(val) {
       if (typeof val === 'number') return val;
       return parseFloat(String(val).replace(/[^\d]/g, '')) || 0;
     },
+    // ─────────────────────────────────────────
+    // submitOrder — Kiểm tra form hợp lệ rồi mở popup xác nhận
+    //   Các trường bắt buộc: firstName, lastName, address, phone
+    // ─────────────────────────────────────────
     submitOrder() {
       const { firstName, lastName, address, phone, email } = this.form;
       // Reset lỗi
@@ -866,27 +914,23 @@ return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).fo
 
       this.showPopup = true;
     },
-    // Chặn nhập ký tự không phải số vào ô số điện thoại
-    onPhoneKeypress(e) {
-      if (!/\d/.test(e.key)) {
-        e.preventDefault();
-      }
-    },
-    // Lọc sạch mọi ký tự không phải số khi paste hoặc input
-    onPhoneInput(e) {
-      this.form.phone = e.target.value.replace(/\D/g, '');
-      this.errors.phone = '';
-    },
     confirmOrder() {
       this.showPopup = false;
       window.location.href = 'hoadon.html';
     },
+    // ─────────────────────────────────────────
+    // subscribeEmail — Xử lý đăng ký email nhận thông tin ở footer
+    // ─────────────────────────────────────────
     subscribeEmail() {
       alert(`Đăng ký thành công: ${this.emailSubscribe}`);
       this.emailSubscribe = '';
     }
   },
+
+  // ═══════════════════════════════════════════ mounted — Lifecycle hook: chạy sau khi component được gắn vào DOM ═══════════════════════════════════════════
   mounted() {
+    // ── fixImgPath — Hàm tiện ích: sửa đường dẫn ảnh cho sản phẩm ──
+    // Giohang.html lưu đường dẫn thiếu '../', cần thêm lại để hiển thị đúng ảnh
     const fixImgPath = (items) => items.map(item => {
       let img = item.image || item.img || '';
       if (img && !img.startsWith('http') && !img.startsWith('../') && !img.startsWith('/')) {
@@ -895,11 +939,13 @@ return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).fo
       return { ...item, image: img };
     });
 
+    // ── Lắng nghe sự kiện 'storage' — Đồng bộ giỏ hàng khi có thay đổi từ tab khác ──
     window.addEventListener('storage', (e) => {
       if (e.key === 'daoTruyenCart') {
         try { this.cartItems = fixImgPath(JSON.parse(e.newValue || '[]')); } catch(e) {}
       }
     });
+    // ── Lắng nghe sự kiện 'focus' — Cập nhật giỏ hàng khi quay lại tab này ──
     window.addEventListener('focus', () => {
       try {
         this.cartItems = fixImgPath(JSON.parse(localStorage.getItem('daoTruyenCart') || '[]'));

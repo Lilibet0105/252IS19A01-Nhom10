@@ -1,34 +1,41 @@
 <!doctype html>
 <html lang="vi">
 <head>
+  <!-- ═══════════════════════════════════════════
+       META — Thông tin cơ bản trang web
+       - charset: Hỗ trợ tiếng Việt
+       - viewport: Responsive trên mobile
+  ═══════════════════════════════════════════ -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <!-- Favicon — Biểu tượng hiển thị trên tab trình duyệt -->
   <link rel="icon" href="./assets/favicon.jpg" type="image/x-icon" />
-
+  <!-- Tiêu đề trang hiển thị trên tab trình duyệt -->
   <title>Đảo Truyện - Trăng Chiều Rực Rỡ</title>
 
-  <!-- Tailwind -->
+  <!-- ═══════════════════════════════════════════
+       CSS FRAMEWORKS & LIBRARIES
+       - Tailwind CSS: Utility-first CSS framework (CDN)
+       - Google Fonts: Playfair Display (tiêu đề) + Lora (nội dung)
+       - Vue 3: Framework reactive cho giao diện
+  ═══════════════════════════════════════════ -->
   <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Font -->
   <link
     href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lora:wght@400;500&display=swap"
     rel="stylesheet"
   />
-
-  <!-- Vue -->
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 
-  <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lora:wght@400;500&display=swap"
-      rel="stylesheet"
-    />
-
-    <!-- ③ Heroicons via unpkg (thay Bootstrap Icons) -->
-    <!-- Dùng inline SVG bên dưới cho gọn -->
-
-    <script>
-      // ④ Tailwind config — extend thêm màu & font tuỳ chỉnh
+  <!-- ═══════════════════════════════════════════
+       TAILWIND CONFIG — Cấu hình mở rộng Tailwind
+       - fontFamily.display: Playfair Display (dùng cho h1-h6)
+       - fontFamily.body: Lora (dùng cho nội dung chính)
+       - colors.cream: Nền trang (#faf7f2)
+       - colors.ink: Màu chữ chính (#1a1a1a)
+       - colors.amber: Màu nhấn (#d97706)
+       - colors.muted: Màu chữ phụ (#6b7280)
+  ═══════════════════════════════════════════ -->
+  <script>
       tailwind.config = {
         theme: {
           extend: {
@@ -47,20 +54,26 @@
       };
     </script>
 
+    <!-- ═══════════════════════════════════════════
+         CUSTOM STYLES — Phong cách tuỳ chỉnh
+         - Font mặc định: Lora, nền cream, chữ ink
+         - Dropdown menu: Hiện khi hover
+         - Carousel transition: Hiệu ứng fade cho banner
+         - Scroll carousel: Ẩn thanh cuộn ngang
+         - Card hover: Hiệu ứng nổi khi di chuột qua sản phẩm
+    ═══════════════════════════════════════════ -->
     <style>
-      /* ⑤ Phong cách chung — không cần reset riêng vì Tailwind đã có Preflight */
+      /* Font mặc định và màu nền */
       body {
         font-family: "Lora", serif;
         background-color: #faf7f2;
         color: #1a1a1a;
       }
-
-      /* Dropdown "Sách" — hiệu ứng hover bằng CSS thuần (không cần JS) */
+      /* Dropdown menu — hiện khi hover */
       .nav-dropdown:hover .dropdown-menu {
         display: block;
       }
-
-      /* Carousel transition */
+      /* Hiệu ứng chuyển cảnh cho banner carousel (Vue transition) */
       .slide-enter-active,
       .slide-leave-active {
         transition: opacity 0.6s ease;
@@ -69,8 +82,7 @@
       .slide-leave-to {
         opacity: 0;
       }
-
-      /* Scroll carousel (Sách mới) — ẩn scrollbar */
+      /* Ẩn thanh cuộn ngang cho carousel sách mới */
       .scroll-x::-webkit-scrollbar {
         display: none;
       }
@@ -78,8 +90,7 @@
         -ms-overflow-style: none;
         scrollbar-width: none;
       }
-
-      /* Card hover glow */
+      /* Hiệu ứng nổi khi di chuột qua card sản phẩm */
       .book-card:hover {
         box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
         transform: translateY(-2px);
@@ -91,13 +102,25 @@
       }
     </style>
   </head>
+  <!-- ═══════════════════════════════════════════
+       BODY — Nền gradient kem-trắng-amber
+  ═══════════════════════════════════════════ -->
   <body>
+    <!-- Vùng chứa thông báo toast tuỳ biến (điều khiển bởi Vue) -->
+    <div id="toast-container" class="fixed top-4 right-4 z-50"></div>
+
+    <!-- ═══════════════════════════════════════════
+         VUE APP — Toàn bộ giao diện được Vue 3 quản lý
+    ═══════════════════════════════════════════ -->
     <div id="app">
-      <!-- Vue mount point -->
+      <!-- ═══════════════════════════════════════════
+           HEADER — Thanh điều hướng cố định trên cùng
+           Gồm 3 tầng: top bar (liên hệ), logo, navigation
+      ═══════════════════════════════════════════ -->
       <header
         class="sticky top-0 z-50 bg-cream border-b border-gray-200 shadow-sm"
       >
-        <!-- Tầng 1 — Top bar liên hệ & đăng nhập -->
+        <!-- Tầng 1 — Top bar: Số điện thoại, email, nút đăng ký/đăng nhập -->
         <div class="bg-ink text-white text-xs py-1.5">
           <div class="max-w-5xl mx-auto px-4 flex items-center justify-between">
             <!-- Trái: SĐT + Email (email ẩn trên mobile) -->
@@ -335,15 +358,19 @@ class="flex items-center gap-1.5 hover:text-amber transition-colors"
       </header>
       <!-- /HEADER -->
 
-      
-  <!-- PRODUCT -->
+      <!-- ═══════════════════════════════════════════
+           PRODUCT — Chi tiết sản phẩm (Trăng Chiều Rực Rỡ)
+           Bố cục 2 cột: Ảnh sản phẩm (trái) + Thông tin (phải)
+           Gồm: tên, tác giả, đánh giá sao, giá, mô tả,
+                 điều chỉnh số lượng, nút thêm vào giỏ / mua ngay
+      ═══════════════════════════════════════════ -->
   <section class="py-16">
 
     <div class="max-w-6xl mx-auto px-4">
 
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-14">
 
-        <!-- IMAGE -->
+        <!-- Cột trái: Ảnh sản phẩm — hiển thị bìa truyện trong khung trắng -->
         <div class="flex justify-center">
 
           <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
@@ -358,7 +385,7 @@ class="flex items-center gap-1.5 hover:text-amber transition-colors"
 
         </div>
 
-        <!-- INFO -->
+        <!-- Cột phải: Thông tin sản phẩm — tên, tác giả, giá, mô tả, nút mua -->
         <div>
 
           <h1 class="font-display text-5xl mb-4">
@@ -385,7 +412,7 @@ class="flex items-center gap-1.5 hover:text-amber transition-colors"
             và phát triển một tình yêu học đường ngọt ngào.
           </p>
 
-          <!-- QUANTITY -->
+          <!-- Điều chỉnh số lượng: Nút giảm (-), số lượng, nút tăng (+) -->
           <div class="flex items-center border border-gray-300 w-fit mb-8">
 
             <button
@@ -408,7 +435,7 @@ class="flex items-center gap-1.5 hover:text-amber transition-colors"
 
           </div>
 
-          <!-- BUTTON -->
+          <!-- Nút hành động: Thêm vào giỏ + Mua ngay -->
           <div class="flex gap-4 flex-wrap">
 
             <button
@@ -435,7 +462,10 @@ class="bg-black text-white px-6 py-3 rounded-lg"
 
   </section>
 
-  <!-- RELATED -->
+  <!-- ═══════════════════════════════════════════
+       RELATED — Truyện cùng loại (sách nổi bật cùng thể loại)
+       Hiển thị dạng lưới responsive 1→2→4 cột
+  ═══════════════════════════════════════════ -->
   <section class="max-w-6xl mx-auto px-4 py-14">
 
     <div class="text-center mb-10">
@@ -508,7 +538,10 @@ class="bg-black text-white px-6 py-3 rounded-lg"
 
   </section>
 
-  <!-- FOOTER -->
+  <!-- ═══════════════════════════════════════════
+       FOOTER — Chân trang: Thông tin liên kết, chính sách, đăng ký email
+       Bố cục 4 cột: Về chúng tôi, Hỗ trợ, Dịch vụ, Nhận thông tin
+  ═══════════════════════════════════════════ -->
   <footer class="bg-ink text-white py-12 mt-10">
 
     <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-10">
@@ -582,7 +615,13 @@ class="bg-black text-white px-6 py-3 rounded-lg"
 
   </footer>
 
-  <!-- TOAST -->
+  <!-- ═══════════════════════════════════════════
+       TOAST — Thông báo dạng popup góc dưới phải
+       - Hiện khi thêm sản phẩm vào giỏ
+       - Điều khiển bởi: showToast (ẩn/hiện), toastMsg (nội dung)
+       - Sử dụng Vue transition "fade" cho hiệu ứng mờ → rõ → mờ
+       - Tự ẩn sau 2.5 giây
+  ═══════════════════════════════════════════ -->
   <transition name="fade">
 
     <div
@@ -597,26 +636,30 @@ class="bg-black text-white px-6 py-3 rounded-lg"
 </div>
 
 <script>
+// ═══════════════════════════════════════════
+// VUE 3 — Khởi tạo ứng dụng Vue và gắn vào #app
+// Bao gồm: data, methods, mounted
+// ═══════════════════════════════════════════
 const { createApp } = Vue;
 
 createApp({
-
+  // ═══════════════════════════════════════════
+  // DATA — Dữ liệu reactive (thay đổi → giao diện tự cập nhật)
+  // ═══════════════════════════════════════════
   data() {
     return {
-
-      mobileOpen: false,
-
-      quantity: 1,
-
-      cartCount: 0,
-
-      emailSubscribe: "",
-
-      showToast: false,
-
-      toastMsg: "",
-
-       sachNoiBat: [
+      // ── UI State ──
+      mobileOpen: false,        // Trạng thái menu hamburger trên mobile
+      quantity: 1,              // Số lượng sản phẩm hiện tại (mặc định 1)
+      cartCount: 0,              // Số sản phẩm trong giỏ (hiển thị trên badge)
+      // ── Footer form ──
+      emailSubscribe: "",       // Email đăng ký nhận thông tin
+      // ── Toast thông báo ──
+      showToast: false,          // Ẩn/hiện toast thông báo
+      toastMsg: "",              // Nội dung thông báo
+      // ── Sách nổi bật (Truyện cùng loại) ──
+      // Danh sách 8 sản phẩm gợi ý hiển thị ở phần RELATED
+      sachNoiBat: [
               {
                 id: 1,
                 name: 'Yêu Thầm',
@@ -800,17 +843,18 @@ stars: 5,
 
   },
 
+  // ═══════════════════════════════════════════
+  // MOUNTED — Khởi tạo khi component được gắn vào DOM
+  // ═══════════════════════════════════════════
   mounted(){
-
+    // Cập nhật badge giỏ hàng từ localStorage
     this.updateCart();
-
-    // Lắng nghe thay đổi giỏ hàng từ tab/page khác
+    // Lắng nghe sự kiện storage để đồng bộ giỏ hàng giữa các tab
     window.addEventListener('storage', (e) => {
       if (e.key === 'daoTruyenCart') {
         this.updateCart();
       }
     });
-
   }
 
 }).mount("#app");

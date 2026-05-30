@@ -1,11 +1,14 @@
 ﻿<!doctype html>
 <html lang="vi">
+  <!-- ═══════════════════════════════════════════ HEAD — Cấu hình trang Bảo mật thanh toán ═══════════════════════════════════════════ -->
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Bảo mật thanh toán | Đảo Truyện</title>
 
+    <!-- Tailwind CSS CDN — Framework CSS tiện ích -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind config — Mở rộng font (display, body) và màu (cream, ink, amber, muted) -->
     <script>
       tailwind.config = {
         theme: {
@@ -24,15 +27,19 @@
         },
       };
     </script>
+    <!-- Google Fonts — Playfair Display (tiêu đề) + Lora (nội dung) -->
     <link
       href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lora:wght@400;500&display=swap"
       rel="stylesheet"
     />
+    <!-- Phong cách tùy chỉnh — Font mặc định Lora, nền cream, chữ ink -->
     <style>
       body { font-family: "Lora", serif; background-color: #faf7f2; color: #1a1a1a; }
     </style>
   </head>
+  <!-- ═══════════════════════════════════════════ BODY — Gradient nền từ cream qua white đến amber-50 ═══════════════════════════════════════════ -->
   <body class="min-h-screen bg-gradient-to-br from-cream via-white to-amber-50">
+    <!-- ═══════════════════════════════════════════ HEADER — Logo + link về trang chủ ═══════════════════════════════════════════ -->
     <header class="border-b border-gray-200 bg-white/95 backdrop-blur-sm shadow-sm">
       <div class="max-w-5xl mx-auto px-4 py-5">
         <a href="../index.html" class="inline-flex items-center gap-3">
@@ -45,7 +52,8 @@
       </div>
     </header>
 
-    <!-- MAIN — Nội dung bảo mật thanh toán: Card bo góc lớn, tiêu đề + các mục chính sách -->
+    <!-- ═══════════════════════════════════════════ MAIN — Nội dung bảo mật thanh toán ═══════════════════════════════════════════ -->
+    <!-- Card bo góc lớn (rounded-[2rem]), shadow-2xl, tiêu đề + mô tả + 7 mục chính sách -->
     <main class="flex min-h-[calc(100vh-100px)] items-start justify-center px-4 py-16">
       <section class="w-full max-w-4xl rounded-[2rem] border border-gray-200 bg-white/95 p-10 shadow-2xl shadow-amber/15 ring-1 ring-amber-100">
         <!-- Tiêu đề trang — font-display (Playfair Display) -->
@@ -93,6 +101,7 @@
           </section>
         </div>
 
+        <!-- Nút quay về trang chủ -->
         <div class="mt-6 text-center">
           <a href="../index.html" class="inline-flex items-center justify-center rounded-3xl bg-amber px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-amber/20 transition hover:bg-orange-500">Quay về trang chủ</a>
         </div>

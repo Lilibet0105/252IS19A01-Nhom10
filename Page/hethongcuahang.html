@@ -1,25 +1,27 @@
 <!doctype html>
 <html lang="vi">
+  <!-- ═══════════════════════════════════════════ HEAD — Cấu hình trang Hệ thống cửa hàng ═══════════════════════════════════════════ -->
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="../assets/favicon.jpg" type="image/x-icon" />
     <title>Đảo Truyện | Hệ thống cửa hàng</title>
 
-    <!-- ① Tailwind CSS CDN -->
+    <!-- ① Tailwind CSS CDN — Framework CSS tiện ích -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- ② Google Fonts — Inter -->
+    <!-- ② Google Fonts — Inter (cả display lẫn body) -->
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
 
+    <!-- ③ Custom CSS — style.css + style_lh.css -->
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/style_lh.css">
 
     <script>
-      // ④ Tailwind config
+      // ④ Tailwind config — extend thêm màu & font tuỳ chỉnh (Inter thay vì Playfair/Lora)
       tailwind.config = {
         theme: {
           extend: {
@@ -39,6 +41,7 @@
     </script>
 
     <style>
+      /* ⑤ Phong cách chung — Font Inter, nền cream, chữ ink */
       body {
         font-family: "Inter", sans-serif;
         background-color: #faf7f2;
@@ -85,8 +88,10 @@
       }
     </style>
   </head>
+  <!-- ═══════════════════════════════════════════ BODY — Vue mount point + Header + Main + Footer ═══════════════════════════════════════════ -->
   <body>
     <div id="app">
+      <!-- ═══════════════════════════════════════════ HEADER — Thanh điều hướng cố định (sticky) ═══════════════════════════════════════════ -->
       <header
         class="sticky top-0 z-50 bg-cream border-b border-gray-200 shadow-sm"
       >
@@ -286,8 +291,9 @@
         </nav>
       </header>
 
+      <!-- ═══════════════════════════════════════════ MAIN — Nội dung chính trang Hệ thống cửa hàng ═══════════════════════════════════════════ -->
       <main class="bg-cream">
-        <!-- Hero section -->
+        <!-- Hero section — Tiêu đề trang + Mô tả ngắn -->
         <section class="max-w-5xl mx-auto px-4 py-16">
           <div class="rounded-[2rem] bg-white border border-gray-200 p-8 md:p-12 shadow-sm">
             <p class="text-xs uppercase tracking-[0.35em] text-amber">Chi nhánh</p>
@@ -296,7 +302,7 @@
           </div>
         </section>
 
-        <!-- Branches -->
+        <!-- Danh sách chi nhánh — Grid 3 cột responsive -->
         <section class="max-w-5xl mx-auto px-4 py-16">
           <h2 class="text-3xl font-semibold text-ink mb-8">Danh sách cửa hàng</h2>
           <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -404,7 +410,7 @@
           </div>
         </section>
 
-        <!-- CTA section -->
+        <!-- CTA section — Kêu gọi hành động liên hệ -->
         <section class="max-w-5xl mx-auto px-4 py-16">
           <div class="rounded-[2rem] bg-gradient-to-r from-amber to-yellow-500 p-8 md:p-12 shadow-sm">
             <h2 class="text-3xl font-semibold text-ink mb-4">Chưa tìm thấy chi nhánh?</h2>
@@ -418,7 +424,7 @@
         </section>
       </main>
 
-      <!-- FOOTER -->
+      <!-- ═══════════════════════════════════════════ FOOTER — 4 cột: Về chúng tôi, Hỗ trợ, Dịch vụ, Kết nối ═══════════════════════════════════════════ -->
       <footer class="bg-ink text-white pt-12 pb-6 mt-16">
         <div class="max-w-5xl mx-auto px-4">
           <div
@@ -532,14 +538,18 @@
       </footer>
     </div>
 
+    <!-- ═══════════════════════════════════════════ VUE JS — Khởi tạo ứng dụng Vue 3 ═══════════════════════════════════════════ -->
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script>
       const { createApp } = Vue;
 
       createApp({
+        // ═══════════════════════════════════════════
+        // data() — Dữ liệu phản ứng (reactive state)
+        // ═══════════════════════════════════════════
         data() {
           return {
-            mobileOpen: false,
+            mobileOpen: false,       // Trạng thái mở/đóng menu mobile
           };
         },
       }).mount("#app");

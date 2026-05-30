@@ -1,43 +1,54 @@
 <!doctype html>
 <html lang="vi">
+  <!-- ═══════════════════════════════════════════ HEAD — Phần khai báo metadata, thư viện CSS/JS, và cấu hình Tailwind ═══════════════════════════════════════════ -->
   <head>
+    <!-- Meta charset UTF-8 hỗ trợ tiếng Việt -->
     <meta charset="UTF-8" />
+    <!-- Viewport responsive cho thiết bị di động -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Favicon biểu tượng tab trình duyệt -->
     <link rel="icon" href="../assets/favicon.jpg" type="image/x-icon" />
+    <!-- Tiêu đề trang hiển thị trên tab trình duyệt -->
     <title>Thể loại truyện - Đảo Truyện</title>
 
+    <!-- ═══════════════════════════════════════════ THƯ VIỆN TAILWIND CSS — Framework CSS utility-first, tải từ CDN ═══════════════════════════════════════════ -->
     <script src="https://cdn.tailwindcss.com"></script>
 
+    <!-- ═══════════════════════════════════════════ GOOGLE FONTS — Font chữ Playfair Display (tiêu đề) và Lora (nội dung) ═══════════════════════════════════════════ -->
     <link
       href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lora:wght@400;500&display=swap"
       rel="stylesheet"
     />
 
+    <!-- ═══════════════════════════════════════════ CẤU HÌNH TAILWIND — Mở rộng theme với font chữ và màu sắc tùy chỉnh ═══════════════════════════════════════════ -->
     <script>
       tailwind.config = {
         theme: {
           extend: {
             fontFamily: {
-              display: ["Playfair Display", "serif"],
-              body: ["Lora", "serif"],
+              display: ["Playfair Display", "serif"],  // Font cho tiêu đề trang
+              body: ["Lora", "serif"],                  // Font cho nội dung chính
             },
             colors: {
-              cream: "#faf7f2",
-              ink: "#1a1a1a",
-              amber: "#d97706",
-              muted: "#6b7280",
+              cream: "#faf7f2",   // Màu nền kem — nền chính của trang
+              ink: "#1a1a1a",     // Màu mực đen — văn bản và header
+              amber: "#d97706",   // Màu hổ phách — nút CTA, link nổi bật
+              muted: "#6b7280",   // Màu xám — văn bản phụ, placeholder
             },
           },
         },
       };
     </script>
 
+    <!-- ═══════════════════════════════════════════ CSS TÙY CHỈNH — Style cho body, hiệu ứng card và transition Vue ═══════════════════════════════════════════ -->
     <style>
+      /* Font chữ mặc định và màu nền cho toàn bộ trang */
       body {
         font-family: "Lora", serif;
         background-color: #faf7f2;
         color: #1a1a1a;
       }
+      /* Hiệu ứng hover cho card truyện — đổ bóng và nhấc lên */
       .book-card {
         transition:
           box-shadow 0.25s,
@@ -47,6 +58,7 @@
         box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
         transform: translateY(-2px);
       }
+      /* Transition fade cho toast thông báo Vue */
       .fade-enter-active,
       .fade-leave-active {
         transition:
@@ -60,11 +72,14 @@
       }
     </style>
   </head>
+  <!-- ═══════════════════════════════════════════ BODY — Phần nội dung chính của trang thể loại truyện ═══════════════════════════════════════════ -->
   <body>
     <div id="app">
+      <!-- ═══════════════════════════════════════════ HEADER — Thanh điều hướng cố định (sticky) gồm topbar, logo, menu và giỏ hàng ═══════════════════════════════════════════ -->
       <header
         class="sticky top-0 z-50 bg-cream border-b border-gray-200 shadow-sm"
       >
+        <!-- Topbar — Thanh thông tin liên hệ và nút đăng ký/đăng nhập -->
         <div class="bg-ink text-white text-xs py-1.5">
           <div class="max-w-5xl mx-auto px-4 flex items-center justify-between">
             <div class="flex gap-5">
@@ -139,9 +154,8 @@
           </div>
         </div>
 
-        <div
-          class="flex justify-center items-center py-2 border-b border-gray-100"
-        >
+        <!-- Logo — Hiển thị logo Đảo Truyện, liên kết về trang chủ -->
+        <div class="flex justify-center items-center py-2 border-b border-gray-100">
           <a href="../index.html" class="block">
             <img
               src="../assets/logo.jpg"
@@ -151,6 +165,7 @@
           </a>
         </div>
 
+        <!-- Thanh điều hướng chính — Menu responsive và nút giỏ hàng -->
         <nav class="max-w-5xl mx-auto px-4">
           <div class="flex items-center justify-between">
             <button
@@ -272,16 +287,13 @@
                 />
               </svg>
               Giỏ hàng
-              <span
-                id="cart-badge-theloai"
-                class="bg-amber text-white text-xs rounded-full w-5 h-5 flex items-center justify-center"
-                >{{ cartCount }}</span
-              >
+              <span class="bg-amber text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">{{ cartCount }}</span>
             </a>
           </div>
         </nav>
       </header>
 
+      <!-- ═══════════════════════════════════════════ MAIN — Nội dung chính: sidebar bộ lọc + danh sách truyện ═══════════════════════════════════════════ -->
       <main class="max-w-5xl mx-auto px-4 py-10">
         <!-- Grid 4 cột: 1 col sidebar + 3 col danh sách truyện -->
         <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
@@ -425,7 +437,7 @@
                   >SALE</span
                 >
 
-                <a :href="`chitiettruyen.html?id=${book.id}`" class="block">
+                <a :href="getBookLink(book)" class="block">
                   <img
                     :src="book.img"
                     :alt="book.name"
@@ -493,6 +505,7 @@
         </div>
       </main>
 
+      <!-- ═══════════════════════════════════════════ FOOTER — Chân trang gồm liên kết, thông tin cửa hàng, form đăng ký email và mạng xã hội ═══════════════════════════════════════════ -->
       <footer class="bg-ink text-white pt-12 pb-6 mt-10">
         <div class="max-w-5xl mx-auto px-4">
           <div
@@ -634,6 +647,7 @@
         </div>
       </footer>
 
+      <!-- ═══════════════════════════════════════════ TOAST THÔNG BÁO — Hiển thị thông báo tạm thời (thêm giỏ hàng, đăng ký email) với hiệu ứng fade ═══════════════════════════════════════════ -->
       <transition name="fade">
         <div
           v-if="showToast"
@@ -655,25 +669,28 @@
       </transition>
     </div>
 
+    <!-- ═══════════════════════════════════════════ VUE.JS 3 — Thư viện Vue 3 từ CDN, khởi tạo ứng dụng lọc và hiển thị truyện tranh ═══════════════════════════════════════════ -->
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script>
       const { createApp } = Vue;
 
       createApp({
+        // ═══════════════════════════════════════════ data() — Dữ liệu phản ứng (reactive) của ứng dụng Vue ═══════════════════════════════════════════
+        // Bao gồm: trạng thái giao diện, bộ lọc, danh sách truyện và giỏ hàng
         data() {
           return {
-            mobileOpen: false,
-            cartCount: 0,
-            showToast: false,
-            toastMsg: "",
-            emailSubscribe: "",
-            sortType: "default",
+            mobileOpen: false,       // Trạng thái mở/đóng menu mobile
+            cartCount: 0,             // Số lượng sản phẩm trong giỏ hàng (hiển thị badge)
+            showToast: false,         // Hiển thị/ẩn toast thông báo
+            toastMsg: "",             // Nội dung thông báo toast
+            emailSubscribe: "",       // Email người dùng nhập form đăng ký nhận tin
+            sortType: "default",      // Kiểu sắp xếp: default | price_asc | price_desc | name_asc
             filters: {
-              categories: [],
-              priceRange: "all",
+              categories: [],        // Mảng danh mục được chọn (tinh-cam, shounen, trinh-tham, thieu-nhi)
+              priceRange: "all",      // Khoảng giá: all | under40 | above40
             },
             books: [
-              // === Tình cảm (10) ===
+              // ───────────────────────────────────────── Danh sách truyện Tình cảm (10 truyện) ─────────────────────────────────────────
               {
                 id: "TC01",
                 name: "Trăng Chiều Rực Rỡ",
@@ -754,7 +771,7 @@
                 category: "tinh-cam",
                 img: "../images/product/Tinh_cam/Hon_nhan_hanh_phuc_cua_toi.webp",
               },
-              // === Hành động / Shounen (10) ===
+              // ───────────────────────────────────────── Danh sách truyện Hành động / Shounen (10 truyện) ─────────────────────────────────────────
               {
                 id: "SN01",
                 name: "One Piece",
@@ -835,7 +852,7 @@
                 category: "shounen",
                 img: "../images/product/Hanh_dong/Hoc_vien_sieu_anh_hung.webp",
               },
-              // === Trinh thám (10) ===
+              // ───────────────────────────────────────── Danh sách truyện Trinh thám (10 truyện) ─────────────────────────────────────────
               {
                 id: "TT01",
                 name: "Thám Tử Lừng Danh Conan",
@@ -916,7 +933,7 @@
                 category: "trinh-tham",
                 img: "../images/product/Trinh_tham/spy_x_family_bia_tap_2_tb_2025.webp",
               },
-              // === Thiếu nhi (10) ===
+              // ───────────────────────────────────────── Danh sách truyện Thiếu nhi (10 truyện) ─────────────────────────────────────────
               {
                 id: "TN01",
                 name: "Doraemon",
@@ -1000,14 +1017,19 @@
             ],
           };
         },
+        // ═══════════════════════════════════════════ computed — Các thuộc tính tính toán tự động cập nhật khi dữ liệu thay đổi ═══════════════════════════════════════════
         computed: {
+          // ───────────────────────────────────────── filteredBooks — Lọc danh sách truyện theo danh mục và khoảng giá ─────────────────────────────────────────
+          // Áp dụng bộ lọc categories (checkbox) và priceRange (radio) lên danh sách books
           filteredBooks() {
             let result = this.books;
+            // Lọc theo danh mục nếu có chọn ít nhất 1 danh mục
             if (this.filters.categories.length > 0) {
               result = result.filter((book) =>
                 this.filters.categories.includes(book.category),
               );
             }
+            // Lọc theo khoảng giá: dưới 40.000₫ hoặc từ 40.000₫ trở lên
             if (this.filters.priceRange === "under40") {
               result = result.filter((book) => book.price < 40000);
             } else if (this.filters.priceRange === "above40") {
@@ -1015,28 +1037,47 @@
             }
             return result;
           },
+          // ───────────────────────────────────────── sortedBooks — Sắp xếp kết quả đã lọc theo giá hoặc tên ─────────────────────────────────────────
+          // Sắp xếp dựa trên sortType: price_asc, price_desc, hoặc name_asc
           sortedBooks() {
             let result = [...this.filteredBooks];
             if (this.sortType === "price_asc") {
-              result.sort((a, b) => a.price - b.price);
+              result.sort((a, b) => a.price - b.price);       // Giá tăng dần
             } else if (this.sortType === "price_desc") {
-              result.sort((a, b) => b.price - a.price);
+              result.sort((a, b) => b.price - a.price);       // Giá giảm dần
             } else if (this.sortType === "name_asc") {
-              result.sort((a, b) => a.name.localeCompare(b.name));
+              result.sort((a, b) => a.name.localeCompare(b.name)); // Tên A→Z (hỗ trợ tiếng Việt)
             }
             return result;
           },
         },
+        // ═══════════════════════════════════════════ methods — Các phương thức xử lý sự kiện và logic nghiệp vụ ═══════════════════════════════════════════
         methods: {
+          // ───────────────────────────────────────── getBookLink — Trả về link đúng cho mỗi truyện (có trang riêng hoặc chuyển hướng) ─────────────────────────────────────────
+          getBookLink(book) {
+            const detailPageMap = {
+              "TC04": "chitiettruyen_ngonnguyeuthuong.html",
+              "SN04": "chitiettruyen_frieren.html",
+              "TN07": "chitiettruyen_tsubasa.html",
+              "TC09": "chitiettruyen_nangjuliet.html",
+              "SN03": "chitiettruyen_thanhguom.html",
+              "TT06": "chitiettruyen_duocsututu.html",
+              "TT10": "chitiettruyen.html?id=" + book.id
+            };
+            return detailPageMap[book.id] || "chitiettruyen.html?id=" + book.id;
+          },
+          // ───────────────────────────────────────── formatPrice — Định dạng giá tiền sang dạng Việt Nam (VD: 65500 → 65.500₫) ─────────────────────────────────────────
           formatPrice(price) {
             return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + "₫";
           },
+          // ───────────────────────────────────────── addToCart — Thêm truyện vào giỏ hàng, lưu vào localStorage và hiển thị toast ─────────────────────────────────────────
+          // Nếu truyện đã có trong giỏ thì tăng số lượng, ngược lại thêm mới với qty = 1
           addToCart(book) {
-            // Lưu vào localStorage (daoTruyenCart)
+            // Đọc giỏ hàng hiện tại từ localStorage
             const cart = JSON.parse(localStorage.getItem("daoTruyenCart") || "[]");
             const existing = cart.find(item => item.id === book.id);
             if (existing) {
-              existing.qty++;
+              existing.qty++;  // Tăng số lượng nếu đã tồn tại
             } else {
               cart.push({
                 id: book.id,
@@ -1048,12 +1089,14 @@
                 image: (book.img || book.image || "").replace(/^\.?\/?\.{0,2}\/?/, "")
               });
             }
+            // Lưu giỏ hàng cập nhật vào localStorage
             localStorage.setItem("daoTruyenCart", JSON.stringify(cart));
-            // Phát sự kiện storage để các tab/page khác cập nhật
+            // Phát sự kiện storage để các tab/page khác cập nhật badge giỏ hàng
             window.dispatchEvent(new StorageEvent('storage', {
               key: 'daoTruyenCart',
               newValue: JSON.stringify(cart)
             }));
+            // Cập nhật số lượng hiển thị trên badge và hiện toast
             this.cartCount = cart.reduce((sum, item) => sum + item.qty, 0);
             this.toastMsg = `📖 Đã thêm "${book.name}" vào giỏ hàng`;
             this.showToast = true;
@@ -1061,6 +1104,7 @@
               this.showToast = false;
             }, 2500);
           },
+          // ───────────────────────────────────────── buyNow — Chuyển hướng sang trang chi tiết truyện để mua ngay ─────────────────────────────────────────
           buyNow(book) {
             // Thêm sản phẩm vào giỏ hàng (localStorage daoTruyenCart)
             const cart = JSON.parse(localStorage.getItem("daoTruyenCart") || "[]");
@@ -1081,9 +1125,10 @@
             localStorage.setItem("daoTruyenCart", JSON.stringify(cart));
             // Cập nhật badge giỏ hàng
             this.cartCount = cart.reduce((sum, item) => sum + item.qty, 0);
-            // Chuyển thẳng sang trang thanh toán
-            window.location.href = "checkout.html";
+            // Chuyển sang trang giỏ hàng
+            window.location.href = "giohang.html";
           },
+          // ───────────────────────────────────────── subscribeEmail — Xử lý đăng ký nhận tin qua email từ footer ─────────────────────────────────────────
           subscribeEmail() {
             if (!this.emailSubscribe) return;
             this.toastMsg = `✅ Đã đăng ký nhận tin với: ${this.emailSubscribe}`;
@@ -1093,13 +1138,17 @@
               this.showToast = false;
             }, 2500);
           },
+          // ───────────────────────────────────────── handleImageError — Thay thế ảnh lỗi bằng ảnh placeholder SVG "Không có ảnh" ─────────────────────────────────────────
           handleImageError(e) {
             e.target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='400' viewBox='0 0 300 400'%3E%3Crect fill='%23f3f4f6' width='300' height='400'/%3E%3Ctext fill='%239ca3af' font-family='sans-serif' font-size='14' text-anchor='middle' x='150' y='200'%3EKhông có ảnh%3C/text%3E%3C/svg%3E";
           },
+          // ───────────────────────────────────────── updateCartBadge — Cập nhật số lượng sản phẩm trên badge giỏ hàng từ localStorage ─────────────────────────────────────────
           updateCartBadge() {
             const cart = JSON.parse(localStorage.getItem("daoTruyenCart") || "[]");
             this.cartCount = cart.reduce((sum, item) => sum + item.qty, 0);
           },
+          // ───────────────────────────────────────── initFiltersFromURL — Đọc tham số ?type= từ URL để tự động chọn bộ lọc danh mục ─────────────────────────────────────────
+          // Hỗ trợ liên kết từ menu điều hướng: theloai.html?type=tinh-cam
           initFiltersFromURL() {
             const urlParams = new URLSearchParams(window.location.search);
             const typeParam = urlParams.get("type");
@@ -1114,11 +1163,11 @@
             }
           },
         },
+        // ═══════════════════════════════════════════ mounted — Vòng đời: khởi tạo bộ lọc từ URL và đồng bộ giỏ hàng khi trang tải xong ═══════════════════════════════════════════
         mounted() {
-          this.initFiltersFromURL();
-          // Đồng bộ badge giỏ hàng từ localStorage
-          this.updateCartBadge();
-          window.addEventListener("storage", this.updateCartBadge);
+          this.initFiltersFromURL();   // Áp dụng bộ lọc từ tham số URL (?type=...)
+          this.updateCartBadge();       // Đồng bộ badge giỏ hàng từ localStorage
+          window.addEventListener("storage", this.updateCartBadge);  // Lắng nghe thay đổi giỏ hàng từ tab khác
         },
       }).mount("#app");
     </script>

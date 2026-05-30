@@ -1,15 +1,22 @@
 <!doctype html>
 <html lang="vi">
   <head>
+    <!-- ═══════════════════════════════════════════ META — Thông tin cơ bản trang web ═══════════════════════════════════════════ -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Đặt hàng thành công | Đảo Truyện</title>
+
+    <!-- ═══════════════════════════════════════════ THƯ VIỆN CSS/JS — Tailwind CSS (framework CSS tiện ích) ═══════════════════════════════════════════ -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- ═══════════════════════════════════════════ THƯ VIỆN — Vue 3 (framework JavaScript phản ứng) ═══════════════════════════════════════════ -->
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <!-- ═══════════════════════════════════════════ FONT GOOGLE — Playfair Display (tiêu đề) + Lora (nội dung) ═══════════════════════════════════════════ -->
     <link
       href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;900&family=Lora:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
+    <!-- ═══════════════════════════════════════════ TAILWIND CONFIG — Cấu hình tùy chỉnh: font chữ, bảng màu ═══════════════════════════════════════════ -->
     <script>
       tailwind.config = {
         theme: {
@@ -28,7 +35,9 @@
         },
       };
     </script>
+    <!-- ═══════════════════════════════════════════ CUSTOM STYLES — CSS tùy chỉnh cho trang hóa đơn ═══════════════════════════════════════════ -->
     <style>
+      /* ─── Reset & Base ─── */
       * {
         box-sizing: border-box;
       }
@@ -44,6 +53,9 @@
         font-family: "Playfair Display", serif;
       }
 
+      /* ─── Hiệu ứng động (Keyframes) ─── */
+
+      /* fadeUp: Hiệu ứng mờ dần + trượt lên cho các phần tử xuất hiện lần lượt */
       @keyframes fadeUp {
         from {
           opacity: 0;
@@ -54,6 +66,7 @@
           transform: translateY(0);
         }
       }
+      /* scaleIn: Hiệu ứng phóng to từ nhỏ đến lớn (dùng cho icon thành công) */
       @keyframes scaleIn {
         0% {
           transform: scale(0.5);
@@ -67,6 +80,7 @@
           opacity: 1;
         }
       }
+      /* drawCircle: Vẽ vòng tròn SVG cho icon thành công */
       @keyframes drawCircle {
         from {
           stroke-dashoffset: 251;
@@ -75,6 +89,7 @@
           stroke-dashoffset: 0;
         }
       }
+      /* drawCheck: Vẽ dấu tích SVG cho icon thành công */
       @keyframes drawCheck {
         from {
           stroke-dashoffset: 60;
@@ -83,6 +98,7 @@
           stroke-dashoffset: 0;
         }
       }
+      /* pulseRing: Hiệu ứng vòng sóng lan tỏa quanh icon thành công */
       @keyframes pulseRing {
         0% {
           transform: scale(1);
@@ -93,6 +109,7 @@
           opacity: 0;
         }
       }
+      /* toastIn: Hiệu ứng trượt vào cho thông báo toast */
       @keyframes toastIn {
         from {
           opacity: 0;
@@ -103,6 +120,7 @@
           transform: translateX(0);
         }
       }
+      /* toastOut: Hiệu ứng trượt ra cho thông báo toast */
       @keyframes toastOut {
         from {
           opacity: 1;
@@ -113,6 +131,7 @@
           transform: translateX(110%);
         }
       }
+      /* modalIn: Hiệu ứng mở modal phóng to nhẹ */
       @keyframes modalIn {
         from {
           opacity: 0;
@@ -123,12 +142,14 @@
           transform: scale(1);
         }
       }
+      /* spin: Hiệu ứng xoay cho icon loading */
       @keyframes spin {
         to {
           transform: rotate(360deg);
         }
       }
 
+      /* ─── Lớp CSS cho icon thành công (vòng tròn + dấu tích + sóng lan tỏa) ─── */
       .success-circle {
         stroke-dasharray: 251;
         stroke-dashoffset: 251;
@@ -143,6 +164,7 @@
         animation: pulseRing 1.5s ease-out infinite;
       }
 
+      /* ─── Lớp fadeUp (fu1–fu6): Hiệu ứng xuất hiện lần lượt với độ trễ tăng dần ─── */
       .fu1 {
         animation: fadeUp 0.55s ease forwards 0.15s;
         opacity: 0;
@@ -168,10 +190,12 @@
         opacity: 0;
       }
 
+      /* ─── Thanh nối giữa các bước trong progress steps ─── */
       .step-connector {
         flex: 1;
         height: 2px;
       }
+      /* ─── Modal: Lớp nền mờ + hộp thoại ─── */
       .modal-backdrop {
         position: fixed;
         inset: 0;
@@ -192,6 +216,7 @@
         overflow-y: auto;
         animation: modalIn 0.25s ease;
       }
+      /* ─── Toast: Thông báo góc phải trên ─── */
       .toast {
         position: fixed;
         top: 1.25rem;
@@ -207,12 +232,14 @@
         font-size: 0.875rem;
         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
       }
+      /* Hiệu ứng vào/ra cho toast */
       .toast-enter-active {
         animation: toastIn 0.35s ease;
       }
       .toast-leave-active {
         animation: toastOut 0.35s ease;
       }
+      /* ─── Thẻ sản phẩm gợi ý: Hiệu ứng hover nổi lên ─── */
       .product-card {
         transition:
           transform 0.25s,
@@ -222,11 +249,12 @@
         transform: translateY(-4px);
         box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
       }
+      /* ─── Icon xoay loading ─── */
       .spin {
         animation: spin 0.8s linear infinite;
       }
 
-      /* Input focus */
+      /* ─── Input: Ô nhập liệu tùy chỉnh với hiệu ứng focus ─── */
       .inp {
         width: 100%;
         border-radius: 1.5rem;
@@ -240,15 +268,18 @@
           border-color 0.2s,
           box-shadow 0.2s;
       }
+      /* Input focus: Viền vàng amber khi được chọn */
       .inp:focus {
         border-color: #d97706;
         box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.15);
       }
+      /* Input lỗi: Viền đỏ khi có lỗi xác thực */
       .inp.err {
         border-color: #ef4444;
         box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12);
       }
 
+      /* ─── In ấn: Ẩn các phần tử không cần in, bỏ bóng ─── */
       @media print {
         .no-print {
           display: none !important;
@@ -265,7 +296,7 @@
   </head>
   <body class="min-h-screen">
     <div id="app">
-      <!-- ══ HEADER ══ -->
+      <!-- ═══════════════════════════════════════════ HEADER — Thanh đầu trang: hotline, tài khoản, logo ═══════════════════════════════════════════ -->
       <header
         class="no-print sticky top-0 z-50 bg-cream border-b border-gray-200 shadow-sm"
       >
@@ -354,7 +385,7 @@
         </div>
       </header>
 
-      <!-- ══ MODAL ĐĂNG NHẬP / ĐĂNG KÝ (chặn nếu chưa login) ══ -->
+      <!-- ═══════════════════════════════════════════ MODAL ĐĂNG NHẬP / ĐĂNG KÝ — Hiện khi chưa đăng nhập, chặn thoát nếu chưa login ═══════════════════════════════════════════ -->
       <div
         v-if="showAuthModal"
         class="modal-backdrop"
@@ -635,7 +666,7 @@
         </div>
       </div>
 
-      <!-- ══ NỘI DUNG CHÍNH ══ -->
+      <!-- ═══════════════════════════════════════════ NỘI DUNG CHÍNH — Progress steps, banner thành công, hóa đơn, nút hành động, gợi ý sản phẩm ═══════════════════════════════════════════ -->
       <div>
         <!-- Progress steps -->
         <div class="no-print max-w-lg mx-auto px-4 pt-8 fu1">
@@ -684,7 +715,7 @@
         </div>
 
         <main class="max-w-4xl mx-auto px-4 py-8 pb-20 space-y-6">
-          <!-- ── SUCCESS BANNER ── -->
+          <!-- ── SUCCESS BANNER — Biểu tượng thành công, mã đơn hàng, lời cảm ơn ── -->
           <div class="fu1 text-center py-4">
             <div class="inline-block relative">
               <div
@@ -760,7 +791,7 @@
             </div>
           </div>
 
-          <!-- ── CARD HÓA ĐƠN ── -->
+          <!-- ── CARD HÓA ĐƠN — Thẻ chứa toàn bộ thông tin đơn hàng ── -->
           <div
             class="print-card bg-white rounded-[2rem] border border-gray-200 shadow-xl shadow-amber/8 overflow-hidden fu3"
           >
@@ -957,7 +988,7 @@
                 </div>
               </div>
 
-              <!-- ── DANH SÁCH SẢN PHẨM TỪ GIỎ HÀNG THỰC TẾ ── -->
+              <!-- ── DANH SÁCH SẢN PHẨM — Hiển thị các sản phẩm đã đặt từ giỏ hàng thực tế ── -->
               <div>
                 <p
                   class="text-xs uppercase tracking-widest text-amber font-semibold mb-3"
@@ -1154,7 +1185,7 @@
             </div>
           </div>
 
-          <!-- ── CÁC NÚT HÀNH ĐỘNG ── -->
+          <!-- ── CÁC NÚT HÀNH ĐỘNG — Gửi lại email, In đơn, Xem chi tiết, Mua tiếp ── -->
           <div class="no-print grid grid-cols-2 sm:grid-cols-4 gap-3 fu4">
             <!-- Gửi lại email -->
             <button
@@ -1264,6 +1295,7 @@
           </div>
 
           <!-- Gợi ý sản phẩm -->
+          <!-- ── GỢI Ý SẢN PHẨM — Hiển thị 4 sản phẩm gợi ý mua thêm ── -->
           <div class="no-print fu5 pt-4">
             <div class="flex items-center gap-3 mb-5">
               <div class="h-px w-8 bg-amber"></div>
@@ -1309,7 +1341,7 @@
           </div>
         </main>
 
-        <!-- ── MODAL CHI TIẾT ĐƠN HÀNG ── -->
+        <!-- ── MODAL CHI TIẾT ĐƠN HÀNG — Hiển thị thông tin đầy đủ khi bấm "Xem chi tiết" ── -->
         <div
           v-if="showDetailModal"
           class="modal-backdrop"
@@ -1518,7 +1550,7 @@
       </div>
       <!-- end main content -->
 
-      <!-- ══ TOAST ══ -->
+      <!-- ═══════════════════════════════════════════ TOAST — Thông báo nổi góc phải trên ─══════════════════════════════════════════ -->
       <transition name="toast-anim">
         <div
           v-if="toast.show"
@@ -1558,7 +1590,7 @@
         </div>
       </transition>
 
-      <!-- ══ FOOTER ══ -->
+      <!-- ═══════════════════════════════════════════ FOOTER — Chân trang: liên kết, thông tin liên hệ, bản quyền ═══════════════════════════════════════════ -->
       <footer class="no-print bg-ink text-white pt-10 pb-6">
         <div class="max-w-5xl mx-auto px-4">
           <div
@@ -1675,9 +1707,13 @@
     </div>
     <!-- #app -->
 
+    <!-- ═══════════════════════════════════════════ VUE JS — Khởi tạo ứng dụng Vue 3, quản lý trạng thái và logic trang hóa đơn ═══════════════════════════════════════════ -->
     <script>
       const { createApp } = Vue;
 
+      // ═══════════════════════════════════════════ HÀM TIỆN ÍCH — Tạo mã đơn hàng và định dạng ngày tháng ═══════════════════════════════════════════
+
+      // genOrderId: Tạo mã đơn hàng ngẫu nhiên dạng DT + 8 ký tự (VD: DTAB3K7H2)
       function genOrderId() {
         const c = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
         let id = "DT";
@@ -1685,6 +1721,7 @@
           id += c[Math.floor(Math.random() * c.length)];
         return id;
       }
+      // fmtDate: Định dạng ngày theo chuẩn vi-VN, có thể cộng thêm số ngày (addDays)
       function fmtDate(d, addDays = 0) {
         const dt = new Date(d);
         dt.setDate(dt.getDate() + addDays);
@@ -1695,16 +1732,18 @@
         });
       }
 
+      // ═══════════════════════════════════════════ KHỞI TẠO ỨNG DỤNG VUE ═══════════════════════════════════════════
       createApp({
+        // ═══════════════════════════════════════════ data() — Dữ liệu phản ứng (reactive) của ứng dụng ═══════════════════════════════════════════
         data() {
           const now = new Date();
 
-          // ── Đọc user từ localStorage ──
+          // ── Đọc thông tin người dùng từ localStorage ──
           const savedUser = JSON.parse(
             localStorage.getItem("daoTruyenUser") || "null",
           );
 
-          // ── Snapshot giỏ hàng ngay khi vào trang (trước khi login có thể xóa) ──
+          // ── Snapshot giỏ hàng: Lưu lại danh sách sản phẩm ngay khi vào trang (tránh mất khi login xóa giỏ) ──
           let cartItems = [];
           const _snap = sessionStorage.getItem("daoTruyenOrderSnapshot");
           if (_snap) {
@@ -1719,7 +1758,7 @@
             );
           }
 
-          // ── Tính toán đơn hàng ──
+          // ── Tính toán tổng tiền đơn hàng ──
           const subtotal = cartItems.reduce((s, item) => {
             const p =
               typeof item.price === "string"
@@ -1727,16 +1766,16 @@
                 : item.price || 0;
             return s + p * (item.qty || 1);
           }, 0);
-          const discount = Math.round(subtotal * 0.1); // giả lập mã DAO10
+          const discount = Math.round(subtotal * 0.1); // Giảm 10% với mã DAO10
           const shipping =
-            subtotal >= 100000 || cartItems.length === 0 ? 0 : 20000;
+            subtotal >= 100000 || cartItems.length === 0 ? 0 : 20000; // Miễn phí vận chuyển nếu đơn ≥ 100k
           const total = subtotal - discount + shipping;
           const totalQty = cartItems.reduce((s, i) => s + (i.qty || 1), 0);
 
           return {
-            // Auth
+            // ── Trạng thái xác thực (Auth) ──
             currentUser: savedUser,
-            showAuthModal: !savedUser, // mở ngay nếu chưa đăng nhập
+            showAuthModal: !savedUser, // Mở modal ngay nếu chưa đăng nhập
             authTab: "login",
             showPwd: false,
             authLoading: false,
@@ -1744,25 +1783,25 @@
             registerForm: { name: "", email: "", phone: "", password: "" },
             authErrors: {},
 
-            // UI
+            // ── Trạng thái giao diện (UI) ──
             showDetailModal: false,
             emailSent: false,
             toast: { show: false, type: "success", title: "", message: "" },
 
-            // Steps
+            // ── Các bước tiến trình mua hàng (Progress Steps) ──
             steps: [
               { label: "Giỏ hàng", done: true, active: false },
               { label: "Thanh toán", done: true, active: false },
               { label: "Xác nhận", done: false, active: true },
             ],
 
-            // ── ĐƠN HÀNG (lấy từ localStorage) ──
+            // ── ĐƠN HÀNG — Dữ liệu lấy từ localStorage (giỏ hàng thực tế) ──
             order: {
               id: genOrderId(),
               date: fmtDate(now),
               estimatedDate: fmtDate(now, 2),
               couponCode: cartItems.length > 0 ? "DAO10" : "",
-              items: cartItems, // <-- giỏ hàng THỰC TẾ
+              items: cartItems, // Danh sách sản phẩm từ giỏ hàng thực tế
               subtotal,
               discount: cartItems.length > 0 ? discount : 0,
               shippingFee: shipping,
@@ -1802,7 +1841,7 @@
               ],
             },
 
-            // Gợi ý sản phẩm
+            // ── Gợi ý sản phẩm — 4 sản phẩm đề xuất mua thêm ──
             suggestedProducts: [
               {
                 id: "TC10",
@@ -1837,7 +1876,9 @@
           };
         },
 
+        // ═══════════════════════════════════════════ mounted() — Xóa giỏ hàng sau khi đặt hàng thành công ─────────────────────────────────────────────────────────────────────────────────────────────────════════════════════════════════════════════
         mounted() {
+          // Nếu đã đăng nhập, xóa giỏ hàng và snapshot (đơn hàng đã được ghi nhận)
           if (this.currentUser) {
             localStorage.removeItem("daoTruyenCart");
             sessionStorage.removeItem("daoTruyenOrderSnapshot");
@@ -1850,33 +1891,37 @@
           }
         },
 
+        // ═══════════════════════════════════════════ methods — Các phương thức xử lý logic của trang hóa đơn ═══════════════════════════════════════════
         methods: {
-          // ── Format giá ──
+          // ───────────────────────────────────────── formatPrice — Định dạng số tiền theo chuẩn Việt Nam (VD: 65000 → "65.000₫") ─────────────────────────────────────────
           formatPrice(n) {
             return (n || 0).toLocaleString("vi-VN") + "₫";
           },
+          // ───────────────────────────────────────── parsePrice — Chuyển chuỗi giá thành số (VD: "65.000₫" → 65000) ─────────────────────────────────────────
           parsePrice(p) {
             if (typeof p === "string")
               return parseFloat(p.replace(/[^\d]/g, "")) || 0;
             return p || 0;
           },
 
-          // ── Auth backdrop: chỉ đóng được nếu đã login ──
+          // ───────────────────────────────────────── onAuthBackdropClick — Đóng modal xác thực khi click nền (chỉ nếu đã login) ─────────────────────────────────────────
           onAuthBackdropClick() {
             if (this.currentUser) this.showAuthModal = false;
           },
 
+          // ───────────────────────────────────────── openAuth — Mở modal đăng nhập/đăng ký theo tab chỉ định ─────────────────────────────────────────
           openAuth(tab) {
             this.authTab = tab;
             this.clearAuthErrors();
             this.showAuthModal = true;
           },
 
+          // ───────────────────────────────────────── clearAuthErrors — Xóa tất cả lỗi xác thực form ─────────────────────────────────────────
           clearAuthErrors() {
             this.authErrors = {};
           },
 
-          // ── ĐĂNG NHẬP (demo: bất kỳ email hợp lệ + pwd ≥ 6) ──
+          // ───────────────────────────────────────── doLogin — Xử lý đăng nhập (demo: bất kỳ email hợp lệ + mật khẩu ≥ 6 ký tự) ─────────────────────────────────────────
           async doLogin() {
             this.clearAuthErrors();
             let valid = true;
@@ -1897,9 +1942,9 @@
             if (!valid) return;
 
             this.authLoading = true;
-            await new Promise((r) => setTimeout(r, 900)); // giả lập API
+            await new Promise((r) => setTimeout(r, 900)); // Giả lập gọi API (trễ 900ms)
 
-            // Lấy tên từ phần trước @ của email
+            // Lấy tên hiển thị từ phần trước @ của email
             const namePart = this.loginForm.email.split("@")[0];
             const displayName =
               namePart.charAt(0).toUpperCase() +
@@ -1925,7 +1970,7 @@
             );
           },
 
-          // ── ĐĂNG KÝ ──
+          // ───────────────────────────────────────── doRegister — Xử lý đăng ký tài khoản mới ─────────────────────────────────────────
           async doRegister() {
             this.clearAuthErrors();
             let valid = true;
@@ -1975,14 +2020,14 @@
             );
           },
 
-          // ── ĐĂNG XUẤT ──
+          // ───────────────────────────────────────── logout — Đăng xuất, xóa thông tin người dùng ─────────────────────────────────────────
           logout() {
             localStorage.removeItem("daoTruyenUser");
             this.currentUser = null;
             window.location.href = "../index.html";  // ← về trang chủ
           },
 
-          // ── Copy mã đơn ──
+          // ───────────────────────────────────────── copyOrderId — Sao chép mã đơn hàng vào clipboard ─────────────────────────────────────────
           copyOrderId() {
             navigator.clipboard?.writeText(this.order.id).catch(() => {});
             this.showToast(
@@ -1992,7 +2037,7 @@
             );
           },
 
-          // ── Gửi lại email ──
+          // ───────────────────────────────────────── resendEmail — Gửi lại email xác nhận đơn hàng (giả lập) ─────────────────────────────────────────
           async resendEmail() {
             if (this.emailSent) return;
             this.emailSent = true;
@@ -2006,7 +2051,7 @@
             }, 30000);
           },
 
-          // ── In đơn ──
+          // ───────────────────────────────────────── printInvoice — In hóa đơn hoặc lưu PDF ─────────────────────────────────────────
           printInvoice() {
             this.showToast(
               "success",
@@ -2016,7 +2061,7 @@
             setTimeout(() => window.print(), 600);
           },
 
-          // ── Toast ──
+          // ───────────────────────────────────────── showToast — Hiển thị thông báo toast (thành công/lỗi) tự ẩn sau 3.5 giây ─────────────────────────────────────────
           showToast(type, title, message) {
             this.toast = { show: true, type, title, message };
             clearTimeout(this._toastTimer);
@@ -2028,7 +2073,9 @@
       }).mount("#app");
     </script>
 
+    <!-- ═══════════════════════════════════════════ TOAST TRANSITION — CSS hiệu ứng chuyển đổi cho thông báo toast ═══════════════════════════════════════════ -->
     <style>
+      /* Hiệu ứng vào/ra cho toast (dùng với Vue transition) */
       .toast-anim-enter-active {
         animation: toastIn 0.35s ease;
       }

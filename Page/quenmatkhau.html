@@ -1,11 +1,14 @@
 <!doctype html>
 <html lang="vi">
+  <!-- ═══════════════════════════════════════════ HEAD — Cấu hình trang Quên mật khẩu ═══════════════════════════════════════════ -->
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Quên mật khẩu | Đảo Truyện</title>
 
+    <!-- Tailwind CSS CDN — Framework CSS tiện ích -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind config — Mở rộng font (display, body) và màu (cream, ink, amber, muted) -->
     <script>
       tailwind.config = {
         theme: {
@@ -24,10 +27,12 @@
         },
       };
     </script>
+    <!-- Google Fonts — Playfair Display (tiêu đề) + Lora (nội dung) -->
     <link
       href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lora:wght@400;500&display=swap"
       rel="stylesheet"
     />
+    <!-- Phong cách tùy chỉnh — Font mặc định Lora, nền cream, chữ ink -->
     <style>
       body {
         font-family: "Lora", serif;
@@ -36,7 +41,9 @@
       }
     </style>
   </head>
+  <!-- ═══════════════════════════════════════════ BODY — Gradient nền từ cream qua white đến amber-50 ═══════════════════════════════════════════ -->
   <body class="min-h-screen bg-gradient-to-br from-cream via-white to-amber-50">
+    <!-- ═══════════════════════════════════════════ HEADER — Logo + link về trang đăng nhập ═══════════════════════════════════════════ -->
     <header class="border-b border-gray-200 bg-white/95 backdrop-blur-sm shadow-sm">
       <div class="max-w-5xl mx-auto px-4 py-5">
         <a href="./dangnhap.html" class="inline-flex items-center gap-3">
@@ -49,6 +56,10 @@
       </div>
     </header>
 
+    <!-- ═══════════════════════════════════════════ MAIN — Form quên mật khẩu ═══════════════════════════════════════════ -->
+    <!-- Card bo góc lớn (rounded-[2rem]), shadow-2xl + shadow amber -->
+    <!-- Trường Email + Nút gửi yêu cầu + Thông báo thành công (ẩn mặc định) -->
+    <!-- Link chuyển sang trang đăng nhập -->
     <main class="flex min-h-[calc(100vh-100px)] items-center justify-center px-4 py-16">
       <section class="w-full max-w-lg rounded-[2rem] border border-gray-200 bg-white/95 p-10 shadow-2xl shadow-amber/15 ring-1 ring-amber-100">
         <div class="mb-10 text-center">
@@ -88,20 +99,28 @@
       </section>
     </main>
 
+    <!-- ═══════════════════════════════════════════ SCRIPT — Xử lý form quên mật khẩu ═══════════════════════════════════════════ -->
     <script>
+      // Xử lý sự kiện submit form đặt lại mật khẩu
       document.getElementById('resetPasswordForm').addEventListener('submit', function (event) {
+        // Ngăn form reload trang
         event.preventDefault();
+        // Lấy giá trị email từ trường input
         const email = event.target.email.value.trim();
+        // Kiểm tra email không được để trống
         if (!email) {
           alert('Vui lòng nhập email.');
           return;
         }
 
+        // Hiển thị thông báo đặt lại mật khẩu thành công
         const successMessage = document.getElementById('resetSuccess');
         successMessage.classList.remove('hidden');
         successMessage.classList.add('block');
 
-        // Optionally redirect after a short delay
+        // ─────────────────────────────────────────
+        // Tự động chuyển hướng sang trang đăng nhập sau 2.2 giây
+        // ─────────────────────────────────────────
         setTimeout(function () {
           window.location.href = './dangnhap.html';
         }, 2200);

@@ -489,6 +489,7 @@
                   </button>
                   <button
                     class="flex-1 text-xs bg-ink text-white rounded py-1.5 hover:bg-amber transition-colors"
+                    @click="buyBook(book)"
                   >
                     Mua ngay
                   </button>
@@ -657,6 +658,7 @@
                 </button>
                 <button
                   class="flex-1 text-xs bg-ink text-white rounded py-1.5 hover:bg-amber transition-colors"
+                  @click="buyBook(book)"
                 >
                   Mua ngay
                 </button>
@@ -745,6 +747,7 @@
                   </button>
                   <button
                     class="flex-1 text-xs bg-ink text-white rounded py-1.5 hover:bg-amber transition-colors"
+                    @click="buyBook(book)"
                   >
                     Mua ngay
                   </button>
@@ -996,7 +999,7 @@
                 img: "./images/product/Tinh_cam/ngon-ngu-yeu-thuong_bia_tap-10-dd.webp",
                 stars: 5,
                 price: "40.000₫",
-                link: "./Page/chitiettruyen.html",
+                link: "./Page/chitiettruyen_ngonnguyeuthuong.html",
               },
               {
                 id: 2,
@@ -1004,6 +1007,7 @@
                 img: "./images/product/Trinh_tham/duoc_su_tu_su_manga_14_ban_pho_thong_bia.webp",
                 stars: 5,
                 price: "35.000₫",
+                link: "./Page/chitiettruyen_duocsututu.html",
               },
               {
                 id: 3,
@@ -1011,6 +1015,7 @@
                 img: "./images/product/Hanh_dong/frieren-phap-su-tien-tang_bia_tap-1.jpg",
                 stars: 5,
                 price: "35.000₫",
+                link: "./Page/chitiettruyen_frieren.html",
               },
               {
                 id: 4,
@@ -1018,6 +1023,7 @@
                 img: "./images/product/Thieu_nhi/tsubasa---giac-mo-san-co-tap-2.webp",
                 stars: 5,
                 price: "25.000₫",
+                link: "./Page/chitiettruyen_tsubasa.html",
               },
               {
                 id: 5,
@@ -1025,6 +1031,7 @@
                 img: "./images/product/Tinh_cam/nang-juliet-o-truong-noi-tru_bia_tap-2.jpg",
                 stars: 5,
                 price: "30.000₫",
+                link: "./Page/chitiettruyen_nangjuliet.html",
               },
               {
                 id: 6,
@@ -1032,6 +1039,7 @@
                 img: "./images/product/Hanh_dong/8935352624715.jpg",
                 stars: 5,
                 price: "40.000₫",
+                link: "./Page/chitiettruyen_thanhguom.html",
               },
             ],
 
@@ -1178,6 +1186,12 @@
               img: "./images/product/Trinh_tham/spy_x_family_bia_tap_2_tb_2025.webp",
               category: "Truyện tranh",
             });
+            window.location.href = "Page/giohang.html";
+          },
+
+          // Mua ngay sách bất kỳ (thêm vào giỏ + chuyển hướng)
+          buyBook(book) {
+            this.addToCart(book);
             window.location.href = "Page/giohang.html";
           },
 

@@ -1,12 +1,13 @@
 <!doctype html>
 <html lang="vi">
+  <!-- ═══════════════════════════════════════════ HEAD — Cấu hình trang Giới thiệu ═══════════════════════════════════════════ -->
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="../assets/favicon.jpg" type="image/x-icon" />
     <title>Đảo Truyện | Giới thiệu</title>
 
-    <!-- ① Tailwind CSS CDN -->
+    <!-- ① Tailwind CSS CDN — Framework CSS tiện ích -->
     <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- ② Google Fonts — Playfair Display (display) + Lora (body) -->
@@ -15,6 +16,7 @@
       rel="stylesheet"
     />
 
+    <!-- ③ Custom CSS — style.css + style_lh.css (liên hệ) -->
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/style_lh.css">
 
@@ -39,7 +41,7 @@
     </script>
 
     <style>
-      /* ⑤ Phong cách chung */
+      /* ⑤ Phong cách chung — không cần reset riêng vì Tailwind đã có Preflight */
       body {
         font-family: "Lora", serif;
         background-color: #faf7f2;
@@ -90,9 +92,11 @@
       }
     </style>
   </head>
+  <!-- ═══════════════════════════════════════════ BODY — Gradient nền từ cream qua white đến amber-50 ═══════════════════════════════════════════ -->
   <body class="bg-gradient-to-br from-cream via-white to-amber-50">
     <div id="app">
       <!-- Vue mount point -->
+      <!-- ═══════════════════════════════════════════ HEADER — Thanh điều hướng cố định (sticky) ═══════════════════════════════════════════ -->
       <header
         class="sticky top-0 z-50 bg-cream border-b border-gray-200 shadow-sm"
       >
@@ -760,30 +764,46 @@
     </div>
 
     <!-- Vue 3 -->
+    <!-- ═══════════════════════════════════════════ VUE JS — Khởi tạo ứng dụng Vue 3 ═══════════════════════════════════════════ -->
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script>
       const { createApp } = Vue;
 
       createApp({
+        // ═══════════════════════════════════════════
+        // data() — Dữ liệu phản ứng (reactive state)
+        // ═══════════════════════════════════════════
         data() {
           return {
-            mobileOpen: false,
-            emailSubscribe: "",
-            cartCount: 0,
+            mobileOpen: false,       // Trạng thái mở/đóng menu mobile
+            emailSubscribe: "",       // Email đăng ký nhận tin
+            cartCount: 0,            // Số lượng sản phẩm trong giỏ hàng
           };
         },
+        // ═══════════════════════════════════════════
+        // mounted() — Chạy sau khi Vue mount vào DOM
+        // ═══════════════════════════════════════════
         mounted() {
           // Đồng bộ badge giỏ hàng từ localStorage
           this.updateCartBadge();
           window.addEventListener("storage", this.updateCartBadge);
         },
+        // ═══════════════════════════════════════════
+        // methods — Các phương thức xử lý sự kiện
+        // ═══════════════════════════════════════════
         methods: {
+          // ─────────────────────────────────────────
+          // subscribeEmail — Xử lý đăng ký nhận email
+          // ─────────────────────────────────────────
           subscribeEmail() {
             if (this.emailSubscribe) {
               alert("Cảm ơn bạn đã đăng ký nhận thông tin!");
               this.emailSubscribe = "";
             }
           },
+          // ─────────────────────────────────────────
+          // updateCartBadge — Cập nhật số lượng giỏ hàng từ localStorage
+          // ─────────────────────────────────────────
           updateCartBadge() {
             const cart = JSON.parse(localStorage.getItem("daoTruyenCart") || "[]");
             this.cartCount = cart.reduce((sum, item) => sum + item.qty, 0);

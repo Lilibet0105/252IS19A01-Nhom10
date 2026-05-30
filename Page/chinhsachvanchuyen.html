@@ -1,11 +1,14 @@
 ﻿<!doctype html>
 <html lang="vi">
+  <!-- ═══════════════════════════════════════════ HEAD — Cấu hình trang Chính sách vận chuyển ═══════════════════════════════════════════ -->
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Chính sách vận chuyển | Đảo Truyện</title>
 
+    <!-- Tailwind CSS CDN — Framework CSS tiện ích -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind config — Mở rộng font (display, body) và màu (cream, ink, amber, muted) -->
     <script>
       tailwind.config = {
         theme: {
@@ -24,10 +27,12 @@
         },
       };
     </script>
+    <!-- Google Fonts — Playfair Display (tiêu đề) + Lora (nội dung) -->
     <link
       href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lora:wght@400;500&display=swap"
       rel="stylesheet"
     />
+    <!-- Phong cách tùy chỉnh — Font mặc định Lora, nền cream, chữ ink -->
     <style>
       body {
         font-family: "Lora", serif;
@@ -36,7 +41,9 @@
       }
     </style>
   </head>
+  <!-- ═══════════════════════════════════════════ BODY — Gradient nền từ cream qua white đến amber-50 ═══════════════════════════════════════════ -->
   <body class="min-h-screen bg-gradient-to-br from-cream via-white to-amber-50">
+    <!-- ═══════════════════════════════════════════ HEADER — Logo + link về trang chủ ═══════════════════════════════════════════ -->
     <header class="border-b border-gray-200 bg-white/95 backdrop-blur-sm shadow-sm">
       <div class="max-w-5xl mx-auto px-4 py-5">
         <a href="./dangnhap.html" class="inline-flex items-center gap-3">

@@ -1,26 +1,70 @@
+/**
+ * ═══════════════════════════════════════════════════════════════════
+ * style.css — Stylesheet Toàn cục (Legacy)
+ * ═══════════════════════════════════════════════════════════════════
+ *
+ * Mục đích:
+ *   - Định nghĩa các kiểu CSS cơ bản dùng chung cho toàn bộ website,
+ *     bao gồm: nền trang, font tiêu đề, liên kết, dropdown menu,
+ *     và các lớp tiện ích cho card/thẻ sản phẩm.
+ *   - Đây là file CSS cũ (legacy), được giữ lại để tương thích ngược.
+ *     Các style mới nên được đặt trong các file CSS chuyên biệt.
+ *
+ * Phạm vi áp dụng: Tất cả các trang của website
+ * ═══════════════════════════════════════════════════════════════════
+ */
+
+/* ─────────────────────────────────────────
+   Body — Nền chính của trang
+   Màu nền #F3F2EC (be nhạt) tạo cảm giác ấm áp,
+   phù hợp với giao diện bán truyện tranh.
+   ───────────────────────────────────────── */
 body {
   background: #F3F2EC;
   /* overflow-x: hidden; */
 }
 
+/* ─────────────────────────────────────────
+   .header-font — Font chữ cho các tiêu đề header
+   Sử dụng font Prata (serif) kết hợp Georgia làm fallback.
+   ───────────────────────────────────────── */
 .header-font {
   font-family: "Prata", Georgia, serif;
 }
 
+/* ─────────────────────────────────────────
+   a — Định dạng mặc định cho liên kết
+   Bỏ gạch chân, kế thừa màu chữ từ phần tử cha.
+   ───────────────────────────────────────── */
 a {
   text-decoration: none;
   color: inherit;
 }
 
+/* ─────────────────────────────────────────
+   .section-color — Màu nền cho các khu vực nội dung
+   Màu #EDEBE4 (be đậm hơn nền chính) giúp phân biệt
+   các phần nội dung với nền tổng thể.
+   ───────────────────────────────────────── */
 .section-color {
   background: #EDEBE4;
 }
 
+/* ─────────────────────────────────────────
+   .card-body — Thân thẻ sản phẩm
+   Chiều cao tối thiểu 142px đảm bảo các thẻ sản phẩm
+   có kích thước đồng nhất khi hiển thị lưới.
+   ───────────────────────────────────────── */
 .card-body {
   min-height: 142px;
 }
 
-
+/* ─────────────────────────────────────────
+   .dropdown-content — Nội dung menu dropdown
+   Ẩn mặc định (display: none), hiển thị khi hover
+   vào phần tử cha (.dropdown). Bao gồm bóng đổ
+   và nền cùng tông với trang.
+   ───────────────────────────────────────── */
 .dropdown-content {
   display: none;
   position: absolute;
@@ -30,6 +74,11 @@ a {
   z-index: 1;
 }
 
+/* ─────────────────────────────────────────
+   .dropdown-content a — Các liên kết trong dropdown
+   Màu chữ đen mờ (#000000A6), padding rộng để dễ click,
+   hiển thị dạng khối (block) để chiếm toàn bộ chiều ngang.
+   ───────────────────────────────────────── */
 .dropdown-content a {
   color: #000000A6;
   padding: 12px 16px;
@@ -37,10 +86,20 @@ a {
   display: block;
 }
 
+/* ─────────────────────────────────────────
+   .dropdown:hover .dropdown-content — Hiển thị dropdown khi hover
+   Khi chuột di chuyển vào phần tử .dropdown,
+   nội dung dropdown sẽ hiện ra (display: block).
+   ───────────────────────────────────────── */
 .dropdown:hover .dropdown-content {
   display: block;
 }
 
+/* ─────────────────────────────────────────
+   .a:hover — Hiệu ứng hover cho liên kết chung
+   Đổi màu chữ thành đen và giảm độ mờ xuống 75%
+   khi di chuột vào liên kết.
+   ───────────────────────────────────────── */
 .a:hover{
   color:black;
   opacity: 75;

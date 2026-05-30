@@ -1,13 +1,37 @@
-/* body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-} */
+/**
+ * ═══════════════════════════════════════════════════════════════════
+ * style_lh.css — Stylesheet Trang Liên Hệ
+ * ═══════════════════════════════════════════════════════════════════
+ *
+ * Mục đích:
+ *   - Định nghĩa giao diện cho trang liên hệ (Liên Hệ), bao gồm:
+ *     + Bố cục flexbox cho 3 khu vực: thông tin liên hệ, form gửi tin,
+ *       và bản đồ nhúng.
+ *     + Kiểu dáng cho các input, textarea, nút gửi form.
+ *     + Tiêu đề trang (h1) căn giữa.
+ *   - Sử dụng responsive flex-wrap để tự động xuống dòng trên màn hình nhỏ.
+ *
+ * Phạm vi áp dụng: Trang liên hệ (tranglienhe.html)
+ * ═══════════════════════════════════════════════════════════════════
+ */
+
+/* ─────────────────────────────────────────
+   .container — Container chính của trang liên hệ
+   Sử dụng flexbox với wrap để các khối nội dung
+   tự động xuống dòng khi màn hình hẹp.
+   ───────────────────────────────────────── */
 .container {
     display: flex;
     flex-wrap: wrap;
     padding: 20px;
 }
+
+/* ─────────────────────────────────────────
+   .contact-info, .contact-form, .map — Ba khối chính
+   Mỗi khối có nền trắng, bo góc 10px, bóng đổ nhẹ,
+   và chiếm tỷ lệ flex:1 (chia đều không gian).
+   min-width: 300px đảm bảo không bị thu quá nhỏ.
+   ───────────────────────────────────────── */
 .contact-info, .contact-form, .map {
     background-color: white;
     padding: 20px;
@@ -17,29 +41,66 @@
     flex: 1;
     min-width: 300px;
 }
+
+/* ─────────────────────────────────────────
+   .contact-info h2, .contact-form h2 — Tiêu đề các khối
+   Cỡ chữ 1.5em, khoảng cách dưới 20px.
+   ───────────────────────────────────────── */
 .contact-info h2, .contact-form h2 {
     font-size: 1.5em;
     margin-bottom: 20px;
 }
+
+/* ─────────────────────────────────────────
+   .contact-info p, .contact-info li — Đoạn văn và mục danh sách
+   Cỡ chữ 1em, khoảng cách dưới 10px giữa các mục.
+   ───────────────────────────────────────── */
 .contact-info p, .contact-info li {
     font-size: 1em;
     margin-bottom: 10px;
 }
+
+/* ─────────────────────────────────────────
+   .contact-info ul — Danh sách thông tin liên hệ
+   Bỏ bullet mặc định (list-style: none), xóa padding.
+   ───────────────────────────────────────── */
 .contact-info ul {
     list-style: none;
     padding: 0;
 }
+
+/* ─────────────────────────────────────────
+   .contact-info li — Mỗi mục trong danh sách liên hệ
+   Hiển thị dạng flexbox để icon và text nằm cùng dòng.
+   ───────────────────────────────────────── */
 .contact-info li {
     display: flex;
     align-items: center;
 }
+
+/* ─────────────────────────────────────────
+   .contact-info li img — Icon trong danh sách liên hệ
+   Khoảng cách phải 10px để tách icon khỏi text.
+   ───────────────────────────────────────── */
 .contact-info li img {
     margin-right: 10px;
 }
+
+/* ─────────────────────────────────────────
+   .contact-form form — Form gửi tin nhắn liên hệ
+   Bố cục dọc (flex-direction: column) để các trường
+   input/textarea xếp theo chiều dọc.
+   ───────────────────────────────────────── */
 .contact-form form {
     display: flex;
     flex-direction: column;
 }
+
+/* ─────────────────────────────────────────
+   .contact-form input, .contact-form textarea — Các trường nhập liệu
+   Khoảng cách dưới 10px, padding 10px, viền xám (#ddd),
+   bo góc 5px, cỡ chữ 1em.
+   ───────────────────────────────────────── */
 .contact-form input, .contact-form textarea {
     margin-bottom: 10px;
     padding: 10px;
@@ -47,6 +108,12 @@
     border-radius: 5px;
     font-size: 1em;
 }
+
+/* ─────────────────────────────────────────
+   .contact-form button — Nút gửi form liên hệ
+   Màu cam (#ff7043), chữ trắng, bo góc 5px,
+   con trỏ dạng pointer để báo hiệu có thể click.
+   ───────────────────────────────────────── */
 .contact-form button {
     padding: 10px;
     background-color: #ff7043;
@@ -56,16 +123,29 @@
     font-size: 1em;
     cursor: pointer;
 }
+
+/* ─────────────────────────────────────────
+   .contact-form button:hover — Hiệu ứng hover nút gửi
+   Đổi sang màu cam đậm hơn (#ff5722) khi di chuột vào.
+   ───────────────────────────────────────── */
 .contact-form button:hover {
     background-color: #ff5722;
 }
+
+/* ─────────────────────────────────────────
+   .map iframe — Bản đồ nhúng Google Maps
+   Chiếm 100% chiều ngang, bo góc 10px, không viền.
+   ───────────────────────────────────────── */
 .map iframe {
     width: 100%;
     border: 0;
     border-radius: 10px;
 }
-/* Place your CSS styles in this file */
 
+/* ─────────────────────────────────────────
+   h1 — Tiêu đề chính của trang liên hệ
+   Căn giữa, font Source Sans Pro, trọng số bình thường.
+   ───────────────────────────────────────── */
 h1 {
     text-align: center;
     font-family: "Source Sans Pro", sans-serif;
