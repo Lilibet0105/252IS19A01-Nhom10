@@ -499,10 +499,25 @@
             showToast: false,
             toastMsg: "",
             // Đọc giỏ hàng từ localStorage, chuẩn hoá đường dẫn ảnh
-            cartItems: JSON.parse(localStorage.getItem("daoTruyenCart") || "[]").map(item => ({
-              ...item,
-              image: (item.image || '').replace(/^\.?\/?\.{0,2}\//, '')
-            })),
+            cartItems: JSON.parse(localStorage.getItem("daoTruyenCart") || "[]").map(item => {
+              // Ưu tiên item.image, fallback sang item.img (từ chitiettruyen.html)
+              let img = (item.image || item.img || '').replace(/^\.?\/?\.{0,2}\//, '');
+              // Xử lý giá: chuyển chuỗi dạng "65.500₫" thành số
+              let price = item.price;
+              if (typeof price === 'string') {
+                price = parseFloat(price.replace(/[^\d]/g, '')) || 0;
+              }
+              let originalPrice = item.originalPrice;
+              if (typeof originalPrice === 'string') {
+                originalPrice = parseFloat(originalPrice.replace(/[^\d]/g, '')) || null;
+              }
+              return {
+                ...item,
+                image: img,
+                price: price,
+                originalPrice: originalPrice
+              };
+            }),
             // Sản phẩm gợi ý
             suggestedBooks: [
               { id: 1, name: "One Piece - Tập 1", price: 25000, category: "Truyện tranh hành động", image: "../images/product/Hanh_dong/One_piece.webp" },
@@ -547,21 +562,28 @@
           // Đồng bộ giỏ hàng vào localStorage mỗi khi thay đổi
           cartItems: {
             handler(newVal) {
-              localStorage.setItem("daoTruyenCart", JSON.stringify(newVal));
-              // Phát sự kiện storage để các tab/page khác cập nhật
-              window.dispatchEvent(new StorageEvent('storage', {
-                key: 'daoTruyenCart',
-                newValue: JSON.stringify(newVal)
+              // Chuẩn hoá dữ liệu trước khi lưu: đảm bảo giá là số
+              const normalized = newVal.map(item => ({
+                ...item,
+                price: typeof item.price === 'string' ? parseFloat(item.price.replace(/[^\d]/g, '')) || 0 : item.price,
+                originalPrice: item.originalPrice ? (typeof item.originalPrice === 'string' ? parseFloat(item.originalPrice.replace(/[^\d]/g, '')) || null : item.originalPrice) : null,
+                image: (item.image || item.img || '').replace(/^\.?\/?\.{0,2}\//, '')
               }));
+              localStorage.setItem("daoTruyenCart", JSON.stringify(normalized));
             },
-            deep: true
+            deep: true,
+            immediate: true
           }
         },
         methods: {
-          // Định dạng giá tiền VND (hỗ trợ cả số và chuỗi dạng "65.500₫")
+          // Định dạng giá tiền VND
           formatPrice(price) {
-            // Nếu giá là chuỗi đã định dạng (vd "65.500₫"), trả về nguyên bản
-            if (typeof price === 'string' && isNaN(price)) {
+            // Nếu giá là chuỗi đã định dạng (vd "65.500₫"), parse thành số rồi format lại
+            if (typeof price === 'string') {
+              const num = parseFloat(price.replace(/[^\d]/g, ''));
+              if (!isNaN(num)) {
+                return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(num);
+              }
               return price;
             }
             return new Intl.NumberFormat("vi-VN", {
@@ -575,14 +597,25 @@
             if (existing) {
               existing.qty++;
             } else {
+              // Chuẩn hoá giá: chuyển chuỗi dạng "65.500₫" thành số
+              let price = book.price;
+              if (typeof price === 'string') {
+                price = parseFloat(price.replace(/[^\d]/g, '')) || 0;
+              }
+              let originalPrice = book.originalPrice || null;
+              if (typeof originalPrice === 'string') {
+                originalPrice = parseFloat(originalPrice.replace(/[^\d]/g, '')) || null;
+              }
+              // Chuẩn hoá đường dẫn ảnh
+              let img = (book.img || book.image || '').replace(/^\.?\/?\.{0,2}\//, '');
               this.cartItems.push({
                 id: book.id,
                 name: book.name,
                 category: book.category || "Truyện tranh",
-                price: book.price,
-                originalPrice: book.originalPrice || null,
+                price: price,
+                originalPrice: originalPrice,
                 qty: 1,
-                image: (book.img || book.image || "").replace(/^\.?\/?\.{0,2}\/?/, "")
+                image: img
               });
             }
             this.toast("Đã thêm \"" + book.name + "\" vào giỏ hàng!");
@@ -644,7 +677,18 @@
           // Lắng nghe thay đổi từ localStorage (từ tab/page khác)
           const handleStorage = (e) => {
             if (e.key === 'daoTruyenCart') {
-              this.cartItems = JSON.parse(e.newValue || '[]');
+              this.cartItems = JSON.parse(e.newValue || '[]').map(item => {
+                let img = (item.image || item.img || '').replace(/^\.?\/?\.{0,2}\//, '');
+                let price = item.price;
+                if (typeof price === 'string') {
+                  price = parseFloat(price.replace(/[^\d]/g, '')) || 0;
+                }
+                let originalPrice = item.originalPrice;
+                if (typeof originalPrice === 'string') {
+                  originalPrice = parseFloat(originalPrice.replace(/[^\d]/g, '')) || null;
+                }
+                return { ...item, image: img, price: price, originalPrice: originalPrice };
+              });
             }
           };
           window.addEventListener('storage', handleStorage);
