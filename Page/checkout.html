@@ -245,6 +245,18 @@ border: none; background: #f5f0e8; cursor: pointer;
     .overlay-enter-from, .overlay-leave-to { opacity: 0; }
     .overlay-enter-active .popup-box { animation: popIn 0.3s cubic-bezier(0.34,1.56,0.64,1) both; }
     .overlay-leave-active .popup-box { animation: popIn 0.2s ease reverse both; }
+    .field-input.is-error {
+      border-color: #ef4444 !important;
+      background: #fff5f5;
+    }
+    .field-error {
+      color: #ef4444;
+      font-size: 11.5px;
+      margin-top: 4px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
   </style>
 </head>
 <body>
@@ -388,8 +400,12 @@ border: none; background: #f5f0e8; cursor: pointer;
               <input type="text" v-model="form.lastName" class="field-input" placeholder="Tên"/>
             </div>
             <div class="sm:col-span-2">
-              <label class="block text-xs font-semibold text-muted uppercase tracking-wider mb-1.5">Email <span class="text-gray-300 font-normal normal-case">(Tuỳ chọn)</span></label>
-              <input type="email" v-model="form.email" class="field-input" placeholder="you@example.com"/>
+              <label class="block text-xs font-semibold text-muted uppercase tracking-wider mb-1.5">Email <span class="text-red-400">*</span></label>
+              <input type="email" v-model="form.email" :class="['field-input', errors.email ? 'is-error' : '']" placeholder="you@example.com" @input="errors.email = ''"/>
+              <p v-if="errors.email" class="field-error">
+                <svg class="w-3.5 h-3.5 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+                {{ errors.email }}
+              </p>
             </div>
             <div class="sm:col-span-2">
               <label class="block text-xs font-semibold text-muted uppercase tracking-wider mb-1.5">Địa chỉ giao hàng <span class="text-red-400">*</span></label>
@@ -397,7 +413,11 @@ border: none; background: #f5f0e8; cursor: pointer;
             </div>
             <div>
 <label class="block text-xs font-semibold text-muted uppercase tracking-wider mb-1.5">Số điện thoại <span class="text-red-400">*</span></label>
-              <input type="tel" v-model="form.phone" class="field-input" placeholder="0xxx xxx xxx"/>
+              <input type="tel" v-model="form.phone" :class="['field-input', errors.phone ? 'is-error' : '']" placeholder="0xxx xxx xxx" @input="onPhoneInput" @keypress="onPhoneKeypress"/>
+              <p v-if="errors.phone" class="field-error">
+                <svg class="w-3.5 h-3.5 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+                {{ errors.phone }}
+              </p>
             </div>
             <div>
               <label class="block text-xs font-semibold text-muted uppercase tracking-wider mb-1.5">Mã bưu điện <span class="text-gray-300 font-normal normal-case">(Tuỳ chọn)</span></label>
@@ -768,6 +788,10 @@ createApp({
       payment: 'cod',
       emailSubscribe: '',
       showPopup: false,
+      errors: {
+        email: '',
+        phone: ''
+      },
       form: {
         firstName: '', lastName: '', email: '',
         address: '', phone: '', zip: '', note: ''
@@ -811,12 +835,47 @@ return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).fo
       return parseFloat(String(val).replace(/[^\d]/g, '')) || 0;
     },
     submitOrder() {
-      const { firstName, lastName, address, phone } = this.form;
+      const { firstName, lastName, address, phone, email } = this.form;
+      // Reset lỗi
+      this.errors.email = '';
+      this.errors.phone = '';
+
+      // Kiểm tra các trường bắt buộc cơ bản
       if (!firstName || !lastName || !address || !phone) {
         alert('Vui lòng điền đầy đủ các trường bắt buộc (*).');
         return;
       }
+
+      // Ràng buộc 1: Email bắt buộc, định dạng ...@....com
+      if (!email) {
+        this.errors.email = 'Email là bắt buộc.';
+        return;
+      }
+      const emailRegex = /^[^\s@]+@[^\s@]+\.com$/i;
+      if (!emailRegex.test(email)) {
+        this.errors.email = 'Email phải có định dạng hợp lệ, ví dụ: ten@example.com';
+        return;
+      }
+
+      // Ràng buộc 2: Số điện thoại chỉ được chứa chữ số
+      const phoneRegex = /^\d+$/;
+      if (!phoneRegex.test(phone)) {
+        this.errors.phone = 'Số điện thoại chỉ được chứa chữ số (0–9), không có chữ hay ký tự đặc biệt.';
+        return;
+      }
+
       this.showPopup = true;
+    },
+    // Chặn nhập ký tự không phải số vào ô số điện thoại
+    onPhoneKeypress(e) {
+      if (!/\d/.test(e.key)) {
+        e.preventDefault();
+      }
+    },
+    // Lọc sạch mọi ký tự không phải số khi paste hoặc input
+    onPhoneInput(e) {
+      this.form.phone = e.target.value.replace(/\D/g, '');
+      this.errors.phone = '';
     },
     confirmOrder() {
       this.showPopup = false;

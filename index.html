@@ -573,6 +573,7 @@
                 </p>
                 <p class="text-xl font-bold mb-5">40.000₫</p>
                 <button
+                  @click="buyBanChay"
                   class="bg-ink text-white px-8 py-2.5 text-sm hover:bg-amber transition-colors rounded"
                 >
                   Mua ngay
@@ -1166,6 +1167,18 @@
           // Scroll ngang cho Owl Carousel cũ
           scrollCarousel(refName, amount) {
             this.$refs[refName].scrollBy({ left: amount, behavior: "smooth" });
+          },
+
+          // Mua ngay sách bán chạy (SpyXFamily)
+          buyBanChay() {
+            this.addToCart({
+              id: 50,
+              name: "SpyXFamily",
+              price: "40.000₫",
+              img: "./images/product/Trinh_tham/spy_x_family_bia_tap_2_tb_2025.webp",
+              category: "Truyện tranh",
+            });
+            window.location.href = "Page/giohang.html";
           },
 
           // Thêm vào giỏ — lưu vào localStorage + hiện toast

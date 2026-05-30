@@ -534,12 +534,7 @@
                 </svg>
                 {{ authLoading ? 'Đang xử lý...' : 'Đăng nhập' }}
               </button>
-              <!-- Demo hint -->
-              <div
-                class="bg-gray-50 border border-gray-200 rounded-xl p-3 text-xs text-muted text-center"
-              >
-                💡 Demo: nhập bất kỳ email + mật khẩu ≥ 6 ký tự để đăng nhập
-              </div>
+
             </form>
 
             <!-- FORM ĐĂNG KÝ -->
@@ -1984,7 +1979,7 @@
           logout() {
             localStorage.removeItem("daoTruyenUser");
             this.currentUser = null;
-            this.showAuthModal = true;
+            window.location.href = "../index.html";  // ← về trang chủ
           },
 
           // ── Copy mã đơn ──

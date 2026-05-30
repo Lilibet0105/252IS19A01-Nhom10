@@ -1062,7 +1062,27 @@
             }, 2500);
           },
           buyNow(book) {
-            window.location.href = `chitiettruyen.html?id=${book.id}`;
+            // Thêm sản phẩm vào giỏ hàng (localStorage daoTruyenCart)
+            const cart = JSON.parse(localStorage.getItem("daoTruyenCart") || "[]");
+            const existing = cart.find(item => item.id === book.id);
+            if (existing) {
+              existing.qty++;
+            } else {
+              cart.push({
+                id: book.id,
+                name: book.name,
+                category: book.category || "Truyện tranh",
+                price: book.price,
+                originalPrice: book.originalPrice || null,
+                qty: 1,
+                image: (book.img || book.image || "").replace(/^\.?\/?\.{0,2}\/?/, "")
+              });
+            }
+            localStorage.setItem("daoTruyenCart", JSON.stringify(cart));
+            // Cập nhật badge giỏ hàng
+            this.cartCount = cart.reduce((sum, item) => sum + item.qty, 0);
+            // Chuyển thẳng sang trang thanh toán
+            window.location.href = "checkout.html";
           },
           subscribeEmail() {
             if (!this.emailSubscribe) return;

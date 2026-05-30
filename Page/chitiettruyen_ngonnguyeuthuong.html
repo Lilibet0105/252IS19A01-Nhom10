@@ -1,0 +1,816 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="icon" href="./assets/favicon.jpg" type="image/x-icon" />
+
+  <title>Đảo Truyện - Ngôn Ngữ Yêu Thương</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Font -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lora:wght@400;500&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Vue -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+  <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lora:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- ③ Heroicons via unpkg (thay Bootstrap Icons) -->
+    <!-- Dùng inline SVG bên dưới cho gọn -->
+
+    <script>
+      // ④ Tailwind config — extend thêm màu & font tuỳ chỉnh
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              display: ["Playfair Display", "serif"],
+              body: ["Lora", "serif"],
+            },
+            colors: {
+              cream: "#faf7f2",
+              ink: "#1a1a1a",
+              amber: "#d97706",
+              muted: "#6b7280",
+            },
+          },
+        },
+      };
+    </script>
+
+    <style>
+      /* ⑤ Phong cách chung — không cần reset riêng vì Tailwind đã có Preflight */
+      body {
+        font-family: "Lora", serif;
+        background-color: #faf7f2;
+        color: #1a1a1a;
+      }
+
+      /* Dropdown "Sách" — hiệu ứng hover bằng CSS thuần (không cần JS) */
+      .nav-dropdown:hover .dropdown-menu {
+        display: block;
+      }
+
+      /* Carousel transition */
+      .slide-enter-active,
+      .slide-leave-active {
+        transition: opacity 0.6s ease;
+      }
+      .slide-enter-from,
+      .slide-leave-to {
+        opacity: 0;
+      }
+
+      /* Scroll carousel (Sách mới) — ẩn scrollbar */
+      .scroll-x::-webkit-scrollbar {
+        display: none;
+      }
+      .scroll-x {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+
+      /* Card hover glow */
+      .book-card:hover {
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        transform: translateY(-2px);
+      }
+      .book-card {
+        transition:
+          box-shadow 0.25s,
+          transform 0.25s;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <!-- Vue mount point -->
+      <header
+        class="sticky top-0 z-50 bg-cream border-b border-gray-200 shadow-sm"
+      >
+        <!-- Tầng 1 — Top bar liên hệ & đăng nhập -->
+        <div class="bg-ink text-white text-xs py-1.5">
+          <div class="max-w-5xl mx-auto px-4 flex items-center justify-between">
+            <!-- Trái: SĐT + Email (email ẩn trên mobile) -->
+            <div class="flex gap-5">
+              <a
+                href="tel:0981109909"
+class="flex items-center gap-1.5 hover:text-amber transition-colors"
+              >
+                <!-- SVG icon Phone (thay bi-telephone-fill) -->
+                <svg
+                  class="w-3.5 h-3.5"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"
+                  />
+                </svg>
+                0981109909
+              </a>
+              <!-- hidden trên mobile, hiện từ sm -->
+              <a
+                href="mailto:Daotruyen@gmail.com"
+                class="hidden sm:flex items-center gap-1.5 hover:text-amber transition-colors"
+              >
+                <svg
+                  class="w-3.5 h-3.5"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"
+                  />
+                  <path
+                    d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"
+                  />
+                </svg>
+                daotruyen@gmail.com
+              </a>
+            </div>
+            <!-- Phải: Nút Đăng ký + Đăng nhập -->
+            <div class="flex items-center gap-2">
+              <!-- Nút Đăng ký -->
+              <a
+                href="dangky.html"
+                class="flex items-center gap-1 bg-amber/90 text-white rounded px-2.5 py-0.5 hover:bg-amber transition-colors"
+              >
+                <svg
+                  class="w-3.5 h-3.5"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"
+                  />
+                </svg>
+                Đăng ký
+              </a>
+              <!-- Nút Đăng nhập -->
+              <a
+                href="dangnhap.html"
+                class="flex items-center gap-1 border border-white/50 rounded px-2.5 py-0.5 hover:bg-white hover:text-ink transition-colors"
+              >
+                <svg
+                  class="w-3.5 h-3.5"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                Đăng nhập
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tầng 2 — Logo căn giữa -->
+<div
+          class="flex justify-center items-center py-2 border-b border-gray-100"
+        >
+          <a href="index.html" class="block">
+            <img
+              src="../assets/logo.jpg"
+              alt="Đảo Truyện"
+              class="h-14 md:h-16 w-auto object-contain"
+            />
+          </a>
+        </div>
+
+        <!-- Tầng 3 — Main Navigation -->
+        <nav class="max-w-5xl mx-auto px-4">
+          <div class="flex items-center justify-between">
+            <!-- Hamburger button — chỉ hiện trên mobile -->
+            <!-- Vue: @click="mobileOpen = !mobileOpen" -->
+            <button
+              @click="mobileOpen = !mobileOpen"
+              class="md:hidden p-2 rounded hover:bg-gray-100 transition-colors"
+            >
+              <!-- Icon hamburger / X tuỳ trạng thái mobileOpen -->
+              <svg
+                v-if="!mobileOpen"
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              </svg>
+              <svg
+                v-else
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+
+            <!-- Menu links — desktop: flex ngang | mobile: collapse dọc -->
+            <!-- Vue: v-show + transition thay thế Bootstrap collapse -->
+            <div
+              :class="['w-full md:flex md:items-center', mobileOpen ? 'block' : 'hidden md:flex']"
+            >
+              <ul
+                class="flex flex-col md:flex-row md:gap-6 py-2 md:py-0 text-sm font-medium"
+              >
+                <li>
+                  <!-- active-link: underline + đậm hơn -->
+                  <a
+                    href="../index.html"
+                    class="block py-2 md:py-4 border-b-2 border-ink font-semibold text-ink transition-colors hover:text-amber"
+                  >
+                    Trang chủ
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="gioithieu.html"
+                    class="block py-2 md:py-4 border-b-2 border-transparent hover:border-amber text-ink hover:text-amber transition-colors"
+                  >
+                    Giới thiệu
+                  </a>
+                </li>
+
+                <!-- Dropdown "Sách" — CSS-only hover, không cần JS -->
+<!-- Tailwind: group + group-hover thay class dropdown-content -->
+                <li class="relative group">
+                  <a
+                    href="theloai.html"
+                    class="flex items-center gap-1 py-2 md:py-4 border-b-2 border-transparent group-hover:border-amber text-ink group-hover:text-amber transition-colors"
+                  >
+                    Truyện tranh
+                    <svg
+                      class="w-3.5 h-3.5 mt-0.5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </a>
+                  <!-- Dropdown menu — hiện khi hover (group-hover) -->
+                  <div
+                    class="hidden group-hover:block absolute left-0 top-full w-44 bg-white border border-gray-200 shadow-lg rounded-b z-40"
+                  >
+                    <a
+                      href="theloai.html?type=tinh-cam"
+                      class="block px-4 py-2.5 text-sm hover:bg-cream hover:text-amber transition-colors"
+                      >Truyện tranh tình cảm</a
+                    >
+                    <a
+                      href="theloai.html?type=shounen"
+                      class="block px-4 py-2.5 text-sm hover:bg-cream hover:text-amber transition-colors"
+                      >Truyện tranh hành động</a
+                    >
+                    <a
+                      href="theloai.html?type=trinh-tham"
+                      class="block px-4 py-2.5 text-sm hover:bg-cream hover:text-amber transition-colors"
+                      >Truyện tranh trinh thám</a
+                    >
+                    <a
+                      href="theloai.html?type=thieu-nhi"
+                      class="block px-4 py-2.5 text-sm hover:bg-cream hover:text-amber transition-colors"
+                      >Truyện tranh thiếu nhi</a
+                    >
+                  </div>
+                </li>
+
+                <li>
+                  <a
+                    href="tranglienhe.html"
+                    class="block py-2 md:py-4 border-b-2 border-transparent hover:border-amber text-ink hover:text-amber transition-colors"
+                  >
+                    Liên hệ
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Nút Giỏ hàng — luôn hiện, badge hiển thị số lượng từ localStorage -->
+            <a
+              href="giohang.html"
+              class="flex items-center gap-1.5 border border-ink rounded px-3 py-1.5 text-sm font-medium hover:bg-ink hover:text-white transition-colors shrink-0"
+>
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"
+                />
+              </svg>
+              Giỏ hàng
+              <span id="cart-badge-index" class="bg-amber text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">{{ cartCount }}</span>
+            </a>
+          </div>
+        </nav>
+      </header>
+      <!-- /HEADER -->
+
+      
+  <!-- PRODUCT -->
+  <section class="py-16">
+
+    <div class="max-w-6xl mx-auto px-4">
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-14">
+
+        <!-- IMAGE -->
+        <div class="flex justify-center">
+
+          <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
+
+            <img
+              src="../images/product/Tinh_cam/ngon-ngu-yeu-thuong_bia_tap-10-dd.webp"
+              alt="Ngôn Ngữ Yêu Thương"
+              class="w-full max-w-md rounded-lg"
+            />
+
+          </div>
+
+        </div>
+
+        <!-- INFO -->
+        <div>
+
+          <h1 class="font-display text-5xl mb-4">
+            Ngôn Ngữ Yêu Thương
+          </h1>
+
+          <p class="text-2xl text-gray-500 mb-4">
+            Heartwarming Studio
+          </p>
+
+          <div class="text-yellow-400 text-2xl mb-4">
+            ★★★★★
+          </div>
+
+          <div class="text-4xl font-bold mb-8">
+            40.000₫
+          </div>
+
+          <p class="text-gray-600 leading-8 text-lg mb-8">
+            Ngôn Ngữ Yêu Thương là bộ manga tình cảm lãng mạn kể về những cung bậc cảm xúc tinh tế giữa hai trái tim đang tìm kiếm nhau. Qua từng trang sách, tình yêu được thể hiện qua những hành động nhỏ bé nhưng đầy ý nghĩa, chạm đến trái tim người đọc.
+          </p>
+
+          <!-- QUANTITY -->
+          <div class="flex items-center border border-gray-300 w-fit mb-8">
+
+            <button
+              @click="decreaseQty"
+              class="w-12 h-12 hover:bg-gray-100 text-xl"
+            >
+              -
+            </button>
+
+            <div class="w-14 text-center text-lg">
+              {{ quantity }}
+            </div>
+
+            <button
+              @click="increaseQty"
+              class="w-12 h-12 hover:bg-gray-100 text-xl"
+            >
+              +
+            </button>
+
+          </div>
+
+          <!-- BUTTON -->
+          <div class="flex gap-4 flex-wrap">
+
+            <button
+              @click="addMainBook"
+              class="bg-gray-800 hover:bg-black text-white px-6 py-3 rounded-lg transition"
+            >
+              🛒 Thêm vào giỏ
+            </button>
+
+            <button
+              @click="buyNow"
+class="bg-black text-white px-6 py-3 rounded-lg"
+            >
+              Mua ngay
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- RELATED -->
+  <section class="max-w-6xl mx-auto px-4 py-14">
+
+    <div class="text-center mb-10">
+      <h2 class="font-display text-4xl">
+        Truyện Cùng Loại
+      </h2>
+
+      <div class="w-16 h-1 bg-amber mx-auto mt-3"></div>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+      <div
+        v-for="book in sachNoiBat"
+        :key="book.id"
+        class="book-card bg-white rounded-xl overflow-hidden border border-gray-200 flex flex-col"
+      >
+
+        <img
+          :src="book.img"
+          :alt="book.name"
+          class="w-full h-72 object-cover"
+        />
+
+        <div class="p-4 flex flex-col flex-1">
+
+          <h3 class="font-semibold mb-2 line-clamp-2">
+            {{ book.name }}
+          </h3>
+
+          <div class="text-yellow-400 mb-2">
+            ★★★★★
+          </div>
+
+          <div class="mb-4">
+            <span class="font-bold">
+              {{ book.price }}
+            </span>
+
+            <span
+              class="line-through text-gray-400 text-sm ml-2"
+            >
+              {{ book.originalPrice }}
+            </span>
+          </div>
+
+          <div class="mt-auto flex gap-2">
+
+            <button
+              @click="addToCart(book)"
+              class="flex-1 border border-ink py-2 rounded hover:bg-ink hover:text-white transition text-sm"
+            >
+              Thêm vào giỏ
+            </button>
+
+            <button
+              @click="buyNowBook(book)"
+              class="flex-1 bg-ink text-white py-2 rounded hover:bg-amber transition text-sm"
+            >
+              Mua ngay
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-ink text-white py-12 mt-10">
+
+    <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-10">
+
+      <div>
+        <h3 class="text-amber mb-4 font-semibold uppercase">
+          Về chúng tôi
+        </h3>
+
+        <ul class="space-y-2 text-white/70 text-sm">
+          <li><a href="#">Giới thiệu</a></li>
+          <li><a href="#">Liên hệ</a></li>
+          <li><a href="#">Hệ thống cửa hàng</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3 class="text-amber mb-4 font-semibold uppercase">
+          Hỗ trợ
+        </h3>
+
+        <ul class="space-y-2 text-white/70 text-sm">
+          <li><a href="#">Chính sách vận chuyển</a></li>
+          <li><a href="#">Bảo hành</a></li>
+          <li><a href="#">Đổi trả</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3 class="text-amber mb-4 font-semibold uppercase">
+          Dịch vụ
+        </h3>
+
+        <ul class="space-y-2 text-white/70 text-sm">
+          <li><a href="#">Điều khoản</a></li>
+<li><a href="#">Bảo mật</a></li>
+          <li><a href="#">Thanh toán</a></li>
+        </ul>
+      </div>
+
+      <div>
+
+        <h3 class="text-amber mb-4 font-semibold uppercase">
+          Nhận thông tin
+        </h3>
+
+        <form @submit.prevent="subscribeEmail" class="flex">
+
+          <input
+            v-model="emailSubscribe"
+            type="email"
+            placeholder="Email của bạn"
+            class="flex-1 px-3 py-2 bg-white/10 border border-white/20 rounded-l outline-none"
+          />
+
+          <button
+            class="bg-amber text-black px-4 rounded-r"
+          >
+            Gửi
+          </button>
+
+        </form>
+
+      </div>
+
+    </div>
+
+    <div class="text-center text-white/40 text-sm mt-10">
+      © 2026 Đảo Truyện
+    </div>
+
+  </footer>
+
+  <!-- TOAST -->
+  <transition name="fade">
+
+    <div
+      v-if="showToast"
+      class="fixed bottom-5 right-5 bg-black text-white px-5 py-3 rounded-lg shadow-xl"
+    >
+      {{ toastMsg }}
+    </div>
+
+  </transition>
+
+</div>
+
+<script>
+const { createApp } = Vue;
+
+createApp({
+
+  data() {
+    return {
+
+      mobileOpen: false,
+
+      quantity: 1,
+
+      cartCount: 0,
+
+      emailSubscribe: "",
+
+      showToast: false,
+
+      toastMsg: "",
+
+       sachNoiBat: [
+              {
+                id: 1,
+                name: 'Yêu Thầm',
+                img: '../images/product/Tinh_cam/bia_yeu-tham---tap-1_tb2025-1.0.jpg',
+                stars: 5,
+                price: "40.000₫",
+                originalPrice: "139.000₫",
+              },
+              {
+                id: 2,
+                name:  'Hôn Nhân Hạnh Phúc Của Tôi',
+                img: '../images/product/Tinh_cam/Hon_nhan_hanh_phuc_cua_toi.webp',
+                stars: 5,
+                price: "40.000₫",
+                originalPrice: "139.000₫",
+              },
+              {
+                id: 3,
+                name: "Nàng Juliet Ở Trường Nội Trú",
+                img: "../images/product/Tinh_cam/nang-juliet-o-truong-noi-tru_bia_tap-2.jpg",
+                stars: 5,
+                price: "40.000₫",
+                originalPrice: "139.000₫",
+              },
+              {
+                id: 4,
+                name: "Hananoi Và Triệu Chứng Tình Yêu",
+                img: "../images/product/Tinh_cam/Hananoi.webp",
+                stars: 5,
+                price: "40.000₫",
+                originalPrice: "139.000₫",
+              },
+              {
+                id: 5,
+                name: 'Úm Ba La Hô Biến Ra "Cô Bạn"',
+                img: "../images/product/Tinh_cam/Umbala.webp",
+                stars: 5,
+                price: "40.000₫",
+                originalPrice: "139.000₫",
+              },
+              {
+                id: 6,
+                name: 'Cô Bạn Tôi Thầm Thích Lại Quên Mang Kính Rồi',
+                img: '../images/product/Tinh_cam/co-ban-toi-tham-thich-lai-quen-mang-kinh-roi_ban-thuong_bia_tap-11.jpg',
+stars: 5,
+                price: "40.000₫",
+                originalPrice: "139.000₫",
+              },
+              {
+                id: 7,
+                name: 'Thiên Hà Cạnh Bên',
+                img: '../images/product/Tinh_cam/Thien_ha_canh_ben.webp',
+                stars: 5,
+                price: "40.000₫",
+                originalPrice: "139.000₫",
+              },
+               {
+                id: 8,
+                name: 'Ngôn Ngữ Yêu Thương',
+                img: '../images/product/Tinh_cam/ngon-ngu-yeu-thuong_bia_tap-10-dd.webp',
+                stars: 5,
+                price: "40.000₫",
+                originalPrice: "139.000₫",
+              },
+              
+            ],
+
+
+    }
+  },
+
+  methods: {
+
+    increaseQty() {
+      this.quantity++;
+    },
+
+    decreaseQty() {
+
+      if(this.quantity > 1){
+        this.quantity--;
+      }
+
+    },
+
+   addMainBook() {
+  const book = {
+    id: 101,
+    name: "Ngôn Ngữ Yêu Thương",
+    price: "40.000₫",
+    originalPrice: "40.000₫", // Thêm dòng này
+    img: "../images/product/Tinh_cam/ngon-ngu-yeu-thuong_bia_tap-10-dd.webp", // Thêm dòng này
+    qty: this.quantity,
+  };
+
+  this.addToCart(book);
+},
+
+    addToCart(book){
+
+      let cart = JSON.parse(localStorage.getItem("daoTruyenCart")) || [];
+
+      const existing = cart.find(item => item.id === book.id);
+
+      if(existing){
+
+        existing.qty += book.qty || 1;
+
+      } else {
+
+        cart.push({
+          ...book,
+          image: (book.img || book.image || "").replace(/^\.?\/?\.{0,2}\/?/, ""),
+          qty: book.qty || 1
+        });
+
+      }
+
+      localStorage.setItem("daoTruyenCart", JSON.stringify(cart));
+
+      // Phát sự kiện storage để các tab/page khác cập nhật
+      window.dispatchEvent(new StorageEvent('storage', {
+        key: 'daoTruyenCart',
+        newValue: JSON.stringify(cart)
+      }));
+
+      this.updateCart();
+
+      this.toastMsg = `Đã thêm "${book.name}" vào giỏ hàng`;
+
+      this.showToast = true;
+
+      setTimeout(() => {
+        this.showToast = false;
+      }, 2500);
+
+    },
+
+    buyNow(){
+
+      this.addMainBook();
+
+      window.location.href = "../Page/giohang.html";
+
+    },
+
+    buyNowBook(book){
+
+      this.addToCart({
+        ...book,
+        qty: 1
+      });
+
+      window.location.href = "../Page/giohang.html";
+
+    },
+
+    updateCart(){
+
+      let cart = JSON.parse(localStorage.getItem("daoTruyenCart")) || [];
+
+      this.cartCount = cart.reduce((sum,item)=> sum + item.qty ,0);
+
+    },
+
+    subscribeEmail(){
+
+      if(!this.emailSubscribe) return;
+
+      this.toastMsg = `Đã đăng ký: ${this.emailSubscribe}`;
+
+      this.showToast = true;
+
+      this.emailSubscribe = "";
+
+      setTimeout(() => {
+        this.showToast = false;
+      }, 2500);
+
+    }
+
+  },
+
+  mounted(){
+
+    this.updateCart();
+
+    // Lắng nghe thay đổi giỏ hàng từ tab/page khác
+    window.addEventListener('storage', (e) => {
+      if (e.key === 'daoTruyenCart') {
+        this.updateCart();
+      }
+    });
+
+  }
+
+}).mount("#app");
+</script>
+
+</body>
+</html>
