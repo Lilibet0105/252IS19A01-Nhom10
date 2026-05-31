@@ -1053,18 +1053,18 @@
         },
         // ═══════════════════════════════════════════ methods — Các phương thức xử lý sự kiện và logic nghiệp vụ ═══════════════════════════════════════════
         methods: {
-          // ───────────────────────────────────────── getBookLink — Trả về link đúng cho mỗi truyện (có trang riêng hoặc chuyển hướng) ─────────────────────────────────────────
+          // ───────────────────────────────────────── getBookLink — Trả về link đúng cho mỗi truyện (có trang riêng hoặc không) ─────────────────────────────────────────
           getBookLink(book) {
             const detailPageMap = {
+              "TC01": "chitiettruyen.html?id=TC01",
               "TC04": "chitiettruyen_ngonnguyeuthuong.html",
               "SN04": "chitiettruyen_frieren.html",
               "TN07": "chitiettruyen_tsubasa.html",
               "TC09": "chitiettruyen_nangjuliet.html",
               "SN03": "chitiettruyen_thanhguom.html",
               "TT06": "chitiettruyen_duocsututu.html",
-              "TT10": "chitiettruyen.html?id=" + book.id
             };
-            return detailPageMap[book.id] || "chitiettruyen.html?id=" + book.id;
+            return detailPageMap[book.id] || "#";
           },
           // ───────────────────────────────────────── formatPrice — Định dạng giá tiền sang dạng Việt Nam (VD: 65500 → 65.500₫) ─────────────────────────────────────────
           formatPrice(price) {
