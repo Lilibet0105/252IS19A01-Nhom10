@@ -814,6 +814,10 @@ createApp({
       payment: 'cod',
       emailSubscribe: '',
       showPopup: false,
+      errors: {                 // Object lưu trữ các thông báo lỗi validation
+        email: '',
+        phone: ''
+      },
       form: {
         firstName: '',          // Họ và tên đệm — trường bắt buộc
         lastName: '',           // Tên — trường bắt buộc
