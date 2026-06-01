@@ -1,38 +1,37 @@
 ﻿<!doctype html>
 <html lang="vi">
-  <!-- ═══════════════════════════════════════════ HEAD — Cấu hình trang Chính sách vận chuyển ═══════════════════════════════════════════ -->
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Chính sách vận chuyển | Đảo Truyện</title>
 
-    <!-- Tailwind CSS CDN — Framework CSS tiện ích -->
+    <!-- Tailwind CSS CDN — Framework CSS tiện ích, giúp xây dựng giao diện linh hoạt với các lớp dựng sẵn -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Tailwind config — Mở rộng font (display, body) và màu (cream, ink, amber, muted) -->
+    <!-- Tailwind config — Mở rộng font (display, body) và màu (cream, ink, amber, muted) để tạo bộ nhận diện thương hiệu "Đảo Truyện" -->
     <script>
       tailwind.config = {
         theme: {
           extend: {
             fontFamily: {
-              display: ["Playfair Display", "serif"],
-              body: ["Lora", "serif"],
+              display: ["Playfair Display", "serif"], // Font chữ chính cho tiêu đề lớn, mang phong cách cổ điển và nghệ thuật
+              body: ["Lora", "serif"], // Font chữ cho nội dung, dễ đọc và thanh lịch
             },
             colors: {
-              cream: "#faf7f2",
-              ink: "#1a1a1a",
-              amber: "#d97706",
-              muted: "#6b7280",
+              cream: "#faf7f2", // Màu nền kem ấm áp, tạo cảm giác gần gũi
+              ink: "#1a1a1a", // Màu chữ chính tối, tương phản tốt
+              amber: "#d97706", // Màu nhấn (vàng cam) cho nút bấm, đường kẻ, liên kết
+              muted: "#6b7280", // Màu văn bản phụ, nhẹ nhàng hơn
             },
           },
         },
       };
     </script>
-    <!-- Google Fonts — Playfair Display (tiêu đề) + Lora (nội dung) -->
+    <!-- Google Fonts — Playfair Display (tiêu đề) + Lora (nội dung) giúp đồng bộ font chữ trên toàn bộ trang web -->
     <link
       href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lora:wght@400;500&display=swap"
       rel="stylesheet"
     />
-    <!-- Phong cách tùy chỉnh — Font mặc định Lora, nền cream, chữ ink -->
+    <!-- Phong cách tùy chỉnh — Font mặc định Lora, nền cream, chữ ink đảm bảo giao diện dễ đọc và thống nhất -->
     <style>
       body {
         font-family: "Lora", serif;
@@ -41,86 +40,149 @@
       }
     </style>
   </head>
-  <!-- ═══════════════════════════════════════════ BODY — Gradient nền từ cream qua white đến amber-50 ═══════════════════════════════════════════ -->
+  <!--  BODY — Gradient nền từ cream qua white đến amber-50 tạo hiệu ứng chuyển màu nhẹ nhàng, tinh tế  -->
   <body class="min-h-screen bg-gradient-to-br from-cream via-white to-amber-50">
-    <!-- ═══════════════════════════════════════════ HEADER — Logo + link về trang chủ ═══════════════════════════════════════════ -->
-    <header class="border-b border-gray-200 bg-white/95 backdrop-blur-sm shadow-sm">
+    <!--  HEADER — Logo + link về trang chủ  -->
+    <!-- Header: thanh điều hướng phía trên, nền trắng mờ (backdrop-blur), viền dưới và bóng đổ nhẹ, giúp người dùng dễ dàng quay lại trang chính -->
+    <header
+      class="border-b border-gray-200 bg-white/95 backdrop-blur-sm shadow-sm"
+    >
       <div class="max-w-5xl mx-auto px-4 py-5">
+        <!-- Lưu ý: Liên kết tới "./dangnhap.html" trong file gốc, nhưng giữ nguyên để không làm thay đổi hành vi của trang -->
         <a href="./dangnhap.html" class="inline-flex items-center gap-3">
-          <img src="../assets/logo.jpg" alt="Đảo Truyện" class="h-12 w-auto object-contain" />
+          <img
+            src="../assets/logo.jpg"
+            alt="Đảo Truyện"
+            class="h-12 w-auto object-contain"
+          />
           <div class="space-y-0.5">
             <p class="text-sm text-muted">Đảo Truyện</p>
-            <p class="text-base font-semibold text-ink hover:text-amber transition">Trang chủ</p>
+            <p
+              class="text-base font-semibold text-ink hover:text-amber transition"
+            >
+              Trang chủ
+            </p>
           </div>
         </a>
       </div>
     </header>
 
-    <!-- ═══════════════════════════════════════════
+    <!-- 
          MAIN — Nội dung chính trang Chính sách vận chuyển
          - Card bo góc lớn (rounded-[2rem]), shadow-2xl
          - Tiêu đề + mô tả ngắn
          - 7 mục chính sách: Phạm vi, Thời gian, Phương thức, Phí, Kiểm tra, Không giao được, Liên hệ
          - Nút "Quay về trang chủ" ở cuối
-    ═══════════════════════════════════════════ -->
-    <main class="flex min-h-[calc(100vh-100px)] items-center justify-center px-4 py-16">
-      <section class="w-full max-w-4xl rounded-[2rem] border border-gray-200 bg-white/95 p-10 shadow-2xl shadow-amber/15 ring-1 ring-amber-100">
-        <!-- Tiêu đề trang — font-display (Playfair Display), font-black -->
+     -->
+    <main
+      class="flex min-h-[calc(100vh-100px)] items-center justify-center px-4 py-16"
+    >
+      <!-- Phần section: khung nội dung chính, bo tròn lớn, viền xám nhạt, nền trắng mờ, hiệu ứng bóng và viền vòng sáng màu hổ phách -->
+      <section
+        class="w-full max-w-4xl rounded-[2rem] border border-gray-200 bg-white/95 p-10 shadow-2xl shadow-amber/15 ring-1 ring-amber-100"
+      >
+        <!-- Tiêu đề trang — font-display (Playfair Display), font-black tạo điểm nhấn mạnh mẽ, kèm đường kẻ trang trí màu hổ phách -->
         <div class="mb-10 text-center">
+          <!-- Đường kẻ ngắn màu hổ phách, giúp làm nổi bật tiêu đề -->
           <div class="mx-auto mb-4 h-1.5 w-24 rounded-full bg-amber"></div>
-          <h1 class="text-5xl font-display font-black tracking-tight text-ink">Chính sách vận chuyển</h1>
-          <p class="mx-auto mt-4 max-w-2xl text-sm text-muted">Nắm rõ các điều khoản vận chuyển khi mua sắm tại Đảo Truyện.</p>
+          <h1 class="text-5xl font-display font-black tracking-tight text-ink">
+            Chính sách vận chuyển
+          </h1>
+          <p class="mx-auto mt-4 max-w-2xl text-sm text-muted">
+            Nắm rõ các điều khoản vận chuyển khi mua sắm tại Đảo Truyện.
+          </p>
         </div>
 
-        <!-- Nội dung chính sách — 7 mục, text-justify, leading-7 -->
+        <!-- Nội dung chính sách — 7 mục, text-justify, leading-7 tạo khoảng cách dòng hợp lý, dễ đọc -->
         <div class="space-y-8 text-justify text-sm leading-7 text-slate-700">
           <!-- Mục 1: Phạm vi áp dụng -->
           <div>
-            <h2 class="mb-3 text-xl font-semibold text-ink">1. Phạm vi áp dụng</h2>
-            <p>Chính sách này áp dụng cho mọi đơn hàng đặt mua sản phẩm tại Đảo Truyện qua website, fanpage và các kênh bán hàng chính thức.</p>
+            <h2 class="mb-3 text-xl font-semibold text-ink">
+              1. Phạm vi áp dụng
+            </h2>
+            <p>
+              Chính sách này áp dụng cho mọi đơn hàng đặt mua sản phẩm tại Đảo
+              Truyện qua website, fanpage và các kênh bán hàng chính thức.
+            </p>
           </div>
 
-          <!-- Mục 2: Thời gian xử lý đơn hàng -->
+          <!-- Mục 2: Thời gian xử lý đơn hàng (sử dụng danh sách không có thứ tự) -->
           <div>
-            <h2 class="mb-3 text-xl font-semibold text-ink">2. Thời gian xử lý đơn hàng</h2>
+            <h2 class="mb-3 text-xl font-semibold text-ink">
+              2. Thời gian xử lý đơn hàng
+            </h2>
             <ul class="list-disc space-y-2 pl-5">
               <li>Đơn hàng được tiếp nhận trong vòng 24 giờ làm việc.</li>
               <li>Thời gian chuẩn bị hàng: 1 - 2 ngày làm việc.</li>
-              <li>Với các đơn hàng vào cuối tuần hoặc ngày lễ, thời gian xử lý sẽ tính từ ngày làm việc tiếp theo.</li>
+              <li>
+                Với các đơn hàng vào cuối tuần hoặc ngày lễ, thời gian xử lý sẽ
+                tính từ ngày làm việc tiếp theo.
+              </li>
             </ul>
           </div>
 
-          <!-- Mục 3: Phương thức vận chuyển -->
+          <!-- Mục 3: Phương thức vận chuyển, bao gồm đoạn văn và danh sách con -->
           <div>
-            <h2 class="mb-3 text-xl font-semibold text-ink">3. Phương thức vận chuyển</h2>
-            <p>Đảo Truyện hợp tác với đơn vị vận chuyển đáng tin cậy để giao hàng nhanh chóng đến tay khách hàng. Khách có thể lựa chọn hình thức vận chuyển phù hợp khi thanh toán.</p>
+            <h2 class="mb-3 text-xl font-semibold text-ink">
+              3. Phương thức vận chuyển
+            </h2>
+            <p>
+              Đảo Truyện hợp tác với đơn vị vận chuyển đáng tin cậy để giao hàng
+              nhanh chóng đến tay khách hàng. Khách có thể lựa chọn hình thức
+              vận chuyển phù hợp khi thanh toán.
+            </p>
             <ul class="list-disc space-y-2 pl-5">
               <li>Giao hàng tiêu chuẩn: 2 - 4 ngày làm việc tùy khu vực.</li>
-              <li>Giao hàng nhanh: 1 - 2 ngày làm việc (áp dụng tại khu vực nội thành).</li>
+              <li>
+                Giao hàng nhanh: 1 - 2 ngày làm việc (áp dụng tại khu vực nội
+                thành).
+              </li>
             </ul>
           </div>
 
           <!-- Mục 4: Phí vận chuyển -->
           <div>
-            <h2 class="mb-3 text-xl font-semibold text-ink">4. Phí vận chuyển</h2>
-            <p>Phí vận chuyển được tính theo cân nặng, kích thước và khoảng cách giao hàng. Mọi chi phí sẽ được hiển thị rõ ràng trước khi khách hàng hoàn tất thanh toán.</p>
+            <h2 class="mb-3 text-xl font-semibold text-ink">
+              4. Phí vận chuyển
+            </h2>
+            <p>
+              Phí vận chuyển được tính theo cân nặng, kích thước và khoảng cách
+              giao hàng. Mọi chi phí sẽ được hiển thị rõ ràng trước khi khách
+              hàng hoàn tất thanh toán.
+            </p>
           </div>
 
           <!-- Mục 5: Kiểm tra và nhận hàng -->
           <div>
-            <h2 class="mb-3 text-xl font-semibold text-ink">5. Kiểm tra và nhận hàng</h2>
-            <p>Khi nhận hàng, khách hàng vui lòng kiểm tra kỹ sản phẩm, tem niêm phong và số lượng trước khi ký nhận. Nếu có lỗi về sản phẩm hoặc thiếu hàng, xin vui lòng từ chối nhận và liên hệ ngay với bộ phận chăm sóc khách hàng.</p>
+            <h2 class="mb-3 text-xl font-semibold text-ink">
+              5. Kiểm tra và nhận hàng
+            </h2>
+            <p>
+              Khi nhận hàng, khách hàng vui lòng kiểm tra kỹ sản phẩm, tem niêm
+              phong và số lượng trước khi ký nhận. Nếu có lỗi về sản phẩm hoặc
+              thiếu hàng, xin vui lòng từ chối nhận và liên hệ ngay với bộ phận
+              chăm sóc khách hàng.
+            </p>
           </div>
 
           <!-- Mục 6: Trường hợp không giao được -->
           <div>
-            <h2 class="mb-3 text-xl font-semibold text-ink">6. Trường hợp không giao được</h2>
-            <p>Nếu đơn hàng không thể giao vì khách vắng nhà hoặc địa chỉ không chính xác, nhân viên vận chuyển sẽ liên hệ để hẹn giao lại. Trong trường hợp không liên hệ được, đơn hàng có thể bị trả về kho của Đảo Truyện.</p>
+            <h2 class="mb-3 text-xl font-semibold text-ink">
+              6. Trường hợp không giao được
+            </h2>
+            <p>
+              Nếu đơn hàng không thể giao vì khách vắng nhà hoặc địa chỉ không
+              chính xác, nhân viên vận chuyển sẽ liên hệ để hẹn giao lại. Trong
+              trường hợp không liên hệ được, đơn hàng có thể bị trả về kho của
+              Đảo Truyện.
+            </p>
           </div>
 
-          <!-- Mục 7: Liên hệ hỗ trợ -->
+          <!-- Mục 7: Liên hệ hỗ trợ khi có vấn đề về vận chuyển -->
           <div>
-            <h2 class="mb-3 text-xl font-semibold text-ink">7. Liên hệ hỗ trợ</h2>
+            <h2 class="mb-3 text-xl font-semibold text-ink">
+              7. Liên hệ hỗ trợ
+            </h2>
             <p>Nếu cần hỗ trợ về việc giao hàng, vui lòng liên hệ:</p>
             <ul class="list-disc space-y-2 pl-5">
               <li>Số điện thoại: 0981109909</li>
@@ -129,9 +191,12 @@
           </div>
         </div>
 
-        <!-- Nút quay về trang chủ -->
+        <!-- Nút quay về trang chủ, giúp người dùng dễ dàng điều hướng về trang chính mà không cần dùng nút back của trình duyệt -->
         <div class="mt-12 text-center">
-          <a href="../index.html" class="inline-flex items-center justify-center rounded-3xl bg-amber px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-amber/20 transition hover:bg-orange-500">
+          <a
+            href="../index.html"
+            class="inline-flex items-center justify-center rounded-3xl bg-amber px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-amber/20 transition hover:bg-orange-500"
+          >
             Quay về trang chủ
           </a>
         </div>

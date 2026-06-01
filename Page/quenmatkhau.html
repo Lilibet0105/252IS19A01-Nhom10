@@ -1,38 +1,38 @@
 <!doctype html>
 <html lang="vi">
-  <!-- ═══════════════════════════════════════════ HEAD — Cấu hình trang Quên mật khẩu ═══════════════════════════════════════════ -->
+  <!-- HEAD - Cấu hình trang Quên mật khẩu -->
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Quên mật khẩu | Đảo Truyện</title>
 
-    <!-- Tailwind CSS CDN — Framework CSS tiện ích -->
+    <!-- Tailwind CSS CDN - Framework CSS tiện ích, giúp xây dựng giao diện nhanh chóng -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Tailwind config — Mở rộng font (display, body) và màu (cream, ink, amber, muted) -->
+    <!-- Tailwind config - Mở rộng font (display, body) và màu (cream, ink, amber, muted) -->
     <script>
       tailwind.config = {
         theme: {
           extend: {
             fontFamily: {
-              display: ["Playfair Display", "serif"],
-              body: ["Lora", "serif"],
+              display: ["Playfair Display", "serif"], // Font cho tiêu đề lớn
+              body: ["Lora", "serif"], // Font cho văn bản nội dung
             },
             colors: {
-              cream: "#faf7f2",
-              ink: "#1a1a1a",
-              amber: "#d97706",
-              muted: "#6b7280",
+              cream: "#faf7f2", // Màu nền kem chủ đạo
+              ink: "#1a1a1a", // Màu chữ đậm
+              amber: "#d97706", // Màu nhấn (cam)
+              muted: "#6b7280", // Màu xám nhẹ cho text phụ
             },
           },
         },
       };
     </script>
-    <!-- Google Fonts — Playfair Display (tiêu đề) + Lora (nội dung) -->
+    <!-- Google Fonts - Playfair Display (tiêu đề) + Lora (nội dung) -->
     <link
       href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lora:wght@400;500&display=swap"
       rel="stylesheet"
     />
-    <!-- Phong cách tùy chỉnh — Font mặc định Lora, nền cream, chữ ink -->
+    <!-- Phong cách tùy chỉnh - Font mặc định Lora, nền cream, chữ ink -->
     <style>
       body {
         font-family: "Lora", serif;
@@ -41,35 +41,61 @@
       }
     </style>
   </head>
-  <!-- ═══════════════════════════════════════════ BODY — Gradient nền từ cream qua white đến amber-50 ═══════════════════════════════════════════ -->
+  <!-- BODY - Nền gradient từ cream qua white đến amber-50, tạo hiệu ứng chuyển màu nhẹ nhàng -->
   <body class="min-h-screen bg-gradient-to-br from-cream via-white to-amber-50">
-    <!-- ═══════════════════════════════════════════ HEADER — Logo + link về trang đăng nhập ═══════════════════════════════════════════ -->
-    <header class="border-b border-gray-200 bg-white/95 backdrop-blur-sm shadow-sm">
+    <!-- HEADER - Logo + link quay về trang đăng nhập, giúp người dùng dễ dàng quay lại -->
+    <header
+      class="border-b border-gray-200 bg-white/95 backdrop-blur-sm shadow-sm"
+    >
       <div class="max-w-5xl mx-auto px-4 py-5">
         <a href="./dangnhap.html" class="inline-flex items-center gap-3">
-          <img src="../assets/logo.jpg" alt="Đảo Truyện" class="h-12 w-auto object-contain" />
+          <!-- Logo của Đảo Truyện -->
+          <img
+            src="../assets/logo.jpg"
+            alt="Đảo Truyện"
+            class="h-12 w-auto object-contain"
+          />
           <div class="space-y-0.5">
             <p class="text-sm text-muted">Đảo Truyện</p>
-            <p class="text-base font-semibold text-ink hover:text-amber transition">Đăng nhập</p>
+            <p
+              class="text-base font-semibold text-ink hover:text-amber transition"
+            >
+              Đăng nhập
+            </p>
           </div>
         </a>
       </div>
     </header>
 
-    <!-- ═══════════════════════════════════════════ MAIN — Form quên mật khẩu ═══════════════════════════════════════════ -->
-    <!-- Card bo góc lớn (rounded-[2rem]), shadow-2xl + shadow amber -->
-    <!-- Trường Email + Nút gửi yêu cầu + Thông báo thành công (ẩn mặc định) -->
-    <!-- Link chuyển sang trang đăng nhập -->
-    <main class="flex min-h-[calc(100vh-100px)] items-center justify-center px-4 py-16">
-      <section class="w-full max-w-lg rounded-[2rem] border border-gray-200 bg-white/95 p-10 shadow-2xl shadow-amber/15 ring-1 ring-amber-100">
+    <!-- MAIN - Form quên mật khẩu
+         Card bo góc lớn (rounded-[2rem]), shadow đổ bóng, viền màu cam nhạt
+         Gồm: trường Email, nút Gửi yêu cầu, thông báo thành công (ẩn mặc định), link quay lại đăng nhập -->
+    <main
+      class="flex min-h-[calc(100vh-100px)] items-center justify-center px-4 py-16"
+    >
+      <!-- Card form - thiết kế nổi bật với hiệu ứng đổ bóng -->
+      <section
+        class="w-full max-w-lg rounded-[2rem] border border-gray-200 bg-white/95 p-10 shadow-2xl shadow-amber/15 ring-1 ring-amber-100"
+      >
+        <!-- Tiêu đề form - font-display (Playfair Display), font-black đậm nhất -->
         <div class="mb-10 text-center">
+          <!-- Đường kẻ trang trí màu cam ở giữa tiêu đề -->
           <div class="mx-auto mb-4 h-1.5 w-24 rounded-full bg-amber"></div>
-          <h1 class="text-5xl font-display font-black tracking-tight text-ink">Quên mật khẩu</h1>
-          <p class="mx-auto mt-4 max-w-sm text-sm text-muted">Nhập email để nhận hướng dẫn đặt lại mật khẩu.</p>
+          <h1 class="text-5xl font-display font-black tracking-tight text-ink">
+            Quên mật khẩu
+          </h1>
+          <p class="mx-auto mt-4 max-w-sm text-sm text-muted">
+            Nhập email để nhận hướng dẫn đặt lại mật khẩu.
+          </p>
         </div>
+
+        <!-- Form đặt lại mật khẩu - input có bo góc tròn lớn (rounded-3xl) -->
         <form id="resetPasswordForm" class="space-y-6">
+          <!-- Trường Email - dùng type="email" để trình duyệt tự động kiểm tra định dạng -->
           <div>
-            <label for="email" class="block text-sm font-semibold text-ink">Email</label>
+            <label for="email" class="block text-sm font-semibold text-ink"
+              >Email</label
+            >
             <input
               id="email"
               name="email"
@@ -80,6 +106,7 @@
             />
           </div>
 
+          <!-- Nút Gửi yêu cầu - gradient màu cam nổi bật, có hiệu ứng hover đổi màu -->
           <button
             type="submit"
             class="w-full rounded-3xl bg-gradient-to-r from-amber to-orange-500 px-6 py-4 text-base font-semibold text-white shadow-lg shadow-amber/20 transition duration-200 hover:from-orange-600 hover:to-amber-600"
@@ -87,44 +114,59 @@
             Gửi yêu cầu
           </button>
 
-          <div id="resetSuccess" class="mt-4 hidden rounded-3xl border border-emerald-100 bg-emerald-50 px-5 py-4 text-sm text-emerald-800 shadow-sm">
+          <!-- Thông báo thành công - ẩn mặc định (hidden), hiển thị sau khi submit thành công -->
+          <div
+            id="resetSuccess"
+            class="mt-4 hidden rounded-3xl border border-emerald-100 bg-emerald-50 px-5 py-4 text-sm text-emerald-800 shadow-sm"
+          >
             Yêu cầu đặt lại mật khẩu đã được gửi đến email của bạn.
           </div>
         </form>
 
+        <!-- Link quay lại trang đăng nhập cho người dùng đã nhớ mật khẩu -->
         <p class="mt-6 text-center text-sm text-muted">
           Đã nhớ mật khẩu?
-          <a href="./dangnhap.html" class="font-semibold text-amber hover:text-ink transition">Đăng nhập ngay</a>
+          <a
+            href="./dangnhap.html"
+            class="font-semibold text-amber hover:text-ink transition"
+            >Đăng nhập ngay</a
+          >
         </p>
       </section>
     </main>
 
-    <!-- ═══════════════════════════════════════════ SCRIPT — Xử lý form quên mật khẩu ═══════════════════════════════════════════ -->
+    <!-- SCRIPT - Xử lý logic form quên mật khẩu (JavaScript thuần)
+         - Kiểm tra email không được để trống
+         - Hiển thị thông báo thành công
+         - Tự động chuyển hướng về trang đăng nhập sau 2.2 giây -->
     <script>
-      // Xử lý sự kiện submit form đặt lại mật khẩu
-      document.getElementById('resetPasswordForm').addEventListener('submit', function (event) {
-        // Ngăn form reload trang
-        event.preventDefault();
-        // Lấy giá trị email từ trường input
-        const email = event.target.email.value.trim();
-        // Kiểm tra email không được để trống
-        if (!email) {
-          alert('Vui lòng nhập email.');
-          return;
-        }
+      // Xử lý sự kiện submit của form đặt lại mật khẩu
+      document
+        .getElementById("resetPasswordForm")
+        .addEventListener("submit", function (event) {
+          // Ngăn chặn hành vi reload trang mặc định của form
+          event.preventDefault();
 
-        // Hiển thị thông báo đặt lại mật khẩu thành công
-        const successMessage = document.getElementById('resetSuccess');
-        successMessage.classList.remove('hidden');
-        successMessage.classList.add('block');
+          // Lấy giá trị từ trường email và loại bỏ khoảng trắng thừa (trim)
+          const email = event.target.email.value.trim();
 
-        // ─────────────────────────────────────────
-        // Tự động chuyển hướng sang trang đăng nhập sau 2.2 giây
-        // ─────────────────────────────────────────
-        setTimeout(function () {
-          window.location.href = './dangnhap.html';
-        }, 2200);
-      });
+          // Kiểm tra email không được để trống
+          if (!email) {
+            alert("Vui lòng nhập email.");
+            return; // Dừng xử lý nếu thiếu email
+          }
+
+          // Hiển thị thông báo đặt lại mật khẩu thành công (chuyển từ hidden sang block)
+          const successMessage = document.getElementById("resetSuccess");
+          successMessage.classList.remove("hidden"); // Xóa lớp ẩn
+          successMessage.classList.add("block"); // Thêm lớp hiển thị
+
+          // Tự động chuyển hướng sang trang đăng nhập sau 2.2 giây
+          // (đủ thời gian để người dùng đọc thông báo)
+          setTimeout(function () {
+            window.location.href = "./dangnhap.html";
+          }, 2200);
+        });
     </script>
   </body>
 </html>

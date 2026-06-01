@@ -1,115 +1,203 @@
 <!doctype html>
 <html lang="vi">
-  <!-- ═══════════════════════════════════════════ HEAD — Cấu hình trang Chính sách bảo hành ═══════════════════════════════════════════ -->
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Chính sách bảo hành | Đảo Truyện</title>
 
-    <!-- Tailwind CSS CDN — Framework CSS tiện ích -->
+    <!-- Tailwind CSS CDN — Framework CSS tiện ích giúp xây dựng giao diện nhanh chóng -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Tailwind config — Mở rộng font (display, body) và màu (cream, ink, amber, muted) -->
+    <!-- Tailwind config — Mở rộng font (display, body) và màu (cream, ink, amber, muted) để phù hợp với thương hiệu -->
     <script>
       tailwind.config = {
         theme: {
           extend: {
             fontFamily: {
-              display: ["Playfair Display", "serif"],
-              body: ["Lora", "serif"],
+              display: ["Playfair Display", "serif"], // Font chữ cho tiêu đề lớn, mang tính nghệ thuật
+              body: ["Lora", "serif"], // Font chữ cho nội dung, dễ đọc và thanh lịch
             },
             colors: {
-              cream: "#faf7f2",
-              ink: "#1a1a1a",
-              amber: "#d97706",
-              muted: "#6b7280",
+              cream: "#faf7f2", // Màu nền sáng nhẹ nhàng
+              ink: "#1a1a1a", // Màu chữ chính tối
+              amber: "#d97706", // Màu nhấn (vàng cam) cho các điểm nhấn
+              muted: "#6b7280", // Màu chữ phụ, nhẹ hơn
             },
           },
         },
       };
     </script>
-    <!-- Google Fonts — Playfair Display (tiêu đề) + Lora (nội dung) -->
+    <!-- Google Fonts — Playfair Display (tiêu đề) + Lora (nội dung) giúp tăng tính thẩm mỹ và đồng bộ font -->
     <link
       href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lora:wght@400;500&display=swap"
       rel="stylesheet"
     />
-    <!-- Phong cách tùy chỉnh — Font mặc định Lora, nền cream, chữ ink -->
+    <!-- Phong cách tùy chỉnh — Font mặc định Lora, nền cream, chữ ink, tạo cảm giác ấm cúng và dễ đọc -->
     <style>
-      body { font-family: "Lora", serif; background-color: #faf7f2; color: #1a1a1a; }
+      body {
+        font-family: "Lora", serif;
+        background-color: #faf7f2;
+        color: #1a1a1a;
+      }
     </style>
   </head>
-  <!-- ═══════════════════════════════════════════ BODY — Gradient nền từ cream qua white đến amber-50 ═══════════════════════════════════════════ -->
+  <!--  BODY — Gradient nền từ cream qua white đến amber-50 tạo hiệu ứng chuyển màu nhẹ nhàng  -->
   <body class="min-h-screen bg-gradient-to-br from-cream via-white to-amber-50">
-    <!-- ═══════════════════════════════════════════ HEADER — Logo + link về trang chủ ═══════════════════════════════════════════ -->
-    <header class="border-b border-gray-200 bg-white/95 backdrop-blur-sm shadow-sm">
+    <!--HEADER — Logo + link về trang chủ, tạo sự tiện lợi cho người dùng  -->
+    <!-- Header: thanh điều hướng phía trên, nền trắng mờ (blur) tạo cảm giác hiện đại, dễ thấy -->
+    <header
+      class="border-b border-gray-200 bg-white/95 backdrop-blur-sm shadow-sm"
+    >
       <div class="max-w-5xl mx-auto px-4 py-5">
+        <!-- Link quay về trang chủ, kết hợp logo và tên thương hiệu -->
         <a href="../index.html" class="inline-flex items-center gap-3">
-          <img src="../assets/logo.jpg" alt="Đảo Truyện" class="h-12 w-auto object-contain" />
+          <img
+            src="../assets/logo.jpg"
+            alt="Đảo Truyện"
+            class="h-12 w-auto object-contain"
+          />
           <div class="space-y-0.5">
             <p class="text-sm text-muted">Đảo Truyện</p>
-            <p class="text-base font-semibold text-ink hover:text-amber transition">Trang chủ</p>
+            <p
+              class="text-base font-semibold text-ink hover:text-amber transition"
+            >
+              Trang chủ
+            </p>
           </div>
         </a>
       </div>
     </header>
 
-    <!-- ═══════════════════════════════════════════ MAIN — Nội dung chính sách bảo hành ═══════════════════════════════════════════ -->
-    <!-- Card bo góc lớn (rounded-[2rem]), shadow-2xl, tiêu đề + mô tả + 7 mục chính sách -->
-    <main class="flex min-h-[calc(100vh-100px)] items-start justify-center px-4 py-16">
-      <section class="w-full max-w-4xl rounded-[2rem] border border-gray-200 bg-white/95 p-10 shadow-2xl shadow-amber/15 ring-1 ring-amber-100">
-        <!-- Tiêu đề trang — font-display (Playfair Display), font-black -->
+    <!--  MAIN — Nội dung chính sách bảo hành -->
+    <!-- Card bo góc lớn (rounded-[2rem]), shadow-2xl, tiêu đề + mô tả + 7 mục chính sách, thể hiện rõ ràng các quy định -->
+    <main
+      class="flex min-h-[calc(100vh-100px)] items-start justify-center px-4 py-16"
+    >
+      <section
+        class="w-full max-w-4xl rounded-[2rem] border border-gray-200 bg-white/95 p-10 shadow-2xl shadow-amber/15 ring-1 ring-amber-100"
+      >
+        <!-- Tiêu đề trang — font-display (Playfair Display), font-black tạo điểm nhấn mạnh mẽ -->
         <div class="mb-10 text-center">
+          <!-- Đường kẻ trang trí màu hổ phách, giúp làm nổi bật tiêu đề -->
           <div class="mx-auto mb-4 h-1.5 w-24 rounded-full bg-amber"></div>
-          <h1 class="text-5xl font-display font-black tracking-tight text-ink">Chính sách bảo hành</h1>
-          <p class="mx-auto mt-4 max-w-2xl text-sm text-muted">Quy định bảo hành và hỗ trợ kỹ thuật cho các sản phẩm mua tại Đảo Truyện.</p>
+          <h1 class="text-5xl font-display font-black tracking-tight text-ink">
+            Chính sách bảo hành
+          </h1>
+          <p class="mx-auto mt-4 max-w-2xl text-sm text-muted">
+            Quy định bảo hành và hỗ trợ kỹ thuật cho các sản phẩm mua tại Đảo
+            Truyện.
+          </p>
         </div>
 
+        <!-- Nội dung chính sách bảo hành, được chia thành 7 mục rõ ràng, dễ theo dõi -->
         <div class="space-y-8 text-justify text-sm leading-7 text-slate-700">
+          <!-- 1. Thời hạn bảo hành -->
           <div>
-            <h2 class="mb-3 text-xl font-semibold text-ink">1. Thời hạn bảo hành</h2>
-            <p>Mỗi sản phẩm bán ra sẽ kèm theo thông tin thời hạn bảo hành cụ thể trong mô tả sản phẩm hoặc phiếu bảo hành (nếu có). Thời hạn bảo hành sẽ được tính từ ngày giao hàng thành công.</p>
+            <h2 class="mb-3 text-xl font-semibold text-ink">
+              1. Thời hạn bảo hành
+            </h2>
+            <p>
+              Mỗi sản phẩm bán ra sẽ kèm theo thông tin thời hạn bảo hành cụ thể
+              trong mô tả sản phẩm hoặc phiếu bảo hành (nếu có). Thời hạn bảo
+              hành sẽ được tính từ ngày giao hàng thành công.
+            </p>
           </div>
 
+          <!-- 2. Điều kiện được bảo hành (danh sách dạng gạch đầu dòng) -->
           <div>
-            <h2 class="mb-3 text-xl font-semibold text-ink">2. Điều kiện được bảo hành</h2>
+            <h2 class="mb-3 text-xl font-semibold text-ink">
+              2. Điều kiện được bảo hành
+            </h2>
             <ul class="list-disc space-y-2 pl-5">
               <li>Sản phẩm còn trong thời hạn bảo hành.</li>
-              <li>Sản phẩm không bị hư hỏng do người dùng (va đập, rơi vỡ, sửa chữa ngoài như tháo lắp không đúng quy trình, hay sử dụng sai hướng dẫn).</li>
-              <li>Khách hàng cung cấp đầy đủ hoá đơn mua hàng hoặc phiếu bảo hành (nếu có).</li>
+              <li>
+                Sản phẩm không bị hư hỏng do người dùng (va đập, rơi vỡ, sửa
+                chữa ngoài như tháo lắp không đúng quy trình, hay sử dụng sai
+                hướng dẫn).
+              </li>
+              <li>
+                Khách hàng cung cấp đầy đủ hoá đơn mua hàng hoặc phiếu bảo hành
+                (nếu có).
+              </li>
             </ul>
           </div>
 
+          <!-- 3. Các trường hợp không thuộc phạm vi bảo hành -->
           <div>
-            <h2 class="mb-3 text-xl font-semibold text-ink">3. Các trường hợp không thuộc phạm vi bảo hành</h2>
+            <h2 class="mb-3 text-xl font-semibold text-ink">
+              3. Các trường hợp không thuộc phạm vi bảo hành
+            </h2>
             <ul class="list-disc space-y-2 pl-5">
-              <li>Hư hỏng do tai nạn, sử dụng sai mục đích, hoá chất, ẩm ướt hoặc tác động từ bên ngoài.</li>
-              <li>Sản phẩm bị mất, trầy xước do vận chuyển không đúng hướng dẫn kiểm tra khi nhận hàng.</li>
-              <li>Sản phẩm đã qua sửa chữa, can thiệp bởi bên thứ ba không được ủy quyền.</li>
+              <li>
+                Hư hỏng do tai nạn, sử dụng sai mục đích, hoá chất, ẩm ướt hoặc
+                tác động từ bên ngoài.
+              </li>
+              <li>
+                Sản phẩm bị mất, trầy xước do vận chuyển không đúng hướng dẫn
+                kiểm tra khi nhận hàng.
+              </li>
+              <li>
+                Sản phẩm đã qua sửa chữa, can thiệp bởi bên thứ ba không được ủy
+                quyền.
+              </li>
             </ul>
           </div>
 
+          <!-- 4. Quy trình bảo hành (danh sách có thứ tự) -->
           <div>
-            <h2 class="mb-3 text-xl font-semibold text-ink">4. Quy trình bảo hành</h2>
+            <h2 class="mb-3 text-xl font-semibold text-ink">
+              4. Quy trình bảo hành
+            </h2>
             <ol class="list-decimal pl-5 space-y-2">
-              <li>Khách hàng liên hệ bộ phận CSKH qua hotline hoặc email để được hỗ trợ.</li>
-              <li>Kiểm tra thông tin đơn hàng, thời hạn bảo hành và mô tả lỗi.</li>
-              <li>Hướng dẫn khách hàng gửi sản phẩm về trung tâm bảo hành (nếu cần) hoặc xử lý tại nhà tuỳ loại dịch vụ.</li>
-              <li>Sau khi xác nhận lỗi thuộc phạm vi bảo hành, Đảo Truyện sẽ thực hiện sửa chữa hoặc đổi mới theo chính sách.</li>
+              <li>
+                Khách hàng liên hệ bộ phận CSKH qua hotline hoặc email để được
+                hỗ trợ.
+              </li>
+              <li>
+                Kiểm tra thông tin đơn hàng, thời hạn bảo hành và mô tả lỗi.
+              </li>
+              <li>
+                Hướng dẫn khách hàng gửi sản phẩm về trung tâm bảo hành (nếu
+                cần) hoặc xử lý tại nhà tuỳ loại dịch vụ.
+              </li>
+              <li>
+                Sau khi xác nhận lỗi thuộc phạm vi bảo hành, Đảo Truyện sẽ thực
+                hiện sửa chữa hoặc đổi mới theo chính sách.
+              </li>
             </ol>
           </div>
 
+          <!-- 5. Thời gian xử lý bảo hành -->
           <div>
-            <h2 class="mb-3 text-xl font-semibold text-ink">5. Thời gian xử lý</h2>
-            <p>Thời gian bảo hành tuỳ theo tính chất lỗi và phụ thuộc vào linh kiện/thiết bị. Đảo Truyện sẽ cố gắng xử lý trong vòng 7 - 14 ngày làm việc; trường hợp cần đặt linh kiện, thời gian có thể kéo dài hơn và sẽ thông báo cho khách hàng.</p>
+            <h2 class="mb-3 text-xl font-semibold text-ink">
+              5. Thời gian xử lý
+            </h2>
+            <p>
+              Thời gian bảo hành tuỳ theo tính chất lỗi và phụ thuộc vào linh
+              kiện/thiết bị. Đảo Truyện sẽ cố gắng xử lý trong vòng 7 - 14 ngày
+              làm việc; trường hợp cần đặt linh kiện, thời gian có thể kéo dài
+              hơn và sẽ thông báo cho khách hàng.
+            </p>
           </div>
 
+          <!-- 6. Chi phí bảo hành -->
           <div>
             <h2 class="mb-3 text-xl font-semibold text-ink">6. Chi phí</h2>
-            <p>Trong trường hợp lỗi thuộc phạm vi bảo hành, khách hàng sẽ không phải chịu chi phí sửa chữa hoặc thay thế. Nếu sản phẩm không được bảo hành, chi phí và phương án sửa chữa sẽ được thông báo và thỏa thuận trước với khách hàng.</p>
+            <p>
+              Trong trường hợp lỗi thuộc phạm vi bảo hành, khách hàng sẽ không
+              phải chịu chi phí sửa chữa hoặc thay thế. Nếu sản phẩm không được
+              bảo hành, chi phí và phương án sửa chữa sẽ được thông báo và thỏa
+              thuận trước với khách hàng.
+            </p>
           </div>
 
+          <!-- 7. Liên hệ bảo hành (cung cấp thông tin hotline, email, địa chỉ) -->
           <div>
-            <h2 class="mb-3 text-xl font-semibold text-ink">7. Liên hệ bảo hành</h2>
-            <p>Vui lòng liên hệ chúng tôi để được hướng dẫn quy trình bảo hành:</p>
+            <h2 class="mb-3 text-xl font-semibold text-ink">
+              7. Liên hệ bảo hành
+            </h2>
+            <p>
+              Vui lòng liên hệ chúng tôi để được hướng dẫn quy trình bảo hành:
+            </p>
             <ul class="list-disc space-y-2 pl-5">
               <li>Hotline: 0981109909</li>
               <li>Email: daotruyen@gmail.com</li>
@@ -118,9 +206,13 @@
           </div>
         </div>
 
-        <!-- Nút quay về trang chủ -->
+        <!-- Nút quay về trang chủ, giúp người dùng dễ dàng điều hướng -->
         <div class="mt-12 text-center">
-          <a href="../index.html" class="inline-flex items-center justify-center rounded-3xl bg-amber px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-amber/20 transition hover:bg-orange-500">Quay về trang chủ</a>
+          <a
+            href="../index.html"
+            class="inline-flex items-center justify-center rounded-3xl bg-amber px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-amber/20 transition hover:bg-orange-500"
+            >Quay về trang chủ</a
+          >
         </div>
       </section>
     </main>

@@ -85,6 +85,8 @@
   <body>
     <div id="app">
       <!-- Vue mount point -->
+
+      <!-- ================== HEADER ================== -->
       <header
         class="sticky top-0 z-50 bg-cream border-b border-gray-200 shadow-sm"
       >
@@ -175,18 +177,17 @@
         >
           <a href="index.html" class="block">
             <img
-              src="../252IS19A01-Nhom10/assets/logo.jpg"
-              alt="Đảo Truyện"
-              class="h-14 md:h-16 w-auto object-contain"
-            />
+                src="./assets/logo.jpg"
+                alt="Đảo Truyện"
+               class="h-14 md:h-16 w-auto object-contain"
+              />
           </a>
         </div>
 
         <!-- Tầng 3 — Main Navigation -->
         <nav class="max-w-5xl mx-auto px-4">
           <div class="flex items-center justify-between">
-            <!-- Hamburger button — chỉ hiện trên mobile -->
-            <!-- Vue: @click="mobileOpen = !mobileOpen" -->
+            <!-- Hamburger button — chỉ hiện trên mobile, Vue điều khiển hiển thị menu -->
             <button
               @click="mobileOpen = !mobileOpen"
               class="md:hidden p-2 rounded hover:bg-gray-100 transition-colors"
@@ -222,8 +223,7 @@
               </svg>
             </button>
 
-            <!-- Menu links — desktop: flex ngang | mobile: collapse dọc -->
-            <!-- Vue: v-show + transition thay thế Bootstrap collapse -->
+            <!-- Menu links — desktop: flex ngang | mobile: collapse dọc (điều khiển bởi mobileOpen) -->
             <div
               :class="['w-full md:flex md:items-center', mobileOpen ? 'block' : 'hidden md:flex']"
             >
@@ -231,7 +231,7 @@
                 class="flex flex-col md:flex-row md:gap-6 py-2 md:py-0 text-sm font-medium"
               >
                 <li>
-                  <!-- active-link: underline + đậm hơn -->
+                  <!-- active-link: underline + đậm hơn cho trang chủ -->
                   <a
                     href="../252IS19A01-Nhom10/index.html"
                     class="block py-2 md:py-4 border-b-2 border-ink font-semibold text-ink transition-colors hover:text-amber"
@@ -248,8 +248,7 @@
                   </a>
                 </li>
 
-                <!-- Dropdown "Sách" — CSS-only hover, không cần JS -->
-                <!-- Tailwind: group + group-hover thay class dropdown-content -->
+                <!-- Dropdown "Sách" — CSS-only hover (Tailwind group), không cần JS -->
                 <li class="relative group">
                   <a
                     href="Page/theloai.html"
@@ -270,7 +269,7 @@
                       />
                     </svg>
                   </a>
-                  <!-- Dropdown menu — hiện khi hover (group-hover) -->
+                  <!-- Dropdown menu — hiện khi hover vào group -->
                   <div
                     class="hidden group-hover:block absolute left-0 top-full w-44 bg-white border border-gray-200 shadow-lg rounded-b z-40"
                   >
@@ -308,7 +307,7 @@
               </ul>
             </div>
 
-            <!-- Nút Giỏ hàng — luôn hiện, badge hiển thị số lượng từ localStorage -->
+            <!-- Nút Giỏ hàng — luôn hiện, badge hiển thị số lượng từ localStorage (Vue reactive: cartCount) -->
             <a
               href="Page/giohang.html"
               class="flex items-center gap-1.5 border border-ink rounded px-3 py-1.5 text-sm font-medium hover:bg-ink hover:text-white transition-colors shrink-0"
@@ -319,23 +318,20 @@
                 />
               </svg>
               Giỏ hàng
-              <span class="bg-amber text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">{{ cartCount }}</span>
+              <span
+                class="bg-amber text-white text-xs rounded-full w-5 h-5 flex items-center justify-center"
+                >{{ cartCount }}</span
+              >
             </a>
           </div>
         </nav>
       </header>
-      <!-- /HEADER -->
+      <!-- ================== END HEADER ================== -->
 
       <main>
-        <!-- ─────────────────────────────────────────
-         SECTION 1 — Banner Carousel
-         Vue thay thế Bootstrap carousel:
-         - currentSlide: index slide đang hiện
-         - autoPlay bằng setInterval trong mounted()
-         - Transition: opacity fade
-    ───────────────────────────────────────── -->
+        <!-- ================== SECTION 1 — Banner Carousel (Vue-driven, fade transition) ================== -->
         <div class="relative overflow-hidden bg-gray-100" style="height: 420px">
-          <!-- Slides — v-for render tất cả, v-show chọn slide hiện tại -->
+          <!-- Slides: v-for tạo các slide, v-show chỉ hiện slide active, hiệu ứng opacity mượt -->
           <div
             v-for="(slide, i) in bannerSlides"
             :key="i"
@@ -348,9 +344,8 @@
               :alt="slide.alt"
               class="w-full h-full object-cover"
             />
-            <!-- Lớp mờ đen 50% phủ toàn bộ ảnh -->
+            <!-- Lớp phủ tối để chữ nổi bật -->
             <div class="absolute inset-0 bg-black/50"></div>
-            <!-- Overlay text tuỳ chỉnh theo từng slide -->
             <div
               class="absolute inset-0 bg-gradient-to-r from-ink/40 to-transparent flex items-center"
             >
@@ -373,7 +368,7 @@
             </div>
           </div>
 
-          <!-- Nút Prev / Next -->
+          <!-- Nút điều khiển Prev / Next -->
           <button
             @click="prevSlide"
             class="absolute left-3 top-1/2 -translate-y-1/2 bg-white/30 hover:bg-white/60 backdrop-blur rounded-full w-9 h-9 flex items-center justify-center transition-colors"
@@ -421,26 +416,22 @@
             ></button>
           </div>
         </div>
-        <!-- /Banner Carousel -->
+        <!-- ================== END Carousel ================== -->
 
-        <!-- ─────────────────────────────────────────
-         SECTION 2 — Sách mới
-         Owl Carousel → Vue: drag/scroll ngang + nút prev/next
-         v-for render card từ sachMoi[] trong data()
-    ───────────────────────────────────────── -->
+        <!-- ================== SECTION 2 — Sách mới (Horizontal scroll carousel) ================== -->
         <section class="max-w-5xl mx-auto px-4 py-14">
           <div class="text-center mb-10">
             <h2 class="font-display text-3xl md:text-4xl text-ink">Sách mới</h2>
             <div class="w-12 h-0.5 bg-amber mx-auto mt-3"></div>
           </div>
 
-          <!-- Wrapper carousel ngang có scroll ẩn -->
           <div class="relative">
+            <!-- Container scroll ngang (ẩn scrollbar nhờ class scroll-x) -->
             <div
               ref="TruyentranhMoiTrack"
               class="flex gap-5 overflow-x-auto scroll-x scroll-smooth pb-2"
             >
-              <!-- v-for thay thế code HTML lặp lại từng card -->
+              <!-- Duyệt qua mảng TruyentranhMoi và render card động -->
               <div
                 v-for="book in TruyentranhMoi"
                 :key="book.id"
@@ -458,7 +449,7 @@
                     >
                       {{ book.name }}
                     </p>
-                    <!-- Sao đánh giá — v-for render sao dựa vào book.stars -->
+                    <!-- Hiển thị sao đánh giá dựa trên book.stars -->
                     <div class="flex gap-0.5 text-amber mb-2">
                       <span v-for="n in 5" :key="n">
                         <svg
@@ -479,7 +470,7 @@
                     <p class="text-sm font-bold text-ink">{{ book.price }}</p>
                   </div>
                 </a>
-                <!-- Footer card: 2 nút -->
+                <!-- Nút thao tác: Thêm vào giỏ và Mua ngay -->
                 <div class="p-3 pt-0 flex gap-2">
                   <button
                     class="flex-1 text-xs border border-ink rounded py-1.5 hover:bg-ink hover:text-white transition-colors"
@@ -497,7 +488,7 @@
               </div>
             </div>
 
-            <!-- Nút scroll trái/phải -->
+            <!-- Nút scroll trái/phải dùng phương thức scrollCarousel -->
             <button
               @click="scrollCarousel('TruyentranhMoiTrack', -260)"
               class="absolute -left-4 top-1/3 bg-white border border-gray-200 shadow rounded-full w-8 h-8 flex items-center justify-center hover:border-ink transition-colors"
@@ -536,17 +527,12 @@
             </button>
           </div>
         </section>
-        <!-- /Sách mới -->
+        <!-- ================== END Sách mới ================== -->
 
-        <!-- ─────────────────────────────────────────
-         SECTION 3 — Sách bán chạy
-         Layout 2 cột: ảnh lớn bên trái + thông tin bên phải
-         Tailwind grid thay Bootstrap row/col
-    ───────────────────────────────────────── -->
+        <!-- ================== SECTION 3 — Sách bán chạy (Grid 2 cột) ================== -->
         <section class="bg-stone-100 py-16">
           <div class="max-w-5xl mx-auto px-4">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-              <!-- Trái: Ảnh sách nổi bật -->
               <div class="flex justify-center">
                 <div class="bg-white p-6 rounded-lg shadow-md">
                   <img
@@ -556,8 +542,6 @@
                   />
                 </div>
               </div>
-
-              <!-- Phải: Mô tả + nút mua -->
               <div>
                 <h2 class="font-display text-3xl md:text-4xl mb-1 text-ink">
                   Sách bán chạy
@@ -583,13 +567,9 @@
             </div>
           </div>
         </section>
-        <!-- /Sách bán chạy -->
+        <!-- ================== END Sách bán chạy ================== -->
 
-        <!-- ─────────────────────────────────────────
-         SECTION 4 — Sách nổi bật
-         Bootstrap row-cols → Tailwind grid responsive
-         v-for render từ sachNoiBat[] trong data()
-    ───────────────────────────────────────── -->
+        <!-- ================== SECTION 4 — Sách nổi bật (Grid responsive) ================== -->
         <section class="max-w-5xl mx-auto px-4 py-14">
           <div class="text-center mb-10">
             <h2 class="font-display text-3xl md:text-4xl text-ink">
@@ -598,10 +578,10 @@
             <div class="w-12 h-0.5 bg-amber mx-auto mt-3"></div>
           </div>
 
-          <!-- Grid responsive: 1 col → sm:2 → lg:3 → xl:4 -->
           <div
             class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
           >
+            <!-- Duyệt qua mảng sachNoiBat render từng sản phẩm -->
             <div
               v-for="book in sachNoiBat"
               :key="book.id"
@@ -636,7 +616,6 @@
                       </svg>
                     </span>
                   </div>
-                  <!-- Giá: nếu có giá gốc thì hiện gạch ngang -->
                   <div class="flex items-center gap-2 flex-wrap">
                     <span class="text-sm font-bold text-ink"
                       >{{ book.price }}</span
@@ -666,12 +645,9 @@
             </div>
           </div>
         </section>
-        <!-- /Sách nổi bật -->
+        <!-- ================== END Sách nổi bật ================== -->
 
-        <!-- ─────────────────────────────────────────
-         SECTION 5 — Sách giảm giá
-         Tương tự Sách nổi bật, badge "SALE" thêm vào
-    ───────────────────────────────────────── -->
+        <!-- ================== SECTION 5 — Sách giảm giá (có badge SALE) ================== -->
         <section class="bg-stone-100 py-14">
           <div class="max-w-5xl mx-auto px-4">
             <div class="text-center mb-10">
@@ -689,7 +665,7 @@
                 :key="book.id"
                 class="book-card bg-white rounded border border-gray-100 flex flex-col relative"
               >
-                <!-- Badge SALE — chỉ render nếu có giá gốc -->
+                <!-- Badge SALE hiển thị nếu có originalPrice -->
                 <span
                   v-if="book.originalPrice"
                   class="absolute top-2 left-2 bg-red-500 text-white text-xs px-1.5 py-0.5 rounded font-medium z-10"
@@ -756,20 +732,16 @@
             </div>
           </div>
         </section>
-        <!-- /Sách giảm giá -->
+        <!-- ================== END Sách giảm giá ================== -->
       </main>
-      <!-- /MAIN -->
 
-      <!-- ╔══════════════════════════════════════════╗
-       ║  FOOTER — 4 cột: Về chúng tôi, Hỗ trợ, Dịch vụ, Nhận thông tin  ║
-       ╚══════════════════════════════════════════╝ -->
+      <!-- ================== FOOTER (4 cột: Về chúng tôi, Hỗ trợ, Dịch vụ, Nhận thông tin) ================== -->
       <footer class="bg-ink text-white pt-12 pb-6">
         <div class="max-w-5xl mx-auto px-4">
-          <!-- 4 cột responsive: 1 col (mobile) → sm:2 → lg:4 -->
           <div
             class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 pb-8 border-b border-white/10"
           >
-            <!-- Cột 1: Về Đảo truyện — các link giới thiệu, liên hệ, hệ thống cửa hàng -->
+            <!-- Cột 1 -->
             <div>
               <h6
                 class="font-semibold text-sm uppercase tracking-wider mb-4 text-amber"
@@ -778,24 +750,23 @@
               </h6>
               <ul class="space-y-2 text-sm text-white/60">
                 <li>
-                  <a href="./Page/gioithieu.html" class="hover:text-white transition-colors"
+                  <a
+                    href="./Page/gioithieu.html"
+                    class="hover:text-white transition-colors"
                     >Giới thiệu</a
                   >
                 </li>
+                <li><a href="#" class="hover:text-white">Liên hệ</a></li>
                 <li>
-                  <a href="#" class="hover:text-white transition-colors"
-                    >Liên hệ</a
-                  >
-                </li>
-                <li>
-                  <a href="./Page/hethongcuahang.html" class="hover:text-white transition-colors"
+                  <a
+                    href="./Page/hethongcuahang.html"
+                    class="hover:text-white transition-colors"
                     >Hệ thống cửa hàng</a
                   >
                 </li>
               </ul>
             </div>
-
-            <!-- Cột 2: Hỗ trợ — chính sách vận chuyển, bảo hành, đổi trả -->
+            <!-- Cột 2 -->
             <div>
               <h6
                 class="font-semibold text-sm uppercase tracking-wider mb-4 text-amber"
@@ -804,25 +775,29 @@
               </h6>
               <ul class="space-y-2 text-sm text-white/60">
                 <li>
-                  <a href="./Page/chinhsachvanchuyen.html" class="hover:text-white transition-colors"
+                  <a
+                    href="./Page/chinhsachvanchuyen.html"
+                    class="hover:text-white transition-colors"
                     >Chính sách vận chuyển</a
                   >
                 </li>
                 <li>
-                  <a href="./Page/chinhsachbaohanh.html" class="hover:text-white transition-colors"
+                  <a
+                    href="./Page/chinhsachbaohanh.html"
+                    class="hover:text-white transition-colors"
                     >Chính sách bảo hành</a
                   >
                 </li>
                 <li>
-                  <a href="./Page/doi_tra_hoantien.html" class="hover:text-white transition-colors"
+                  <a
+                    href="./Page/doi_tra_hoantien.html"
+                    class="hover:text-white transition-colors"
                     >Đổi - trả - hoàn tiền</a
                   >
                 </li>
-                
               </ul>
             </div>
-
-            <!-- Cột 3: Dịch vụ — điều khoản, bảo mật thanh toán, bảo mật thông tin -->
+            <!-- Cột 3 -->
             <div>
               <h6
                 class="font-semibold text-sm uppercase tracking-wider mb-4 text-amber"
@@ -831,31 +806,36 @@
               </h6>
               <ul class="space-y-2 text-sm text-white/60">
                 <li>
-                  <a href="./Page/dieukhoansudung.html" class="hover:text-white transition-colors"
+                  <a
+                    href="./Page/dieukhoansudung.html"
+                    class="hover:text-white transition-colors"
                     >Điều khoản sử dụng</a
                   >
                 </li>
                 <li>
-                  <a href="./Page/baomatthanhtoan.html" class="hover:text-white transition-colors"
+                  <a
+                    href="./Page/baomatthanhtoan.html"
+                    class="hover:text-white transition-colors"
                     >Bảo mật thanh toán</a
                   >
                 </li>
                 <li>
-                  <a href="./Page/chinhsachbaomat.html" class="hover:text-white transition-colors"
+                  <a
+                    href="./Page/chinhsachbaomat.html"
+                    class="hover:text-white transition-colors"
                     >Bảo mật thông tin</a
                   >
                 </li>
               </ul>
             </div>
-
-            <!-- Cột 4: Đăng ký nhận tin + Mạng xã hội (Facebook, Instagram, X/Twitter) -->
+            <!-- Cột 4: Đăng ký email + mạng xã hội -->
             <div>
               <h6
                 class="font-semibold text-sm uppercase tracking-wider mb-4 text-amber"
               >
                 Nhận thông tin
               </h6>
-              <!-- Form Vue: v-model liên kết email, @submit.prevent ngăn reload trang -->
+              <!-- Form subscribe dùng v-model và @submit.prevent -->
               <form @submit.prevent="subscribeEmail" class="flex mb-5">
                 <input
                   v-model="emailSubscribe"
@@ -871,14 +851,12 @@
                 </button>
               </form>
 
-              <!-- Mạng xã hội — icon SVG inline thay vì Bootstrap Icons -->
               <h6
                 class="font-semibold text-sm uppercase tracking-wider mb-3 text-amber"
               >
                 Theo dõi
               </h6>
               <div class="flex gap-4">
-                <!-- Facebook icon -->
                 <a
                   href="https://www.facebook.com/"
                   target="_blank"
@@ -890,7 +868,6 @@
                     />
                   </svg>
                 </a>
-                <!-- Instagram icon -->
                 <a
                   href="https://www.instagram.com/"
                   target="_blank"
@@ -902,7 +879,6 @@
                     />
                   </svg>
                 </a>
-                <!-- X (Twitter) icon -->
                 <a
                   href="https://twitter.com/"
                   target="_blank"
@@ -917,16 +893,14 @@
               </div>
             </div>
           </div>
-
-          <!-- Copyright -->
           <div class="pt-6 text-center text-xs text-white/40">
             © 2026 Đảo Truyện. All rights reserved.
           </div>
         </div>
       </footer>
-      <!-- /FOOTER -->
+      <!-- ================== END FOOTER ================== -->
 
-      <!-- Toast thông báo "Đã thêm vào giỏ" -->
+      <!-- Toast thông báo (tạm thời hiện khi thêm vào giỏ hoặc đăng ký email) -->
       <transition name="fade">
         <div
           v-if="showToast"
@@ -946,7 +920,6 @@
           {{ toastMsg }}
         </div>
       </transition>
-
       <!-- /Vue app root -->
     </div>
     <!-- /#app -->
@@ -955,21 +928,21 @@
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 
     <script>
+      // Tạo ứng dụng Vue 3
       const { createApp } = Vue;
 
       createApp({
         // ═══════════════════════════════════
-        // DATA — tất cả dữ liệu trang tập trung tại đây
-        // thay vì HTML lặp lại thủ công từng card
+        // DATA — tất cả dữ liệu trang (thay vì HTML tĩnh lặp lại)
         // ═══════════════════════════════════
         data() {
           return {
             // --- Header state ---
-            mobileOpen: false, // hamburger menu on/off
-            cartCount: 0, // số sản phẩm trong giỏ
+            mobileOpen: false, // Trạng thái mở/đóng menu mobile
+            cartCount: 0, // Số lượng sản phẩm trong giỏ hàng (từ localStorage)
 
             // --- Banner carousel state ---
-            currentSlide: 0,
+            currentSlide: 0, // Slide đang hiển thị
             bannerSlides: [
               {
                 img: "./assets/carousel/qRXcWXn.jpg",
@@ -991,7 +964,7 @@
               },
             ],
 
-            // --- Sách mới (Owl Carousel cũ) ---
+            // --- Sách mới (dùng cho horizontal scroll) ---
             TruyentranhMoi: [
               {
                 id: 1,
@@ -1111,7 +1084,7 @@
               },
             ],
 
-            // --- Sách giảm giá ---
+            // --- Sách giảm giá (có badge SALE) ---
             sachGiamGia: [
               {
                 id: 20,
@@ -1157,27 +1130,27 @@
         },
 
         // ═══════════════════════════════════
-        // METHODS — logic tương tác
-        // thay thế jQuery event handlers
+        // METHODS — logic xử lý sự kiện
         // ═══════════════════════════════════
         methods: {
-          // Carousel: chuyển slide
+          // Chuyển slide tới
           nextSlide() {
             this.currentSlide =
               (this.currentSlide + 1) % this.bannerSlides.length;
           },
+          // Chuyển slide lùi
           prevSlide() {
             this.currentSlide =
               (this.currentSlide - 1 + this.bannerSlides.length) %
               this.bannerSlides.length;
           },
 
-          // Scroll ngang cho Owl Carousel cũ
+          // Cuộn ngang cho carousel sách mới
           scrollCarousel(refName, amount) {
             this.$refs[refName].scrollBy({ left: amount, behavior: "smooth" });
           },
 
-          // Mua ngay sách bán chạy (SpyXFamily)
+          // Mua ngay sách bán chạy (thêm giỏ và chuyển đến trang giỏ hàng)
           buyBanChay() {
             this.addToCart({
               id: 50,
@@ -1189,16 +1162,18 @@
             window.location.href = "Page/giohang.html";
           },
 
-          // Mua ngay sách bất kỳ (thêm vào giỏ + chuyển hướng)
+          // Mua ngay một cuốn sách bất kỳ
           buyBook(book) {
             this.addToCart(book);
             window.location.href = "Page/giohang.html";
           },
 
-          // Thêm vào giỏ — lưu vào localStorage + hiện toast
+          // Thêm sản phẩm vào giỏ hàng (lưu localStorage, cập nhật badge, hiện toast)
           addToCart(book) {
-            const cart = JSON.parse(localStorage.getItem("daoTruyenCart") || "[]");
-            const existing = cart.find(item => item.id === book.id);
+            const cart = JSON.parse(
+              localStorage.getItem("daoTruyenCart") || "[]",
+            );
+            const existing = cart.find((item) => item.id === book.id);
             if (existing) {
               existing.qty++;
             } else {
@@ -1209,15 +1184,20 @@
                 price: book.price,
                 originalPrice: book.originalPrice || null,
                 qty: 1,
-                image: (book.img || book.image || "").replace(/^\.?\/?\.{0,2}\/?/, "")
+                image: (book.img || book.image || "").replace(
+                  /^\.?\/?\.{0,2}\/?/,
+                  "",
+                ),
               });
             }
             localStorage.setItem("daoTruyenCart", JSON.stringify(cart));
-            // Phát sự kiện storage để các tab/page khác cập nhật badge
-            window.dispatchEvent(new StorageEvent('storage', {
-              key: 'daoTruyenCart',
-              newValue: JSON.stringify(cart)
-            }));
+            // Kích hoạt sự kiện storage để đồng bộ nhiều tab
+            window.dispatchEvent(
+              new StorageEvent("storage", {
+                key: "daoTruyenCart",
+                newValue: JSON.stringify(cart),
+              }),
+            );
             this.cartCount = cart.reduce((sum, item) => sum + item.qty, 0);
             this.toastMsg = `Đã thêm "${book.name}" vào giỏ hàng`;
             this.showToast = true;
@@ -1226,7 +1206,7 @@
             }, 2500);
           },
 
-          // Footer: subscribe email
+          // Đăng ký email ở footer (hiển thị toast thông báo)
           subscribeEmail() {
             if (!this.emailSubscribe) return;
             this.toastMsg = `Đã đăng ký nhận tin với: ${this.emailSubscribe}`;
@@ -1237,24 +1217,26 @@
             }, 2500);
           },
 
-          // Đồng bộ badge giỏ hàng từ localStorage
+          // Cập nhật số lượng hiển thị trên badge giỏ hàng từ localStorage
           updateCartBadge() {
-            const cart = JSON.parse(localStorage.getItem("daoTruyenCart") || "[]");
+            const cart = JSON.parse(
+              localStorage.getItem("daoTruyenCart") || "[]",
+            );
             this.cartCount = cart.reduce((sum, item) => sum + item.qty, 0);
           },
         },
 
         // ═══════════════════════════════════
-        // MOUNTED — lifecycle hook
-        // chạy khi Vue đã gắn vào DOM
+        // MOUNTED — chạy sau khi Vue gắn vào DOM
         // ═══════════════════════════════════
         mounted() {
-          // Auto-play banner carousel: đổi slide mỗi 4 giây
+          // Auto-play banner: chuyển slide mỗi 4 giây
           setInterval(() => {
             this.nextSlide();
           }, 4000);
-          // Đồng bộ badge giỏ hàng từ localStorage
+          // Lấy số lượng giỏ hàng ban đầu
           this.updateCartBadge();
+          // Lắng nghe sự kiện storage để đồng bộ giỏ hàng giữa các tab
           window.addEventListener("storage", this.updateCartBadge);
         },
       }).mount("#app");

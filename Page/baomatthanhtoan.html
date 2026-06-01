@@ -1,6 +1,5 @@
 ﻿<!doctype html>
 <html lang="vi">
-  <!-- ═══════════════════════════════════════════ HEAD — Cấu hình trang Bảo mật thanh toán ═══════════════════════════════════════════ -->
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -14,14 +13,14 @@
         theme: {
           extend: {
             fontFamily: {
-              display: ["Playfair Display", "serif"],
-              body: ["Lora", "serif"],
+              display: ["Playfair Display", "serif"], // Font chữ cho tiêu đề nổi bật
+              body: ["Lora", "serif"], // Font chữ cho nội dung chính
             },
             colors: {
-              cream: "#faf7f2",
-              ink: "#1a1a1a",
-              amber: "#d97706",
-              muted: "#6b7280",
+              cream: "#faf7f2", // Màu nền trang chủ
+              ink: "#1a1a1a", // Màu chữ tối
+              amber: "#d97706", // Màu nhấn (cam nâu)
+              muted: "#6b7280", // Màu chữ phụ, nhẹ
             },
           },
         },
@@ -34,76 +33,159 @@
     />
     <!-- Phong cách tùy chỉnh — Font mặc định Lora, nền cream, chữ ink -->
     <style>
-      body { font-family: "Lora", serif; background-color: #faf7f2; color: #1a1a1a; }
+      body {
+        font-family: "Lora", serif;
+        background-color: #faf7f2;
+        color: #1a1a1a;
+      }
     </style>
   </head>
-  <!-- ═══════════════════════════════════════════ BODY — Gradient nền từ cream qua white đến amber-50 ═══════════════════════════════════════════ -->
+  <!--  BODY — Gradient nền từ cream qua white đến amber-50 -->
   <body class="min-h-screen bg-gradient-to-br from-cream via-white to-amber-50">
-    <!-- ═══════════════════════════════════════════ HEADER — Logo + link về trang chủ ═══════════════════════════════════════════ -->
-    <header class="border-b border-gray-200 bg-white/95 backdrop-blur-sm shadow-sm">
+    <!-- HEADER — Logo + link về trang chủ -->
+    <header
+      class="border-b border-gray-200 bg-white/95 backdrop-blur-sm shadow-sm"
+    >
       <div class="max-w-5xl mx-auto px-4 py-5">
         <a href="../index.html" class="inline-flex items-center gap-3">
-          <img src="../assets/logo.jpg" alt="Đảo Truyện" class="h-12 w-auto object-contain" />
+          <!-- Logo của Đảo Truyện -->
+          <img
+            src="../assets/logo.jpg"
+            alt="Đảo Truyện"
+            class="h-12 w-auto object-contain"
+          />
           <div class="space-y-0.5">
             <p class="text-sm text-muted">Đảo Truyện</p>
-            <p class="text-base font-semibold text-ink hover:text-amber transition">Trang chủ</p>
+            <p
+              class="text-base font-semibold text-ink hover:text-amber transition"
+            >
+              Trang chủ
+            </p>
           </div>
         </a>
       </div>
     </header>
 
-    <!-- ═══════════════════════════════════════════ MAIN — Nội dung bảo mật thanh toán ═══════════════════════════════════════════ -->
+    <!-- MAIN — Nội dung bảo mật thanh toán  -->
     <!-- Card bo góc lớn (rounded-[2rem]), shadow-2xl, tiêu đề + mô tả + 7 mục chính sách -->
-    <main class="flex min-h-[calc(100vh-100px)] items-start justify-center px-4 py-16">
-      <section class="w-full max-w-4xl rounded-[2rem] border border-gray-200 bg-white/95 p-10 shadow-2xl shadow-amber/15 ring-1 ring-amber-100">
-        <!-- Tiêu đề trang — font-display (Playfair Display) -->
+    <main
+      class="flex min-h-[calc(100vh-100px)] items-start justify-center px-4 py-16"
+    >
+      <section
+        class="w-full max-w-4xl rounded-[2rem] border border-gray-200 bg-white/95 p-10 shadow-2xl shadow-amber/15 ring-1 ring-amber-100"
+      >
+        <!-- Tiêu đề trang — font-display (Playfair Display) và thanh gạch ngang màu hổ phách -->
         <div class="mb-8 text-center">
           <div class="mx-auto mb-3 h-1.5 w-20 rounded-full bg-amber"></div>
-          <h1 class="text-3xl md:text-4xl font-display font-black text-ink">Bảo mật thanh toán</h1>
-          <p class="mt-2 text-sm text-muted">Cách Đảo Truyện bảo mật thông tin thanh toán khi bạn mua truyện và dịch vụ trên website.</p>
+          <h1 class="text-3xl md:text-4xl font-display font-black text-ink">
+            Bảo mật thanh toán
+          </h1>
+          <p class="mt-2 text-sm text-muted">
+            Cách Đảo Truyện bảo mật thông tin thanh toán khi bạn mua truyện và
+            dịch vụ trên website.
+          </p>
         </div>
 
         <!-- Nội dung chính sách — các mục được phân tách bằng space-y-5 -->
         <div class="space-y-5 text-sm text-slate-700">
+          <!-- 1. Phương thức thanh toán -->
           <section>
-            <h2 class="mb-2 text-lg font-semibold text-ink">1. Phương thức thanh toán</h2>
-            <p>Chúng tôi hỗ trợ các phương thức thanh toán an toàn như thanh toán khi nhận hàng, chuyển khoản ngân hàng, và cổng thanh toán trực tuyến. Mọi lựa chọn đều được hiển thị rõ ràng khi bạn hoàn tất đơn hàng.</p>
+            <h2 class="mb-2 text-lg font-semibold text-ink">
+              1. Phương thức thanh toán
+            </h2>
+            <p>
+              Chúng tôi hỗ trợ các phương thức thanh toán an toàn như thanh toán
+              khi nhận hàng, chuyển khoản ngân hàng, và cổng thanh toán trực
+              tuyến. Mọi lựa chọn đều được hiển thị rõ ràng khi bạn hoàn tất đơn
+              hàng.
+            </p>
           </section>
 
+          <!-- 2. Xử lý thông tin thẻ -->
           <section>
-            <h2 class="mb-2 text-lg font-semibold text-ink">2. Xử lý thông tin thẻ</h2>
-            <p>Thông tin thẻ ngân hàng của bạn được xử lý bởi các cổng thanh toán chuyên nghiệp. Đảo Truyện không lưu trữ chi tiết thẻ nếu không có sự đồng ý rõ ràng của bạn. Chúng tôi chỉ giữ lại dữ liệu cần thiết để xác nhận đơn hàng và giao dịch.</p>
+            <h2 class="mb-2 text-lg font-semibold text-ink">
+              2. Xử lý thông tin thẻ
+            </h2>
+            <p>
+              Thông tin thẻ ngân hàng của bạn được xử lý bởi các cổng thanh toán
+              chuyên nghiệp. Đảo Truyện không lưu trữ chi tiết thẻ nếu không có
+              sự đồng ý rõ ràng của bạn. Chúng tôi chỉ giữ lại dữ liệu cần thiết
+              để xác nhận đơn hàng và giao dịch.
+            </p>
           </section>
 
+          <!-- 3. Bảo mật dữ liệu giao dịch -->
           <section>
-            <h2 class="mb-2 text-lg font-semibold text-ink">3. Bảo mật dữ liệu giao dịch</h2>
-            <p>Toàn bộ thông tin giao dịch được mã hóa khi truyền qua Internet. Mỗi giao dịch được bảo vệ bằng kết nối an toàn HTTPS; điều này giúp ngăn chặn việc nghe lén và truy cập trái phép.</p>
+            <h2 class="mb-2 text-lg font-semibold text-ink">
+              3. Bảo mật dữ liệu giao dịch
+            </h2>
+            <p>
+              Toàn bộ thông tin giao dịch được mã hóa khi truyền qua Internet.
+              Mỗi giao dịch được bảo vệ bằng kết nối an toàn HTTPS; điều này
+              giúp ngăn chặn việc nghe lén và truy cập trái phép.
+            </p>
           </section>
 
+          <!-- 4. Lưu trữ và quyền truy cập -->
           <section>
-            <h2 class="mb-2 text-lg font-semibold text-ink">4. Lưu trữ và quyền truy cập</h2>
-            <p>Chúng tôi chỉ lưu trữ thông tin giao dịch và thanh toán cần thiết để hoàn tất đơn hàng, hỗ trợ dịch vụ và giải quyết khiếu nại. Mọi nhân viên và đối tác cung cấp dịch vụ liên quan đều phải tuân thủ chính sách bảo mật của Đảo Truyện.</p>
+            <h2 class="mb-2 text-lg font-semibold text-ink">
+              4. Lưu trữ và quyền truy cập
+            </h2>
+            <p>
+              Chúng tôi chỉ lưu trữ thông tin giao dịch và thanh toán cần thiết
+              để hoàn tất đơn hàng, hỗ trợ dịch vụ và giải quyết khiếu nại. Mọi
+              nhân viên và đối tác cung cấp dịch vụ liên quan đều phải tuân thủ
+              chính sách bảo mật của Đảo Truyện.
+            </p>
           </section>
 
+          <!-- 5. Chia sẻ với bên thứ ba -->
           <section>
-            <h2 class="mb-2 text-lg font-semibold text-ink">5. Chia sẻ với bên thứ ba</h2>
-            <p>Thông tin thanh toán chỉ được chia sẻ với ngân hàng và đối tác thanh toán khi cần thiết để xử lý giao dịch. Chúng tôi không chia sẻ thông tin này cho mục đích tiếp thị hay bên thứ ba không liên quan.</p>
+            <h2 class="mb-2 text-lg font-semibold text-ink">
+              5. Chia sẻ với bên thứ ba
+            </h2>
+            <p>
+              Thông tin thanh toán chỉ được chia sẻ với ngân hàng và đối tác
+              thanh toán khi cần thiết để xử lý giao dịch. Chúng tôi không chia
+              sẻ thông tin này cho mục đích tiếp thị hay bên thứ ba không liên
+              quan.
+            </p>
           </section>
 
+          <!-- 6. Trách nhiệm và khiếu nại -->
           <section>
-            <h2 class="mb-2 text-lg font-semibold text-ink">6. Trách nhiệm và khiếu nại</h2>
-            <p>Nếu bạn phát hiện bất kỳ giao dịch bất thường nào, vui lòng liên hệ ngay với nhân viên hỗ trợ của chúng tôi. Đảo Truyện sẽ phối hợp với ngân hàng và đối tác thanh toán để hỗ trợ kiểm tra và xử lý.</p>
+            <h2 class="mb-2 text-lg font-semibold text-ink">
+              6. Trách nhiệm và khiếu nại
+            </h2>
+            <p>
+              Nếu bạn phát hiện bất kỳ giao dịch bất thường nào, vui lòng liên
+              hệ ngay với nhân viên hỗ trợ của chúng tôi. Đảo Truyện sẽ phối hợp
+              với ngân hàng và đối tác thanh toán để hỗ trợ kiểm tra và xử lý.
+            </p>
           </section>
 
+          <!-- 7. Liên hệ (thông tin liên lạc cụ thể) -->
           <section>
             <h2 class="mb-2 text-lg font-semibold text-ink">7. Liên hệ</h2>
-            <p>Mọi thắc mắc về bảo mật thanh toán vui lòng gửi tới: <strong>0981109909</strong> hoặc <a href="mailto:daotruyen@gmail.com" class="text-amber hover:underline">daotruyen@gmail.com</a>.</p>
+            <p>
+              Mọi thắc mắc về bảo mật thanh toán vui lòng gửi tới:
+              <strong>0981109909</strong> hoặc
+              <a
+                href="mailto:daotruyen@gmail.com"
+                class="text-amber hover:underline"
+                >daotruyen@gmail.com</a
+              >.
+            </p>
           </section>
         </div>
 
-        <!-- Nút quay về trang chủ -->
+        <!-- Nút quay về trang chủ (hành động chính, nổi bật với nền màu hổ phách) -->
         <div class="mt-6 text-center">
-          <a href="../index.html" class="inline-flex items-center justify-center rounded-3xl bg-amber px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-amber/20 transition hover:bg-orange-500">Quay về trang chủ</a>
+          <a
+            href="../index.html"
+            class="inline-flex items-center justify-center rounded-3xl bg-amber px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-amber/20 transition hover:bg-orange-500"
+            >Quay về trang chủ</a
+          >
         </div>
       </section>
     </main>

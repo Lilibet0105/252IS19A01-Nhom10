@@ -1,39 +1,38 @@
 <!doctype html>
 <html lang="vi">
   <head>
-    <!-- ═══════════════════════════════════════════
-         HEAD — Tailwind CSS CDN + Google Fonts + config
-         - Tailwind config: extend font (display, body) và màu (cream, ink, amber, muted)
-         - Font: Playfair Display cho tiêu đề, Lora cho nội dung
-    ═══════════════════════════════════════════ -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Đăng ký | Đảo Truyện</title>
 
+    <!-- Tailwind CSS CDN - Thư viện CSS tiện ích, giúp xây dựng giao diện nhanh chóng -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Cấu hình Tailwind tùy chỉnh: mở rộng font chữ và bảng màu riêng cho website -->
     <script>
       tailwind.config = {
         theme: {
           extend: {
             fontFamily: {
-              display: ["Playfair Display", "serif"],
-              body: ["Lora", "serif"],
+              display: ["Playfair Display", "serif"], // Font cho tiêu đề lớn
+              body: ["Lora", "serif"], // Font cho văn bản
             },
             colors: {
-              cream: "#faf7f2",
-              ink: "#1a1a1a",
-              amber: "#d97706",
-              muted: "#6b7280",
+              cream: "#faf7f2", // Màu nền kem chủ đạo
+              ink: "#1a1a1a", // Màu chữ đậm
+              amber: "#d97706", // Màu nhấn (cam)
+              muted: "#6b7280", // Màu xám nhẹ cho text phụ
             },
           },
         },
       };
     </script>
+    <!-- Google Fonts: Playfair Display và Lora -->
     <link
       href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lora:wght@400;500&display=swap"
       rel="stylesheet"
     />
     <style>
+      /* CSS tùy chỉnh: ghi đè font và màu nền mặc định cho toàn bộ trang */
       body {
         font-family: "Lora", serif;
         background-color: #faf7f2;
@@ -41,43 +40,73 @@
       }
     </style>
   </head>
-  <!-- ═══════════════════════════════════════════ BODY — Gradient nền từ cream qua white đến amber-50 ═══════════════════════════════════════════ -->
+  <!-- 
+       BODY — Nền gradient từ cream qua white đến amber-50
+       Tạo hiệu ứng chuyển màu nhẹ nhàng, tinh tế
+ -->
   <body class="min-h-screen bg-gradient-to-br from-cream via-white to-amber-50">
-    <!-- ═══════════════════════════════════════════ HEADER — Logo + link về trang chủ ═══════════════════════════════════════════ -->
-    <header class="border-b border-gray-200 bg-white/95 backdrop-blur-sm shadow-sm">
+    <!-- 
+         HEADER — Logo và link quay về trang chủ
+         Giúp người dùng dễ dàng điều hướng trở lại
+    -->
+    <header
+      class="border-b border-gray-200 bg-white/95 backdrop-blur-sm shadow-sm"
+    >
       <div class="max-w-5xl mx-auto px-4 py-5">
         <a href="../index.html" class="inline-flex items-center gap-3">
-          <img src="../assets/logo.jpg" alt="Đảo Truyện" class="h-12 w-auto object-contain" />
+          <!-- Logo của Đảo Truyện -->
+          <img
+            src="../assets/logo.jpg"
+            alt="Đảo Truyện"
+            class="h-12 w-auto object-contain"
+          />
           <div class="space-y-0.5">
             <p class="text-sm text-muted">Đảo Truyện</p>
-            <p class="text-base font-semibold text-ink hover:text-amber transition">Trang chủ</p>
+            <p
+              class="text-base font-semibold text-ink hover:text-amber transition"
+            >
+              Trang chủ
+            </p>
           </div>
         </a>
       </div>
     </header>
 
-    <!-- ═══════════════════════════════════════════
-         MAIN — Form đăng ký tài khoản
-         - Card bo góc lớn (rounded-[2rem]), shadow-2xl + shadow amber
-         - 4 trường: Họ tên, Email, Mật khẩu, Xác nhận mật khẩu
+    <!-- 
+         MAIN — Form đăng ký tài khoản người dùng
+         - Card bo góc lớn (rounded-[2rem]), shadow mạnh và viền màu cam nhạt
+         - Form gồm 4 trường bắt buộc: Họ tên, Email, Mật khẩu, Xác nhận mật khẩu
          - Nút submit gradient từ amber sang orange-500
-         - Link chuyển sang trang đăng nhập
-    ═══════════════════════════════════════════ -->
-    <main class="flex min-h-[calc(100vh-100px)] items-center justify-center px-4 py-16">
-      <section class="w-full max-w-lg rounded-[2rem] border border-gray-200 bg-white/95 p-10 shadow-2xl shadow-amber/15 ring-1 ring-amber-100">
+         - Link chuyển sang trang đăng nhập cho người đã có tài khoản
+     -->
+    <main
+      class="flex min-h-[calc(100vh-100px)] items-center justify-center px-4 py-16"
+    >
+      <!-- Card form đăng ký - thiết kế nổi bật với hiệu ứng đổ bóng -->
+      <section
+        class="w-full max-w-lg rounded-[2rem] border border-gray-200 bg-white/95 p-10 shadow-2xl shadow-amber/15 ring-1 ring-amber-100"
+      >
         <!-- Tiêu đề form — font-display (Playfair Display), font-black đậm nhất -->
         <div class="mb-10 text-center">
+          <!-- Đường kẻ trang trí màu cam ở giữa tiêu đề -->
           <div class="mx-auto mb-4 h-1.5 w-24 rounded-full bg-amber"></div>
-          <h1 class="text-5xl font-display font-black tracking-tight text-ink">Đăng Ký</h1>
-          <p class="mx-auto mt-4 max-w-sm text-sm text-muted">Tạo tài khoản mới để khám phá Đảo Truyện.</p>
+          <h1 class="text-5xl font-display font-black tracking-tight text-ink">
+            Đăng Ký
+          </h1>
+          <p class="mx-auto mt-4 max-w-sm text-sm text-muted">
+            Tạo tài khoản mới để khám phá Đảo Truyện.
+          </p>
         </div>
 
-        <!-- Form đăng ký — input rounded-3xl, focus:border-amber + focus:ring-amber/20 -->
+        <!-- Form đăng ký — input có bo góc tròn lớn (rounded-3xl) -->
+        <!-- Khi focus: viền chuyển sang màu cam và có hiệu ứng bóng mờ -->
         <form id="registerForm" class="space-y-6">
           <div class="grid gap-5">
-            <!-- Trường Họ và tên -->
+            <!-- Trường Họ và tên - yêu cầu nhập họ tên đầy đủ -->
             <div>
-              <label for="fullname" class="block text-sm font-semibold text-ink">Họ và tên</label>
+              <label for="fullname" class="block text-sm font-semibold text-ink"
+                >Họ và tên</label
+              >
               <input
                 id="fullname"
                 name="fullname"
@@ -88,9 +117,11 @@
               />
             </div>
 
-            <!-- Trường Email -->
+            <!-- Trường Email - dùng type="email" để trình duyệt tự động kiểm tra định dạng -->
             <div>
-              <label for="email" class="block text-sm font-semibold text-ink">Email</label>
+              <label for="email" class="block text-sm font-semibold text-ink"
+                >Email</label
+              >
               <input
                 id="email"
                 name="email"
@@ -101,9 +132,11 @@
               />
             </div>
 
-            <!-- Trường Mật khẩu -->
+            <!-- Trường Mật khẩu - dùng type="password" để ẩn ký tự -->
             <div>
-              <label for="password" class="block text-sm font-semibold text-ink">Mật khẩu</label>
+              <label for="password" class="block text-sm font-semibold text-ink"
+                >Mật khẩu</label
+              >
               <input
                 id="password"
                 name="password"
@@ -114,9 +147,13 @@
               />
             </div>
 
-            <!-- Trường Xác nhận mật khẩu -->
+            <!-- Trường Xác nhận mật khẩu - đảm bảo người dùng nhập đúng mật khẩu -->
             <div>
-              <label for="confirmPassword" class="block text-sm font-semibold text-ink">Xác nhận mật khẩu</label>
+              <label
+                for="confirmPassword"
+                class="block text-sm font-semibold text-ink"
+                >Xác nhận mật khẩu</label
+              >
               <input
                 id="confirmPassword"
                 name="confirmPassword"
@@ -128,7 +165,7 @@
             </div>
           </div>
 
-          <!-- Nút Đăng ký — gradient từ amber sang orange-500 -->
+          <!-- Nút Đăng ký — gradient màu cam nổi bật, có hiệu ứng hover đổi màu -->
           <button
             type="submit"
             class="w-full rounded-3xl bg-gradient-to-r from-amber to-orange-500 px-6 py-4 text-base font-semibold text-white shadow-lg shadow-amber/20 transition duration-200 hover:from-orange-600 hover:to-amber-600"
@@ -137,47 +174,54 @@
           </button>
         </form>
 
-        <!-- Link chuyển sang trang đăng nhập -->
+        <!-- Link chuyển sang trang đăng nhập cho người dùng đã có tài khoản -->
         <p class="mt-6 text-center text-sm text-muted">
           Đã có tài khoản?
-          <a href="./dangnhap.html" class="font-semibold text-amber hover:text-ink transition">Đăng nhập ngay</a>
+          <a
+            href="./dangnhap.html"
+            class="font-semibold text-amber hover:text-ink transition"
+            >Đăng nhập ngay</a
+          >
         </p>
       </section>
     </main>
 
-    <!-- ═══════════════════════════════════════════
-         SCRIPT — Xử lý form đăng ký
-         - Kiểm tra đầy đủ thông tin
-         - Kiểm tra mật khẩu khớp nhau
-         - Chuyển hướng sang trang đăng nhập sau khi thành công
-    ═══════════════════════════════════════════ -->
+    <!-- 
+         SCRIPT — Xử lý logic form đăng ký (JavaScript thuần)
+         - Kiểm tra các trường không được để trống
+         - Kiểm tra mật khẩu và xác nhận mật khẩu phải trùng khớp
+         - Nếu hợp lệ: hiển thị thông báo thành công và chuyển hướng sang trang đăng nhập
+    -->
     <script>
-      // Xử lý sự kiện submit form đăng ký
-      document.getElementById('registerForm').addEventListener('submit', function (event) {
-        // Ngăn form reload trang
-        event.preventDefault();
-        // Lấy giá trị từ các trường input
-        const fullname = event.target.fullname.value.trim();
-        const email = event.target.email.value.trim();
-        const password = event.target.password.value.trim();
-        const confirmPassword = event.target.confirmPassword.value.trim();
+      // Xử lý sự kiện submit của form đăng ký
+      document
+        .getElementById("registerForm")
+        .addEventListener("submit", function (event) {
+          // Ngăn chặn hành vi reload trang mặc định của form
+          event.preventDefault();
 
-        // Kiểm tra đầy đủ thông tin
-        if (!fullname || !email || !password || !confirmPassword) {
-          alert('Vui lòng điền đầy đủ thông tin.');
-          return;
-        }
+          // Lấy giá trị từ các trường input và loại bỏ khoảng trắng thừa (trim)
+          const fullname = event.target.fullname.value.trim();
+          const email = event.target.email.value.trim();
+          const password = event.target.password.value.trim();
+          const confirmPassword = event.target.confirmPassword.value.trim();
 
-        // Kiểm tra mật khẩu và xác nhận mật khẩu khớp nhau
-        if (password !== confirmPassword) {
-          alert('Mật khẩu và xác nhận mật khẩu không trùng khớp.');
-          return;
-        }
+          // Kiểm tra tất cả các trường đã được điền đầy đủ chưa
+          if (!fullname || !email || !password || !confirmPassword) {
+            alert("Vui lòng điền đầy đủ thông tin.");
+            return; // Dừng xử lý nếu thiếu thông tin
+          }
 
-        // Đăng ký thành công — chuyển hướng sang trang đăng nhập
-        alert('Đăng ký thành công! Vui lòng đăng nhập.');
-        window.location.href = './dangnhap.html';
-      });
+          // Kiểm tra mật khẩu và xác nhận mật khẩu có trùng khớp không
+          if (password !== confirmPassword) {
+            alert("Mật khẩu và xác nhận mật khẩu không trùng khớp.");
+            return; // Dừng xử lý nếu mật khẩu không khớp
+          }
+
+          // Mọi kiểm tra đều hợp lệ: thông báo thành công và chuyển hướng sang trang đăng nhập
+          alert("Đăng ký thành công! Vui lòng đăng nhập.");
+          window.location.href = "./dangnhap.html";
+        });
     </script>
   </body>
 </html>

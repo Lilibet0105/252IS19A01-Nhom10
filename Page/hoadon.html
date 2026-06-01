@@ -1,43 +1,43 @@
 <!doctype html>
 <html lang="vi">
   <head>
-    <!-- ═══════════════════════════════════════════ META — Thông tin cơ bản trang web ═══════════════════════════════════════════ -->
+    <!-- META - Thông tin cơ bản trang web -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Đặt hàng thành công | Đảo Truyện</title>
 
-    <!-- ═══════════════════════════════════════════ THƯ VIỆN CSS/JS — Tailwind CSS (framework CSS tiện ích) ═══════════════════════════════════════════ -->
+    <!-- THƯ VIỆN CSS/JS - Tailwind CSS (framework CSS tiện ích) -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- ═══════════════════════════════════════════ THƯ VIỆN — Vue 3 (framework JavaScript phản ứng) ═══════════════════════════════════════════ -->
+    <!-- THƯ VIỆN - Vue 3 (framework JavaScript phản ứng) -->
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-    <!-- ═══════════════════════════════════════════ FONT GOOGLE — Playfair Display (tiêu đề) + Lora (nội dung) ═══════════════════════════════════════════ -->
+    <!-- FONT GOOGLE - Playfair Display (tiêu đề) + Lora (nội dung) -->
     <link
       href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;900&family=Lora:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
-    <!-- ═══════════════════════════════════════════ TAILWIND CONFIG — Cấu hình tùy chỉnh: font chữ, bảng màu ═══════════════════════════════════════════ -->
+    <!-- TAILWIND CONFIG - Cấu hình tùy chỉnh: font chữ, bảng màu -->
     <script>
       tailwind.config = {
         theme: {
           extend: {
             fontFamily: {
-              display: ["Playfair Display", "serif"],
-              body: ["Lora", "serif"],
+              display: ["Playfair Display", "serif"], // Font cho tiêu đề lớn
+              body: ["Lora", "serif"], // Font cho văn bản nội dung
             },
             colors: {
-              cream: "#faf7f2",
-              ink: "#1a1a1a",
-              amber: "#d97706",
-              muted: "#6b7280",
+              cream: "#faf7f2", // Màu nền kem chủ đạo
+              ink: "#1a1a1a", // Màu chữ đậm
+              amber: "#d97706", // Màu nhấn (cam)
+              muted: "#6b7280", // Màu xám nhẹ cho text phụ
             },
           },
         },
       };
     </script>
-    <!-- ═══════════════════════════════════════════ CUSTOM STYLES — CSS tùy chỉnh cho trang hóa đơn ═══════════════════════════════════════════ -->
+    <!-- CUSTOM STYLES - CSS tùy chỉnh cho trang hóa đơn với hiệu ứng động -->
     <style>
-      /* ─── Reset & Base ─── */
+      /* Reset & Base - Đặt lại box-sizing, font nền mặc định */
       * {
         box-sizing: border-box;
       }
@@ -53,7 +53,7 @@
         font-family: "Playfair Display", serif;
       }
 
-      /* ─── Hiệu ứng động (Keyframes) ─── */
+      /* Hiệu ứng động (Keyframes) */
 
       /* fadeUp: Hiệu ứng mờ dần + trượt lên cho các phần tử xuất hiện lần lượt */
       @keyframes fadeUp {
@@ -149,7 +149,7 @@
         }
       }
 
-      /* ─── Lớp CSS cho icon thành công (vòng tròn + dấu tích + sóng lan tỏa) ─── */
+      /* Lớp CSS cho icon thành công (vòng tròn + dấu tích + sóng lan tỏa) */
       .success-circle {
         stroke-dasharray: 251;
         stroke-dashoffset: 251;
@@ -164,7 +164,7 @@
         animation: pulseRing 1.5s ease-out infinite;
       }
 
-      /* ─── Lớp fadeUp (fu1–fu6): Hiệu ứng xuất hiện lần lượt với độ trễ tăng dần ─── */
+      /* Lớp fadeUp (fu1–fu6): Hiệu ứng xuất hiện lần lượt với độ trễ tăng dần */
       .fu1 {
         animation: fadeUp 0.55s ease forwards 0.15s;
         opacity: 0;
@@ -190,12 +190,12 @@
         opacity: 0;
       }
 
-      /* ─── Thanh nối giữa các bước trong progress steps ─── */
+      /* Thanh nối giữa các bước trong progress steps */
       .step-connector {
         flex: 1;
         height: 2px;
       }
-      /* ─── Modal: Lớp nền mờ + hộp thoại ─── */
+      /* Modal: Lớp nền mờ + hộp thoại */
       .modal-backdrop {
         position: fixed;
         inset: 0;
@@ -216,7 +216,7 @@
         overflow-y: auto;
         animation: modalIn 0.25s ease;
       }
-      /* ─── Toast: Thông báo góc phải trên ─── */
+      /* Toast: Thông báo góc phải trên */
       .toast {
         position: fixed;
         top: 1.25rem;
@@ -239,7 +239,7 @@
       .toast-leave-active {
         animation: toastOut 0.35s ease;
       }
-      /* ─── Thẻ sản phẩm gợi ý: Hiệu ứng hover nổi lên ─── */
+      /* Thẻ sản phẩm gợi ý: Hiệu ứng hover nổi lên */
       .product-card {
         transition:
           transform 0.25s,
@@ -249,12 +249,12 @@
         transform: translateY(-4px);
         box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
       }
-      /* ─── Icon xoay loading ─── */
+      /* Icon xoay loading */
       .spin {
         animation: spin 0.8s linear infinite;
       }
 
-      /* ─── Input: Ô nhập liệu tùy chỉnh với hiệu ứng focus ─── */
+      /* Input: Ô nhập liệu tùy chỉnh với hiệu ứng focus */
       .inp {
         width: 100%;
         border-radius: 1.5rem;
@@ -279,7 +279,7 @@
         box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12);
       }
 
-      /* ─── In ấn: Ẩn các phần tử không cần in, bỏ bóng ─── */
+      /* In ấn: Ẩn các phần tử không cần in, bỏ bóng khi in */
       @media print {
         .no-print {
           display: none !important;
@@ -296,17 +296,19 @@
   </head>
   <body class="min-h-screen">
     <div id="app">
-      <!-- ═══════════════════════════════════════════ HEADER — Thanh đầu trang: hotline, tài khoản, logo ═══════════════════════════════════════════ -->
+      <!-- HEADER - Thanh đầu trang: hotline, tài khoản, logo -->
       <header
         class="no-print sticky top-0 z-50 bg-cream border-b border-gray-200 shadow-sm"
       >
         <div class="bg-ink text-white text-xs py-1.5">
           <div class="max-w-5xl mx-auto px-4 flex items-center justify-between">
+            <!-- Bên trái: Số điện thoại và email liên hệ -->
             <div class="flex gap-5">
               <a
                 href="tel:0981109909"
                 class="flex items-center gap-1.5 hover:text-amber transition-colors"
               >
+                <!-- Icon điện thoại SVG -->
                 <svg
                   class="w-3.5 h-3.5"
                   fill="currentColor"
@@ -322,7 +324,9 @@
                 >daotruyen@gmail.com</span
               >
             </div>
+            <!-- Bên phải: Thông tin người dùng + nút đăng nhập/đăng ký -->
             <div class="flex items-center gap-3 text-white/80">
+              <!-- Hiển thị tên người dùng nếu đã đăng nhập -->
               <span v-if="currentUser" class="flex items-center gap-1.5">
                 <svg
                   class="w-3.5 h-3.5 text-amber"
@@ -339,6 +343,7 @@
                   >{{ currentUser?.name || "Khách" }}</span
                 >
               </span>
+              <!-- Nút đăng xuất -->
               <button
                 v-if="currentUser"
                 @click="logout"
@@ -346,6 +351,7 @@
               >
                 Đăng xuất
               </button>
+              <!-- Nút đăng nhập/đăng ký khi chưa đăng nhập -->
               <template v-else>
                 <button
                   @click="openAuth('login')"
@@ -363,6 +369,7 @@
             </div>
           </div>
         </div>
+        <!-- Logo trung tâm -->
         <div
           class="flex justify-center items-center py-2 border-b border-gray-100"
         >
@@ -385,7 +392,7 @@
         </div>
       </header>
 
-      <!-- ═══════════════════════════════════════════ MODAL ĐĂNG NHẬP / ĐĂNG KÝ — Hiện khi chưa đăng nhập, chặn thoát nếu chưa login ═══════════════════════════════════════════ -->
+      <!-- MODAL ĐĂNG NHẬP / ĐĂNG KÝ - Hiện khi chưa đăng nhập, chặn thoát nếu chưa login -->
       <div
         v-if="showAuthModal"
         class="modal-backdrop"
@@ -453,7 +460,7 @@
               </p>
             </div>
 
-            <!-- Tab switcher -->
+            <!-- Tab switcher - Chuyển đổi giữa đăng nhập và đăng ký -->
             <div class="flex bg-gray-100 rounded-2xl p-1">
               <button
                 @click="authTab='login'; clearAuthErrors()"
@@ -506,6 +513,7 @@
                     class="inp pr-12"
                     :class="authErrors.password ? 'err' : ''"
                   />
+                  <!-- Nút hiển thị/ẩn mật khẩu -->
                   <button
                     type="button"
                     @click="showPwd=!showPwd"
@@ -565,7 +573,6 @@
                 </svg>
                 {{ authLoading ? 'Đang xử lý...' : 'Đăng nhập' }}
               </button>
-
             </form>
 
             <!-- FORM ĐĂNG KÝ -->
@@ -666,9 +673,9 @@
         </div>
       </div>
 
-      <!-- ═══════════════════════════════════════════ NỘI DUNG CHÍNH — Progress steps, banner thành công, hóa đơn, nút hành động, gợi ý sản phẩm ═══════════════════════════════════════════ -->
+      <!-- NỘI DUNG CHÍNH - Progress steps, banner thành công, hóa đơn, nút hành động, gợi ý sản phẩm -->
       <div>
-        <!-- Progress steps -->
+        <!-- Progress steps - Hiển thị tiến trình đặt hàng (Giỏ hàng -> Thanh toán -> Xác nhận) -->
         <div class="no-print max-w-lg mx-auto px-4 pt-8 fu1">
           <div class="flex items-center">
             <div
@@ -705,6 +712,7 @@
                   {{step.label}}
                 </span>
               </div>
+              <!-- Đường nối giữa các bước -->
               <div
                 v-if="i<steps.length-1"
                 class="step-connector mx-2 mb-4"
@@ -715,7 +723,7 @@
         </div>
 
         <main class="max-w-4xl mx-auto px-4 py-8 pb-20 space-y-6">
-          <!-- ── SUCCESS BANNER — Biểu tượng thành công, mã đơn hàng, lời cảm ơn ── -->
+          <!-- SUCCESS BANNER - Biểu tượng thành công, mã đơn hàng, lời cảm ơn -->
           <div class="fu1 text-center py-4">
             <div class="inline-block relative">
               <div
@@ -762,6 +770,7 @@
               >
               đã tin tưởng mua sắm tại Đảo Truyện.
             </p>
+            <!-- Mã đơn hàng + nút sao chép -->
             <div
               class="inline-flex items-center gap-2 mt-3 bg-amber/10 border border-amber/30 rounded-full px-4 py-1.5 fu3"
             >
@@ -791,11 +800,11 @@
             </div>
           </div>
 
-          <!-- ── CARD HÓA ĐƠN — Thẻ chứa toàn bộ thông tin đơn hàng ── -->
+          <!-- CARD HÓA ĐƠN - Thẻ chứa toàn bộ thông tin đơn hàng -->
           <div
             class="print-card bg-white rounded-[2rem] border border-gray-200 shadow-xl shadow-amber/8 overflow-hidden fu3"
           >
-            <!-- Header -->
+            <!-- Header card - Tiêu đề xác nhận đơn hàng -->
             <div
               class="bg-ink text-white px-6 md:px-8 py-5 flex flex-col sm:flex-row justify-between gap-3"
             >
@@ -827,7 +836,7 @@
             </div>
 
             <div class="p-6 md:p-8 space-y-7">
-              <!-- Timeline -->
+              <!-- Timeline - Hành trình đơn hàng (các bước xử lý) -->
               <div>
                 <p
                   class="text-xs uppercase tracking-widest text-amber font-semibold mb-4"
@@ -864,6 +873,7 @@
                           class="w-2 h-2 bg-amber rounded-full"
                         ></div>
                       </div>
+                      <!-- Đường nối dọc giữa các bước -->
                       <div
                         v-if="i<order.timeline.length-1"
                         class="w-0.5 flex-1 mt-1"
@@ -883,7 +893,7 @@
                 </div>
               </div>
 
-              <!-- Thông tin giao hàng -->
+              <!-- Thông tin giao hàng - Người nhận và vận chuyển -->
               <div class="grid sm:grid-cols-2 gap-4">
                 <div class="bg-cream rounded-2xl p-5">
                   <p
@@ -988,7 +998,7 @@
                 </div>
               </div>
 
-              <!-- ── DANH SÁCH SẢN PHẨM — Hiển thị các sản phẩm đã đặt từ giỏ hàng thực tế ── -->
+              <!-- DANH SÁCH SẢN PHẨM - Hiển thị các sản phẩm đã đặt từ giỏ hàng thực tế -->
               <div>
                 <p
                   class="text-xs uppercase tracking-widest text-amber font-semibold mb-3"
@@ -996,7 +1006,7 @@
                   Sản phẩm đã đặt ({{ order.items.length }} sản phẩm)
                 </p>
 
-                <!-- Giỏ hàng rỗng -->
+                <!-- Giỏ hàng rỗng - Hiển thị khi không có sản phẩm -->
                 <div
                   v-if="order.items.length === 0"
                   class="rounded-2xl border border-dashed border-gray-300 py-12 text-center text-muted text-sm"
@@ -1022,12 +1032,12 @@
                   >
                 </div>
 
-                <!-- Có sản phẩm -->
+                <!-- Có sản phẩm - Hiển thị bảng danh sách -->
                 <div
                   v-else
                   class="rounded-2xl border border-gray-100 overflow-hidden"
                 >
-                  <!-- Header bảng -->
+                  <!-- Header bảng - Desktop -->
                   <div
                     class="hidden sm:grid grid-cols-12 bg-gray-50 px-5 py-2.5 text-xs uppercase tracking-wider text-muted font-semibold"
                   >
@@ -1036,14 +1046,14 @@
                     <div class="col-span-2 text-center">Số lượng</div>
                     <div class="col-span-2 text-right">Thành tiền</div>
                   </div>
-                  <!-- Rows -->
+                  <!-- Danh sách sản phẩm - Rows -->
                   <div
                     v-for="(item, i) in order.items"
                     :key="item.id + i"
                     class="flex sm:grid sm:grid-cols-12 items-center gap-3 px-5 py-4"
                     :class="i < order.items.length-1 ? 'border-b border-gray-100' : ''"
                   >
-                    <!-- Ảnh + tên -->
+                    <!-- Ảnh + tên sản phẩm -->
                     <div
                       class="col-span-6 flex items-center gap-3 flex-1 min-w-0"
                     >
@@ -1080,7 +1090,7 @@
                         <p class="text-xs text-muted mt-0.5">
                           {{ item.category || 'Truyện tranh' }}
                         </p>
-                        <!-- Mobile: giá nhanh -->
+                        <!-- Mobile: hiển thị giá nhanh -->
                         <p class="text-xs text-amber font-bold sm:hidden mt-1">
                           {{ formatPrice(parsePrice(item.price)) }} × {{
                           item.qty }} = {{ formatPrice(parsePrice(item.price) *
@@ -1088,18 +1098,20 @@
                         </p>
                       </div>
                     </div>
-                    <!-- Desktop cols -->
+                    <!-- Desktop: Đơn giá -->
                     <div
                       class="hidden sm:block col-span-2 text-center text-sm text-muted"
                     >
                       {{ formatPrice(parsePrice(item.price)) }}
                     </div>
+                    <!-- Desktop: Số lượng -->
                     <div class="hidden sm:block col-span-2 text-center">
                       <span
                         class="inline-block bg-gray-100 rounded-lg px-3 py-1 text-sm font-semibold text-ink"
                         >{{ item.qty }}</span
                       >
                     </div>
+                    <!-- Desktop: Thành tiền -->
                     <div class="text-right sm:col-span-2 shrink-0">
                       <span class="text-sm font-bold text-amber">
                         {{ formatPrice(parsePrice(item.price) * item.qty) }}
@@ -1109,7 +1121,7 @@
                 </div>
               </div>
 
-              <!-- Tóm tắt thanh toán -->
+              <!-- Tóm tắt thanh toán - Tạm tính, giảm giá, phí vận chuyển, tổng cộng -->
               <div class="flex justify-end">
                 <div class="w-full sm:max-w-xs space-y-2.5 text-sm">
                   <div class="flex justify-between text-muted">
@@ -1151,7 +1163,7 @@
                 </div>
               </div>
 
-              <!-- Lưu ý -->
+              <!-- Lưu ý cho khách hàng -->
               <div
                 class="bg-amber/5 border border-amber/20 rounded-2xl p-4 flex gap-3"
               >
@@ -1176,7 +1188,7 @@
               </div>
             </div>
 
-            <!-- Footer card -->
+            <!-- Footer card - Thông tin cửa hàng -->
             <div
               class="border-t border-gray-100 bg-gray-50 px-8 py-3 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-muted"
             >
@@ -1185,9 +1197,9 @@
             </div>
           </div>
 
-          <!-- ── CÁC NÚT HÀNH ĐỘNG — Gửi lại email, In đơn, Xem chi tiết, Mua tiếp ── -->
+          <!-- CÁC NÚT HÀNH ĐỘNG - Gửi lại email, In đơn, Xem chi tiết, Mua tiếp -->
           <div class="no-print grid grid-cols-2 sm:grid-cols-4 gap-3 fu4">
-            <!-- Gửi lại email -->
+            <!-- Gửi lại email xác nhận -->
             <button
               @click="resendEmail"
               :disabled="emailSent"
@@ -1210,7 +1222,7 @@
               </svg>
               <span>{{ emailSent?'Đã gửi ✓':'Gửi lại email' }}</span>
             </button>
-            <!-- In đơn -->
+            <!-- In đơn hàng / Lưu PDF -->
             <button
               @click="printInvoice"
               class="flex flex-col items-center gap-2 rounded-2xl border-2 border-gray-200 hover:border-amber hover:bg-amber/5 px-4 py-4 text-sm font-semibold text-ink transition-all duration-300 group"
@@ -1230,7 +1242,7 @@
               </svg>
               <span>In đơn hàng</span>
             </button>
-            <!-- Xem chi tiết -->
+            <!-- Xem chi tiết đơn hàng (Modal) -->
             <button
               @click="showDetailModal=true"
               class="flex flex-col items-center gap-2 rounded-2xl border-2 border-gray-200 hover:border-amber hover:bg-amber/5 px-4 py-4 text-sm font-semibold text-ink transition-all duration-300 group"
@@ -1250,7 +1262,7 @@
               </svg>
               <span>Xem chi tiết</span>
             </button>
-            <!-- Tiếp tục mua -->
+            <!-- Tiếp tục mua sắm - Quay lại trang thể loại -->
             <a
               href="./theloai.html"
               class="flex flex-col items-center gap-2 rounded-2xl bg-amber px-4 py-4 text-sm font-semibold text-white hover:bg-yellow-500 transition-all shadow-lg shadow-amber/20 group"
@@ -1272,6 +1284,7 @@
             </a>
           </div>
 
+          <!-- Link quay về trang chủ -->
           <div class="no-print text-center fu4">
             <a
               href="../index.html"
@@ -1294,8 +1307,7 @@
             </a>
           </div>
 
-          <!-- Gợi ý sản phẩm -->
-          <!-- ── GỢI Ý SẢN PHẨM — Hiển thị 4 sản phẩm gợi ý mua thêm ── -->
+          <!-- GỢI Ý SẢN PHẨM - Hiển thị 4 sản phẩm gợi ý mua thêm -->
           <div class="no-print fu5 pt-4">
             <div class="flex items-center gap-3 mb-5">
               <div class="h-px w-8 bg-amber"></div>
@@ -1341,7 +1353,7 @@
           </div>
         </main>
 
-        <!-- ── MODAL CHI TIẾT ĐƠN HÀNG — Hiển thị thông tin đầy đủ khi bấm "Xem chi tiết" ── -->
+        <!-- MODAL CHI TIẾT ĐƠN HÀNG - Hiển thị thông tin đầy đủ khi bấm "Xem chi tiết" -->
         <div
           v-if="showDetailModal"
           class="modal-backdrop"
@@ -1374,6 +1386,7 @@
               </button>
             </div>
             <div class="p-6 space-y-5">
+              <!-- Trạng thái đơn hàng -->
               <div class="flex items-center gap-3 p-4 rounded-2xl bg-amber/5">
                 <div
                   class="w-10 h-10 rounded-full bg-amber flex items-center justify-center shrink-0"
@@ -1399,6 +1412,7 @@
                   </p>
                 </div>
               </div>
+              <!-- Thông tin đơn hàng và giao hàng -->
               <div class="grid sm:grid-cols-2 gap-3 text-sm">
                 <div class="bg-cream rounded-xl p-4 space-y-2">
                   <p
@@ -1439,6 +1453,7 @@
                   </p>
                 </div>
               </div>
+              <!-- Danh sách sản phẩm trong modal -->
               <div class="rounded-xl border border-gray-200 overflow-hidden">
                 <div
                   v-for="(item,i) in order.items"
@@ -1476,6 +1491,7 @@
                   </div>
                 </div>
               </div>
+              <!-- Tổng kết thanh toán trong modal -->
               <div class="bg-ink text-white rounded-2xl p-5 space-y-2 text-sm">
                 <div class="flex justify-between text-white/60">
                   <span>Tạm tính</span
@@ -1504,6 +1520,7 @@
                   >
                 </div>
               </div>
+              <!-- Nút hành động trong modal -->
               <div class="flex gap-3">
                 <button
                   @click="resendEmail();showDetailModal=false"
@@ -1550,7 +1567,7 @@
       </div>
       <!-- end main content -->
 
-      <!-- ═══════════════════════════════════════════ TOAST — Thông báo nổi góc phải trên ─══════════════════════════════════════════ -->
+      <!-- TOAST - Thông báo nổi góc phải trên -->
       <transition name="toast-anim">
         <div
           v-if="toast.show"
@@ -1590,7 +1607,7 @@
         </div>
       </transition>
 
-      <!-- ═══════════════════════════════════════════ FOOTER — Chân trang: liên kết, thông tin liên hệ, bản quyền ═══════════════════════════════════════════ -->
+      <!-- FOOTER - Chân trang: liên kết, thông tin liên hệ, bản quyền -->
       <footer class="no-print bg-ink text-white pt-10 pb-6">
         <div class="max-w-5xl mx-auto px-4">
           <div
@@ -1707,11 +1724,11 @@
     </div>
     <!-- #app -->
 
-    <!-- ═══════════════════════════════════════════ VUE JS — Khởi tạo ứng dụng Vue 3, quản lý trạng thái và logic trang hóa đơn ═══════════════════════════════════════════ -->
+    <!-- VUE JS - Khởi tạo ứng dụng Vue 3, quản lý trạng thái và logic trang hóa đơn -->
     <script>
       const { createApp } = Vue;
 
-      // ═══════════════════════════════════════════ HÀM TIỆN ÍCH — Tạo mã đơn hàng và định dạng ngày tháng ═══════════════════════════════════════════
+      // HÀM TIỆN ÍCH - Tạo mã đơn hàng và định dạng ngày tháng
 
       // genOrderId: Tạo mã đơn hàng ngẫu nhiên dạng DT + 8 ký tự (VD: DTAB3K7H2)
       function genOrderId() {
@@ -1732,18 +1749,18 @@
         });
       }
 
-      // ═══════════════════════════════════════════ KHỞI TẠO ỨNG DỤNG VUE ═══════════════════════════════════════════
+      // KHỞI TẠO ỨNG DỤNG VUE
       createApp({
-        // ═══════════════════════════════════════════ data() — Dữ liệu phản ứng (reactive) của ứng dụng ═══════════════════════════════════════════
+        // data() - Dữ liệu phản ứng (reactive) của ứng dụng
         data() {
           const now = new Date();
 
-          // ── Đọc thông tin người dùng từ localStorage ──
+          // Đọc thông tin người dùng từ localStorage
           const savedUser = JSON.parse(
             localStorage.getItem("daoTruyenUser") || "null",
           );
 
-          // ── Snapshot giỏ hàng: Lưu lại danh sách sản phẩm ngay khi vào trang (tránh mất khi login xóa giỏ) ──
+          // Snapshot giỏ hàng: Lưu lại danh sách sản phẩm ngay khi vào trang (tránh mất khi login xóa giỏ)
           let cartItems = [];
           const _snap = sessionStorage.getItem("daoTruyenOrderSnapshot");
           if (_snap) {
@@ -1758,7 +1775,7 @@
             );
           }
 
-          // ── Tính toán tổng tiền đơn hàng ──
+          // Tính toán tổng tiền đơn hàng
           const subtotal = cartItems.reduce((s, item) => {
             const p =
               typeof item.price === "string"
@@ -1773,7 +1790,7 @@
           const totalQty = cartItems.reduce((s, i) => s + (i.qty || 1), 0);
 
           return {
-            // ── Trạng thái xác thực (Auth) ──
+            // Trạng thái xác thực (Auth)
             currentUser: savedUser,
             showAuthModal: !savedUser, // Mở modal ngay nếu chưa đăng nhập
             authTab: "login",
@@ -1783,19 +1800,19 @@
             registerForm: { name: "", email: "", phone: "", password: "" },
             authErrors: {},
 
-            // ── Trạng thái giao diện (UI) ──
+            // Trạng thái giao diện (UI)
             showDetailModal: false,
             emailSent: false,
             toast: { show: false, type: "success", title: "", message: "" },
 
-            // ── Các bước tiến trình mua hàng (Progress Steps) ──
+            // Các bước tiến trình mua hàng (Progress Steps)
             steps: [
               { label: "Giỏ hàng", done: true, active: false },
               { label: "Thanh toán", done: true, active: false },
               { label: "Xác nhận", done: false, active: true },
             ],
 
-            // ── ĐƠN HÀNG — Dữ liệu lấy từ localStorage (giỏ hàng thực tế) ──
+            // ĐƠN HÀNG - Dữ liệu lấy từ localStorage (giỏ hàng thực tế)
             order: {
               id: genOrderId(),
               date: fmtDate(now),
@@ -1841,7 +1858,7 @@
               ],
             },
 
-            // ── Gợi ý sản phẩm — 4 sản phẩm đề xuất mua thêm ──
+            // Gợi ý sản phẩm - 4 sản phẩm đề xuất mua thêm
             suggestedProducts: [
               {
                 id: "TC10",
@@ -1876,7 +1893,7 @@
           };
         },
 
-        // ═══════════════════════════════════════════ mounted() — Xóa giỏ hàng sau khi đặt hàng thành công ─────────────────────────────────────────────────────────────────────────────────────────────────════════════════════════════════════════════
+        // mounted() - Xóa giỏ hàng sau khi đặt hàng thành công
         mounted() {
           // Nếu đã đăng nhập, xóa giỏ hàng và snapshot (đơn hàng đã được ghi nhận)
           if (this.currentUser) {
@@ -1891,37 +1908,37 @@
           }
         },
 
-        // ═══════════════════════════════════════════ methods — Các phương thức xử lý logic của trang hóa đơn ═══════════════════════════════════════════
+        // methods - Các phương thức xử lý logic của trang hóa đơn
         methods: {
-          // ───────────────────────────────────────── formatPrice — Định dạng số tiền theo chuẩn Việt Nam (VD: 65000 → "65.000₫") ─────────────────────────────────────────
+          // formatPrice - Định dạng số tiền theo chuẩn Việt Nam (VD: 65000 -> "65.000₫")
           formatPrice(n) {
             return (n || 0).toLocaleString("vi-VN") + "₫";
           },
-          // ───────────────────────────────────────── parsePrice — Chuyển chuỗi giá thành số (VD: "65.000₫" → 65000) ─────────────────────────────────────────
+          // parsePrice - Chuyển chuỗi giá thành số (VD: "65.000₫" -> 65000)
           parsePrice(p) {
             if (typeof p === "string")
               return parseFloat(p.replace(/[^\d]/g, "")) || 0;
             return p || 0;
           },
 
-          // ───────────────────────────────────────── onAuthBackdropClick — Đóng modal xác thực khi click nền (chỉ nếu đã login) ─────────────────────────────────────────
+          // onAuthBackdropClick - Đóng modal xác thực khi click nền (chỉ nếu đã login)
           onAuthBackdropClick() {
             if (this.currentUser) this.showAuthModal = false;
           },
 
-          // ───────────────────────────────────────── openAuth — Mở modal đăng nhập/đăng ký theo tab chỉ định ─────────────────────────────────────────
+          // openAuth - Mở modal đăng nhập/đăng ký theo tab chỉ định
           openAuth(tab) {
             this.authTab = tab;
             this.clearAuthErrors();
             this.showAuthModal = true;
           },
 
-          // ───────────────────────────────────────── clearAuthErrors — Xóa tất cả lỗi xác thực form ─────────────────────────────────────────
+          // clearAuthErrors - Xóa tất cả lỗi xác thực form
           clearAuthErrors() {
             this.authErrors = {};
           },
 
-          // ───────────────────────────────────────── doLogin — Xử lý đăng nhập (demo: bất kỳ email hợp lệ + mật khẩu ≥ 6 ký tự) ─────────────────────────────────────────
+          // doLogin - Xử lý đăng nhập (demo: bất kỳ email hợp lệ + mật khẩu ≥ 6 ký tự)
           async doLogin() {
             this.clearAuthErrors();
             let valid = true;
@@ -1970,7 +1987,7 @@
             );
           },
 
-          // ───────────────────────────────────────── doRegister — Xử lý đăng ký tài khoản mới ─────────────────────────────────────────
+          // doRegister - Xử lý đăng ký tài khoản mới
           async doRegister() {
             this.clearAuthErrors();
             let valid = true;
@@ -2020,14 +2037,14 @@
             );
           },
 
-          // ───────────────────────────────────────── logout — Đăng xuất, xóa thông tin người dùng ─────────────────────────────────────────
+          // logout - Đăng xuất, xóa thông tin người dùng và chuyển về trang chủ
           logout() {
             localStorage.removeItem("daoTruyenUser");
             this.currentUser = null;
-            window.location.href = "../index.html";  // ← về trang chủ
+            window.location.href = "../index.html";
           },
 
-          // ───────────────────────────────────────── copyOrderId — Sao chép mã đơn hàng vào clipboard ─────────────────────────────────────────
+          // copyOrderId - Sao chép mã đơn hàng vào clipboard
           copyOrderId() {
             navigator.clipboard?.writeText(this.order.id).catch(() => {});
             this.showToast(
@@ -2037,7 +2054,7 @@
             );
           },
 
-          // ───────────────────────────────────────── resendEmail — Gửi lại email xác nhận đơn hàng (giả lập) ─────────────────────────────────────────
+          // resendEmail - Gửi lại email xác nhận đơn hàng (giả lập)
           async resendEmail() {
             if (this.emailSent) return;
             this.emailSent = true;
@@ -2051,7 +2068,7 @@
             }, 30000);
           },
 
-          // ───────────────────────────────────────── printInvoice — In hóa đơn hoặc lưu PDF ─────────────────────────────────────────
+          // printInvoice - In hóa đơn hoặc lưu PDF
           printInvoice() {
             this.showToast(
               "success",
@@ -2061,7 +2078,7 @@
             setTimeout(() => window.print(), 600);
           },
 
-          // ───────────────────────────────────────── showToast — Hiển thị thông báo toast (thành công/lỗi) tự ẩn sau 3.5 giây ─────────────────────────────────────────
+          // showToast - Hiển thị thông báo toast (thành công/lỗi) tự ẩn sau 3.5 giây
           showToast(type, title, message) {
             this.toast = { show: true, type, title, message };
             clearTimeout(this._toastTimer);
@@ -2073,9 +2090,9 @@
       }).mount("#app");
     </script>
 
-    <!-- ═══════════════════════════════════════════ TOAST TRANSITION — CSS hiệu ứng chuyển đổi cho thông báo toast ═══════════════════════════════════════════ -->
+    <!-- TOAST TRANSITION - CSS hiệu ứng chuyển đổi cho thông báo toast (dùng với Vue transition) -->
     <style>
-      /* Hiệu ứng vào/ra cho toast (dùng với Vue transition) */
+      /* Hiệu ứng vào/ra cho toast */
       .toast-anim-enter-active {
         animation: toastIn 0.35s ease;
       }

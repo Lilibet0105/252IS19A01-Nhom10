@@ -1,41 +1,35 @@
 <!doctype html>
 <html lang="vi">
   <head>
-    <!-- ═══════════════════════════════════════════
-         META — Thông tin cơ bản trang web
+    <!-- META - Thông tin cơ bản trang web
          - charset: Hỗ trợ tiếng Việt
-         - viewport: Responsive trên mobile
-    ═══════════════════════════════════════════ -->
+         - viewport: Responsive trên mobile -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- Favicon — Biểu tượng hiển thị trên tab trình duyệt -->
+    <!-- Favicon - Biểu tượng hiển thị trên tab trình duyệt -->
     <link rel="icon" href="../assets/favicon.jpg" type="image/x-icon" />
     <!-- Tiêu đề trang hiển thị trên tab trình duyệt -->
     <title>Giỏ hàng | Đảo Truyện</title>
 
-    <!-- ═══════════════════════════════════════════
-         CSS FRAMEWORKS & LIBRARIES
+    <!-- CSS FRAMEWORKS & LIBRARIES
          - Tailwind CSS: Utility-first CSS framework (CDN)
          - Google Fonts: Playfair Display (tiêu đề) + Lora (nội dung)
-         - style.css / style_lh.css: CSS tuỳ chỉnh bổ sung
-    ═══════════════════════════════════════════ -->
+         - style.css / style_lh.css: CSS tuỳ chỉnh bổ sung -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link
       href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lora:wght@400;500&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/style_lh.css">
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/style_lh.css" />
 
-    <!-- ═══════════════════════════════════════════
-         TAILWIND CONFIG — Cấu hình mở rộng Tailwind
+    <!-- TAILWIND CONFIG - Cấu hình mở rộng Tailwind
          - fontFamily.display: Playfair Display (dùng cho h1-h6)
          - fontFamily.body: Lora (dùng cho nội dung chính)
          - colors.cream: Nền trang (#faf7f2)
          - colors.ink: Màu chữ chính (#1a1a1a)
          - colors.amber: Màu nhấn (#d97706)
-         - colors.muted: Màu chữ phụ (#6b7280)
-    ═══════════════════════════════════════════ -->
+         - colors.muted: Màu chữ phụ (#6b7280) -->
     <script>
       tailwind.config = {
         theme: {
@@ -55,14 +49,12 @@
       };
     </script>
 
-    <!-- ═══════════════════════════════════════════
-         CUSTOM STYLES — Phong cách tuỳ chỉnh
+    <!-- CUSTOM STYLES - Phong cách tuỳ chỉnh
          - Font mặc định: Lora, nền cream, chữ ink
          - Tiêu đề h1-h6: Playfair Display
          - Dropdown menu: Hiện khi hover
          - Vue transition: Hiệu ứng slide cho item giỏ hàng
-         - Vue transition: Hiệu ứng fade cho toast thông báo
-    ═══════════════════════════════════════════ -->
+         - Vue transition: Hiệu ứng fade cho toast thông báo -->
     <style>
       /* Font mặc định và màu nền */
       body {
@@ -71,16 +63,21 @@
         color: #1a1a1a;
       }
       /* Tiêu đề dùng font Playfair Display */
-      h1, h2, h3, h4, h5, h6 {
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
         font-family: "Playfair Display", serif;
       }
-      /* Dropdown menu — hiện khi hover */
+      /* Dropdown menu - hiện khi hover */
       .nav-dropdown:hover .dropdown-menu {
         display: block;
       }
       /* Hiệu ứng chuyển cảnh cho danh sách giỏ hàng (Vue transition)
-         - cart-item-enter: Item mới xuất hiện từ trái sang, mờ → rõ
-         - cart-item-leave: Item bị xoá trượt sang trái, rõ → mờ */
+         - cart-item-enter: Item mới xuất hiện từ trái sang, mờ -> rõ
+         - cart-item-leave: Item bị xoá trượt sang trái, rõ -> mờ */
       .cart-item-enter-active {
         transition: all 0.4s ease;
       }
@@ -93,60 +90,98 @@
         transform: translateX(-20px);
       }
       /* Hiệu ứng fade cho toast thông báo (Vue transition)
-         - fade-enter: Toast xuất hiện mờ → rõ
-         - fade-leave: Toast biến mất rõ → mờ */
-      .fade-enter-active, .fade-leave-active {
+         - fade-enter: Toast xuất hiện mờ -> rõ
+         - fade-leave: Toast biến mất rõ -> mờ */
+      .fade-enter-active,
+      .fade-leave-active {
         transition: opacity 0.3s ease;
       }
-      .fade-enter-from, .fade-leave-to {
+      .fade-enter-from,
+      .fade-leave-to {
         opacity: 0;
       }
     </style>
   </head>
-  <!-- ═══════════════════════════════════════════
-       BODY — Nền gradient kem-trắng-amber
-  ═══════════════════════════════════════════ -->
+  <!-- BODY - Nền gradient kem-trắng-amber -->
   <body class="bg-gradient-to-br from-cream via-white to-amber-50">
     <!-- Vùng chứa thông báo toast tuỳ biến (được điều khiển bởi Vue) -->
     <div id="toast-container" class="fixed top-4 right-4 z-50"></div>
-    
-    <!-- ═══════════════════════════════════════════
-         VUE APP — Toàn bộ giao diện được Vue 3 quản lý
-    ═══════════════════════════════════════════ -->
+
+    <!-- VUE APP - Toàn bộ giao diện được Vue 3 quản lý -->
     <div id="app">
-      <!-- ═══════════════════════════════════════════
-           HEADER — Thanh điều hướng cố định trên cùng
-           Gồm 3 tầng: top bar (liên hệ), logo, navigation
-      ═══════════════════════════════════════════ -->
-      <header class="sticky top-0 z-50 bg-cream border-b border-gray-200 shadow-sm">
-        <!-- Tầng 1 — Top bar: Số điện thoại, email, nút đăng ký/đăng nhập -->
+      <!-- HEADER - Thanh điều hướng cố định trên cùng
+           Gồm 3 tầng: top bar (liên hệ), logo, navigation -->
+      <header
+        class="sticky top-0 z-50 bg-cream border-b border-gray-200 shadow-sm"
+      >
+        <!-- Tầng 1 - Top bar: Số điện thoại, email, nút đăng ký/đăng nhập -->
         <div class="bg-ink text-white text-xs py-1.5">
           <div class="max-w-5xl mx-auto px-4 flex items-center justify-between">
             <div class="flex gap-5">
-              <a href="tel:0981109909" class="flex items-center gap-1.5 hover:text-amber transition-colors">
-                <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
+              <a
+                href="tel:0981109909"
+                class="flex items-center gap-1.5 hover:text-amber transition-colors"
+              >
+                <svg
+                  class="w-3.5 h-3.5"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"
+                  />
                 </svg>
                 0981109909
               </a>
-              <a href="mailto:Daotruyen@gmail.com" class="hidden sm:flex items-center gap-1.5 hover:text-amber transition-colors">
-                <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
-                  <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+              <a
+                href="mailto:Daotruyen@gmail.com"
+                class="hidden sm:flex items-center gap-1.5 hover:text-amber transition-colors"
+              >
+                <svg
+                  class="w-3.5 h-3.5"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"
+                  />
+                  <path
+                    d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"
+                  />
                 </svg>
                 daotruyen@gmail.com
               </a>
             </div>
             <div class="flex items-center gap-2">
-              <a href="./dangky.html" class="flex items-center gap-1 bg-amber/90 text-white rounded px-2.5 py-0.5 hover:bg-amber transition-colors">
-                <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"/>
+              <a
+                href="./dangky.html"
+                class="flex items-center gap-1 bg-amber/90 text-white rounded px-2.5 py-0.5 hover:bg-amber transition-colors"
+              >
+                <svg
+                  class="w-3.5 h-3.5"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"
+                  />
                 </svg>
                 Đăng ký
               </a>
-              <a href="./dangnhap.html" class="flex items-center gap-1 border border-white/50 rounded px-2.5 py-0.5 hover:bg-white hover:text-ink transition-colors">
-                <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+              <a
+                href="./dangnhap.html"
+                class="flex items-center gap-1 border border-white/50 rounded px-2.5 py-0.5 hover:bg-white hover:text-ink transition-colors"
+              >
+                <svg
+                  class="w-3.5 h-3.5"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                    clip-rule="evenodd"
+                  />
                 </svg>
                 Đăng nhập
               </a>
@@ -154,69 +189,161 @@
           </div>
         </div>
 
-        <!-- Tầng 2 — Logo: Ảnh logo trung tâm, liên kết về trang chủ -->
-        <div class="flex justify-center items-center py-2 border-b border-gray-100">
+        <!-- Tầng 2 - Logo: Ảnh logo trung tâm, liên kết về trang chủ -->
+        <div
+          class="flex justify-center items-center py-2 border-b border-gray-100"
+        >
           <a href="../index.html" class="block">
-            <img src="../assets/logo.jpg" alt="Đảo Truyện" class="h-14 md:h-16 w-auto object-contain"/>
+            <img
+              src="../assets/logo.jpg"
+              alt="Đảo Truyện"
+              class="h-14 md:h-16 w-auto object-contain"
+            />
           </a>
         </div>
 
-        <!-- Tầng 3 — Navigation: Menu chính + nút giỏ hàng với badge số lượng -->
+        <!-- Tầng 3 - Navigation: Menu chính + nút giỏ hàng với badge số lượng -->
         <nav class="max-w-5xl mx-auto px-4">
           <div class="flex items-center justify-between">
             <!-- Nút hamburger cho mobile -->
-            <button @click="mobileOpen = !mobileOpen" class="md:hidden p-2 rounded hover:bg-gray-100 transition-colors">
-              <svg v-if="!mobileOpen" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+            <button
+              @click="mobileOpen = !mobileOpen"
+              class="md:hidden p-2 rounded hover:bg-gray-100 transition-colors"
+            >
+              <svg
+                v-if="!mobileOpen"
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
               </svg>
-              <svg v-else class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+              <svg
+                v-else
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
               </svg>
             </button>
             <!-- Menu điều hướng: Ẩn/hiện trên mobile, luôn hiện trên desktop -->
-            <div :class="['w-full md:flex md:items-center', mobileOpen ? 'block' : 'hidden md:flex']">
-              <ul class="flex flex-col md:flex-row md:gap-6 py-2 md:py-0 text-sm font-medium">
-                <li><a href="../index.html" class="block py-2 md:py-4 border-b-2 border-transparent hover:border-amber text-ink hover:text-amber transition-colors">Trang chủ</a></li>
-                <li><a href="./gioithieu.html" class="block py-2 md:py-4 border-b-2 border-transparent hover:border-amber text-ink hover:text-amber transition-colors">Giới thiệu</a></li>
+            <div
+              :class="['w-full md:flex md:items-center', mobileOpen ? 'block' : 'hidden md:flex']"
+            >
+              <ul
+                class="flex flex-col md:flex-row md:gap-6 py-2 md:py-0 text-sm font-medium"
+              >
+                <li>
+                  <a
+                    href="../index.html"
+                    class="block py-2 md:py-4 border-b-2 border-transparent hover:border-amber text-ink hover:text-amber transition-colors"
+                    >Trang chủ</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="./gioithieu.html"
+                    class="block py-2 md:py-4 border-b-2 border-transparent hover:border-amber text-ink hover:text-amber transition-colors"
+                    >Giới thiệu</a
+                  >
+                </li>
                 <li class="relative group">
-                  <a href="./theloai.html" class="flex items-center gap-1 py-2 md:py-4 border-b-2 border-transparent group-hover:border-amber text-ink group-hover:text-amber transition-colors">
+                  <a
+                    href="./theloai.html"
+                    class="flex items-center gap-1 py-2 md:py-4 border-b-2 border-transparent group-hover:border-amber text-ink group-hover:text-amber transition-colors"
+                  >
                     Truyện tranh
-                    <svg class="w-3.5 h-3.5 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    <svg
+                      class="w-3.5 h-3.5 mt-0.5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M19 9l-7 7-7-7"
+                      />
                     </svg>
                   </a>
-                  <div class="hidden group-hover:block absolute left-0 top-full w-44 bg-white border border-gray-200 shadow-lg rounded-b z-40">
-                    <a href="./theloai.html?type=tinh-cam" class="block px-4 py-2.5 text-sm hover:bg-cream hover:text-amber transition-colors">Truyện tranh tình cảm</a>
-                    <a href="./theloai.html?type=shounen" class="block px-4 py-2.5 text-sm hover:bg-cream hover:text-amber transition-colors">Truyện tranh hành động</a>
-                    <a href="./theloai.html?type=trinh-tham" class="block px-4 py-2.5 text-sm hover:bg-cream hover:text-amber transition-colors">Truyện tranh trinh thám</a>
-                    <a href="./theloai.html?type=thieu-nhi" class="block px-4 py-2.5 text-sm hover:bg-cream hover:text-amber transition-colors">Truyện tranh thiếu nhi</a>
+                  <div
+                    class="hidden group-hover:block absolute left-0 top-full w-44 bg-white border border-gray-200 shadow-lg rounded-b z-40"
+                  >
+                    <a
+                      href="./theloai.html?type=tinh-cam"
+                      class="block px-4 py-2.5 text-sm hover:bg-cream hover:text-amber transition-colors"
+                      >Truyện tranh tình cảm</a
+                    >
+                    <a
+                      href="./theloai.html?type=shounen"
+                      class="block px-4 py-2.5 text-sm hover:bg-cream hover:text-amber transition-colors"
+                      >Truyện tranh hành động</a
+                    >
+                    <a
+                      href="./theloai.html?type=trinh-tham"
+                      class="block px-4 py-2.5 text-sm hover:bg-cream hover:text-amber transition-colors"
+                      >Truyện tranh trinh thám</a
+                    >
+                    <a
+                      href="./theloai.html?type=thieu-nhi"
+                      class="block px-4 py-2.5 text-sm hover:bg-cream hover:text-amber transition-colors"
+                      >Truyện tranh thiếu nhi</a
+                    >
                   </div>
                 </li>
-                <li><a href="./tranglienhe.html" class="block py-2 md:py-4 border-b-2 border-transparent hover:border-amber text-ink hover:text-amber transition-colors">Liên hệ</a></li>
+                <li>
+                  <a
+                    href="./tranglienhe.html"
+                    class="block py-2 md:py-4 border-b-2 border-transparent hover:border-amber text-ink hover:text-amber transition-colors"
+                    >Liên hệ</a
+                  >
+                </li>
               </ul>
             </div>
             <!-- Nút giỏ hàng: Hiển thị tổng số sản phẩm (totalItems) -->
-            <a href="./giohang.html" class="flex items-center gap-1.5 border border-ink rounded px-3 py-1.5 text-sm font-medium hover:bg-ink hover:text-white transition-colors shrink-0">
+            <a
+              href="./giohang.html"
+              class="flex items-center gap-1.5 border border-ink rounded px-3 py-1.5 text-sm font-medium hover:bg-ink hover:text-white transition-colors shrink-0"
+            >
               <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"/>
+                <path
+                  d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"
+                />
               </svg>
               Giỏ hàng
-              <span class="bg-amber text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">{{ totalItems }}</span>
+              <span
+                class="bg-amber text-white text-xs rounded-full w-5 h-5 flex items-center justify-center"
+                >{{ totalItems }}</span
+              >
             </a>
           </div>
         </nav>
       </header>
 
-      <!-- ═══════════════════════════════════════════
-           MAIN — Nội dung chính của trang giỏ hàng
+      <!-- MAIN - Nội dung chính của trang giỏ hàng
            Bao gồm: breadcrumb, tiêu đề, danh sách sản phẩm,
-           tóm tắt đơn hàng, và gợi ý sản phẩm
-      ═══════════════════════════════════════════ -->
+           tóm tắt đơn hàng, và gợi ý sản phẩm -->
       <main class="bg-cream min-h-screen">
         <!-- Breadcrumb: Điều hướng phụ (Trang chủ / Giỏ hàng) -->
         <div class="max-w-5xl mx-auto px-4 pt-6">
           <nav class="text-sm text-muted">
-            <a href="../index.html" class="hover:text-amber transition-colors">Trang chủ</a>
+            <a href="../index.html" class="hover:text-amber transition-colors"
+              >Trang chủ</a
+            >
             <span class="mx-2">/</span>
             <span class="text-ink font-medium">Giỏ hàng</span>
           </nav>
@@ -225,38 +352,73 @@
         <!-- Tiêu đề trang: "Giỏ hàng" + số lượng sản phẩm -->
         <div class="max-w-5xl mx-auto px-4 pt-6 pb-4">
           <div class="flex items-center gap-3">
-            <h1 class="text-3xl md:text-4xl font-bold text-ink font-display">Giỏ hàng</h1>
+            <h1 class="text-3xl md:text-4xl font-bold text-ink font-display">
+              Giỏ hàng
+            </h1>
           </div>
           <p class="mt-2 text-sm text-muted">
-            <span v-if="cartItems.length > 0">Bạn đang có <span class="font-semibold text-ink">{{ totalItems }}</span> sản phẩm trong giỏ hàng</span>
+            <span v-if="cartItems.length > 0"
+              >Bạn đang có
+              <span class="font-semibold text-ink">{{ totalItems }}</span> sản
+              phẩm trong giỏ hàng</span
+            >
             <span v-else>Chưa có sản phẩm nào trong giỏ hàng</span>
           </p>
         </div>
 
-        <!-- ╔══════════════════════════════════════╗
-             ║  GIỎ HÀNG TRỐNG — Hiện khi không có sản phẩm
-             ║  Gồm: icon, tiêu đề, mô tả, nút "Khám phá truyện"
-             ╚════════════════════════════════════════╝ -->
-        <div v-if="cartItems.length === 0" class="max-w-5xl mx-auto px-4 py-16 text-center">
-          <div class="inline-flex items-center justify-center w-24 h-24 rounded-full bg-amber/10 mb-6">
-            <svg class="w-12 h-12 text-amber" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"/>
+        <!-- GIỎ HÀNG TRỐNG - Hiện khi không có sản phẩm
+             Gồm: icon, tiêu đề, mô tả, nút "Khám phá truyện" -->
+        <div
+          v-if="cartItems.length === 0"
+          class="max-w-5xl mx-auto px-4 py-16 text-center"
+        >
+          <div
+            class="inline-flex items-center justify-center w-24 h-24 rounded-full bg-amber/10 mb-6"
+          >
+            <svg
+              class="w-12 h-12 text-amber"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"
+              />
             </svg>
           </div>
-          <h2 class="text-2xl font-bold text-ink font-display mb-3">Giỏ hàng trống</h2>
-          <p class="text-muted mb-8 max-w-md mx-auto">Bạn chưa thêm sản phẩm nào vào giỏ hàng. Hãy khám phá các bộ truyện tranh hấp dẫn tại Đảo Truyện!</p>
-          <a href="./theloai.html" class="inline-flex items-center gap-2 rounded-full bg-ink px-8 py-3 text-base font-semibold text-white hover:bg-ink/80 transition-colors">
+          <h2 class="text-2xl font-bold text-ink font-display mb-3">
+            Giỏ hàng trống
+          </h2>
+          <p class="text-muted mb-8 max-w-md mx-auto">
+            Bạn chưa thêm sản phẩm nào vào giỏ hàng. Hãy khám phá các bộ truyện
+            tranh hấp dẫn tại Đảo Truyện!
+          </p>
+          <a
+            href="./theloai.html"
+            class="inline-flex items-center gap-2 rounded-full bg-ink px-8 py-3 text-base font-semibold text-white hover:bg-ink/80 transition-colors"
+          >
             <span>Khám phá truyện</span>
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M17 8l4 4m0 0l-4 4m4-4H3"
+              />
             </svg>
           </a>
         </div>
 
-        <!-- ╔══════════════════════════════════════╗
-             ║  CÓ SẢN PHẨM TRONG GIỎ — Hiện khi cartItems.length > 0
-             ║  Bố cục: 2 cột trái (danh sách) + 1 cột phải (tóm tắt)
-             ╚══════════════════════════════════════╝ -->
+        <!-- CÓ SẢN PHẨM TRONG GIỎ - Hiện khi cartItems.length > 0
+             Bố cục: 2 cột trái (danh sách) + 1 cột phải (tóm tắt) -->
         <div v-else class="max-w-5xl mx-auto px-4 pb-16">
           <div class="grid gap-8 lg:grid-cols-3">
             <!-- Cột trái: Danh sách sản phẩm trong giỏ (chiếm 2/3 chiều rộng)
@@ -274,7 +436,10 @@
                     <!-- Ảnh sản phẩm: Liên kết đến trang chi tiết
                          - Nếu image bắt đầu bằng 'images/' thì thêm '../' (vì trang ở thư mục Page/)
                          - Xử lý lỗi ảnh bằng @error fallback SVG -->
-                    <a :href="'./chitiettruyen.html?id=' + item.id" class="shrink-0">
+                    <a
+                      :href="'./chitiettruyen.html?id=' + item.id"
+                      class="shrink-0"
+                    >
                       <img
                         :src="item.image.startsWith('images/') ? '../' + item.image : item.image"
                         :alt="item.name"
@@ -287,10 +452,15 @@
                     <div class="flex-1 min-w-0">
                       <div class="flex items-start justify-between gap-2">
                         <div>
-                          <a :href="'./chitiettruyen.html?id=' + item.id" class="text-[10px] md:text-xs font-bold text-ink font-display hover:text-amber transition-colors whitespace-nowrap overflow-hidden text-ellipsis">
+                          <a
+                            :href="'./chitiettruyen.html?id=' + item.id"
+                            class="text-[10px] md:text-xs font-bold text-ink font-display hover:text-amber transition-colors whitespace-nowrap overflow-hidden text-ellipsis"
+                          >
                             {{ item.name }}
                           </a>
-                          <p class="text-[10px] text-muted mt-1">{{ item.category }}</p>
+                          <p class="text-[10px] text-muted mt-1">
+                            {{ item.category }}
+                          </p>
                         </div>
                         <!-- Nút xoá sản phẩm khỏi giỏ (gọi removeItem(index)) -->
                         <button
@@ -298,8 +468,18 @@
                           class="shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-muted hover:bg-red-50 hover:text-red-500 transition-colors"
                           title="Xoá sản phẩm"
                         >
-                          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                          <svg
+                            class="w-5 h-5"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                            />
                           </svg>
                         </button>
                       </div>
@@ -308,11 +488,16 @@
                       <div class="flex items-end justify-between mt-3 md:mt-4">
                         <!-- Giá bán hiện tại (định dạng VND) -->
                         <div>
-                          <p class="text-lg md:text-xl font-bold text-amber font-display">
+                          <p
+                            class="text-lg md:text-xl font-bold text-amber font-display"
+                          >
                             {{ formatPrice(item.price) }}
                           </p>
-                          <!-- Giá gốc (gạch ngang) — chỉ hiện nếu có originalPrice -->
-                          <p v-if="item.originalPrice" class="text-sm text-muted line-through">
+                          <!-- Giá gốc (gạch ngang) - chỉ hiện nếu có originalPrice -->
+                          <p
+                            v-if="item.originalPrice"
+                            class="text-sm text-muted line-through"
+                          >
                             {{ formatPrice(item.originalPrice) }}
                           </p>
                         </div>
@@ -328,17 +513,39 @@
                             :class="{ 'opacity-40 cursor-not-allowed': item.qty <= 1 }"
                             :disabled="item.qty <= 1"
                           >
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"/>
+                            <svg
+                              class="w-4 h-4"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M20 12H4"
+                              />
                             </svg>
                           </button>
-                          <span class="w-10 text-center font-semibold text-ink">{{ item.qty }}</span>
+                          <span class="w-10 text-center font-semibold text-ink"
+                            >{{ item.qty }}</span
+                          >
                           <button
                             @click="increaseQty(index)"
                             class="w-8 h-8 rounded-lg border border-gray-200 flex items-center justify-center text-ink hover:bg-gray-100 transition-colors"
                           >
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                            <svg
+                              class="w-4 h-4"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M12 4v16m8-8H4"
+                              />
                             </svg>
                           </button>
                         </div>
@@ -354,8 +561,18 @@
                   @click="clearCart"
                   class="text-sm text-red-500 hover:text-red-700 transition-colors flex items-center gap-1"
                 >
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                  <svg
+                    class="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                    />
                   </svg>
                   Xoá tất cả
                 </button>
@@ -368,23 +585,36 @@
                  - Tổng cộng
                  - Nút thanh toán & tiếp tục mua sắm -->
             <div class="lg:col-span-1">
-              <!-- Khung tóm tắt đơn hàng — sticky để cố định khi cuộn -->
-              <div class="rounded-2xl bg-white border border-gray-200 p-6 shadow-sm sticky top-40">
-                <h2 class="text-xl font-bold text-ink font-display mb-6">Tóm tắt đơn hàng</h2>
+              <!-- Khung tóm tắt đơn hàng - sticky để cố định khi cuộn -->
+              <div
+                class="rounded-2xl bg-white border border-gray-200 p-6 shadow-sm sticky top-40"
+              >
+                <h2 class="text-xl font-bold text-ink font-display mb-6">
+                  Tóm tắt đơn hàng
+                </h2>
 
                 <!-- Chi tiết: Tạm tính, Giảm giá, Phí vận chuyển -->
                 <div class="space-y-3 text-sm">
                   <div class="flex justify-between">
-                    <span class="text-muted">Tạm tính ({{ totalItems }} sản phẩm)</span>
-                    <span class="font-medium text-ink">{{ formatPrice(subtotal) }}</span>
+                    <span class="text-muted"
+                      >Tạm tính ({{ totalItems }} sản phẩm)</span
+                    >
+                    <span class="font-medium text-ink"
+                      >{{ formatPrice(subtotal) }}</span
+                    >
                   </div>
                   <div class="flex justify-between">
                     <span class="text-muted">Giảm giá</span>
-                    <span class="font-medium text-green-600">-{{ formatPrice(discount) }}</span>
+                    <span class="font-medium text-green-600"
+                      >-{{ formatPrice(discount) }}</span
+                    >
                   </div>
                   <div class="flex justify-between">
                     <span class="text-muted">Phí vận chuyển</span>
-                    <span class="font-medium text-ink">{{ shippingFee === 0 ? 'Miễn phí' : formatPrice(shippingFee) }}</span>
+                    <span class="font-medium text-ink"
+                      >{{ shippingFee === 0 ? 'Miễn phí' :
+                      formatPrice(shippingFee) }}</span
+                    >
                   </div>
                 </div>
 
@@ -393,7 +623,9 @@
 
                 <!-- Mã giảm giá: Nhập mã DAO10 để giảm 10% -->
                 <div class="mb-4">
-                  <label class="text-sm text-muted block mb-2">Mã giảm giá</label>
+                  <label class="text-sm text-muted block mb-2"
+                    >Mã giảm giá</label
+                  >
                   <div class="flex gap-2">
                     <input
                       v-model="couponCode"
@@ -409,7 +641,11 @@
                     </button>
                   </div>
                   <!-- Thông báo kết quả mã giảm giá (xanh nếu hợp lệ, đỏ nếu không) -->
-                  <p v-if="couponMessage" :class="couponValid ? 'text-green-600' : 'text-red-500'" class="text-xs mt-1">
+                  <p
+                    v-if="couponMessage"
+                    :class="couponValid ? 'text-green-600' : 'text-red-500'"
+                    class="text-xs mt-1"
+                  >
                     {{ couponMessage }}
                   </p>
                 </div>
@@ -419,8 +655,12 @@
 
                 <!-- Tổng cộng = Tạm tính - Giảm giá + Phí vận chuyển -->
                 <div class="flex justify-between items-center mb-6">
-                  <span class="text-lg font-bold text-ink font-display">Tổng cộng</span>
-                  <span class="text-2xl font-black text-amber font-display">{{ formatPrice(total) }}</span>
+                  <span class="text-lg font-bold text-ink font-display"
+                    >Tổng cộng</span
+                  >
+                  <span class="text-2xl font-black text-amber font-display"
+                    >{{ formatPrice(total) }}</span
+                  >
                 </div>
 
                 <!-- Nút chuyển đến trang thanh toán -->
@@ -431,7 +671,7 @@
                   Tiến hành thanh toán
                 </a>
 
-                <!-- Nút tiếp tục mua sắm — quay lại trang thể loại -->
+                <!-- Nút tiếp tục mua sắm - quay lại trang thể loại -->
                 <a
                   href="./theloai.html"
                   class="block w-full text-center mt-3 rounded-xl border border-gray-200 py-3 text-sm font-medium text-ink hover:bg-gray-50 transition-colors"
@@ -443,14 +683,18 @@
           </div>
         </div>
 
-        <!-- Gợi ý sản phẩm — Luôn hiện (cả khi giỏ trống và có sản phẩm)
+        <!-- Gợi ý sản phẩm - Luôn hiện (cả khi giỏ trống và có sản phẩm)
              Hiển thị 8 sản phẩm gợi ý dạng lưới responsive -->
         <div class="max-w-5xl mx-auto px-4 pb-16">
           <div class="flex items-center gap-3 mb-6">
             <div class="h-px w-10 bg-amber"></div>
-            <h2 class="text-2xl font-bold text-ink font-display">Có thể bạn thích</h2>
+            <h2 class="text-2xl font-bold text-ink font-display">
+              Có thể bạn thích
+            </h2>
           </div>
-          <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+          <div
+            class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"
+          >
             <div
               v-for="book in suggestedBooks"
               :key="book.id"
@@ -458,14 +702,25 @@
             >
               <a :href="'./chitiettruyen.html?id=' + book.id" class="block">
                 <div class="aspect-[3/4] overflow-hidden">
-                  <img :src="book.image" :alt="book.name" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" @error="$event.target.src='data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27120%27 height=%27160%27 viewBox=%270 0 120 160%27%3E%3Crect fill=%27%23f3f4f6%27 width=%27120%27 height=%27160%27/%3E%3Ctext fill=%27%239ca3af%27 font-family=%27sans-serif%27 font-size=%2712%27 text-anchor=%27middle%27 x=%2760%27 y=%2785%27%3EKh%C3%B4ng c%C3%B3 %E1%BA%A3nh%3C/text%3E%3C/svg%3E'"/>
+                  <img
+                    :src="book.image"
+                    :alt="book.name"
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    @error="$event.target.src='data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27120%27 height=%27160%27 viewBox=%270 0 120 160%27%3E%3Crect fill=%27%23f3f4f6%27 width=%27120%27 height=%27160%27/%3E%3Ctext fill=%27%239ca3af%27 font-family=%27sans-serif%27 font-size=%2712%27 text-anchor=%27middle%27 x=%2760%27 y=%2785%27%3EKh%C3%B4ng c%C3%B3 %E1%BA%A3nh%3C/text%3E%3C/svg%3E'"
+                  />
                 </div>
               </a>
               <div class="p-3">
                 <a :href="'./chitiettruyen.html?id=' + book.id" class="block">
-                  <h3 class="text-sm font-semibold text-ink line-clamp-2 group-hover:text-amber transition-colors">{{ book.name }}</h3>
+                  <h3
+                    class="text-sm font-semibold text-ink line-clamp-2 group-hover:text-amber transition-colors"
+                  >
+                    {{ book.name }}
+                  </h3>
                 </a>
-                <p class="text-sm font-bold text-amber mt-1">{{ formatPrice(book.price) }}</p>
+                <p class="text-sm font-bold text-amber mt-1">
+                  {{ formatPrice(book.price) }}
+                </p>
                 <button
                   @click="addToCart(book)"
                   class="mt-2 w-full text-center text-xs font-medium rounded-lg bg-ink text-white py-1.5 hover:bg-ink/80 transition-colors"
@@ -478,243 +733,418 @@
         </div>
       </main>
 
-      <!-- ═══════════════════════════════════════════
-           FOOTER — Chân trang: Thông tin liên kết, chính sách, đăng ký email
+      <!-- FOOTER - Chân trang: Thông tin liên kết, chính sách, đăng ký email
            Đồng bộ thiết kế với trang chủ
            Bố cục 4 cột responsive:
            - Cột 1: Về chúng tôi (Giới thiệu, Liên hệ, Hệ thống cửa hàng)
            - Cột 2: Hỗ trợ (Vận chuyển, Bảo hành, Đổi trả)
            - Cột 3: Dịch vụ (Điều khoản, Bảo mật thanh toán, Bảo mật thông tin)
-           - Cột 4: Nhận thông tin (Form email) + Theo dõi (Facebook, Instagram, Twitter)
-      ═══════════════════════════════════════════ -->
+           - Cột 4: Nhận thông tin (Form email) + Theo dõi (Facebook, Instagram, Twitter) -->
       <footer class="bg-ink text-white pt-12 pb-6">
         <div class="max-w-5xl mx-auto px-4">
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 pb-8 border-b border-white/10">
-            <!-- Cột 1: Về chúng tôi — Các liên kết thông tin công ty -->
+          <div
+            class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 pb-8 border-b border-white/10"
+          >
+            <!-- Cột 1: Về chúng tôi - Các liên kết thông tin công ty -->
             <div>
-              <h6 class="font-semibold text-sm uppercase tracking-wider mb-4 text-amber">Về chúng tôi</h6>
+              <h6
+                class="font-semibold text-sm uppercase tracking-wider mb-4 text-amber"
+              >
+                Về chúng tôi
+              </h6>
               <ul class="space-y-2 text-sm text-white/60">
-                <li><a href="./gioithieu.html" class="hover:text-white transition-colors">Giới thiệu</a></li>
-                <li><a href="./tranglienhe.html" class="hover:text-white transition-colors">Liên hệ</a></li>
-                <li><a href="./hethongcuahang.html" class="hover:text-white transition-colors">Hệ thống cửa hàng</a></li>
+                <li>
+                  <a
+                    href="./gioithieu.html"
+                    class="hover:text-white transition-colors"
+                    >Giới thiệu</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="./tranglienhe.html"
+                    class="hover:text-white transition-colors"
+                    >Liên hệ</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="./hethongcuahang.html"
+                    class="hover:text-white transition-colors"
+                    >Hệ thống cửa hàng</a
+                  >
+                </li>
               </ul>
             </div>
-            <!-- Cột 2: Hỗ trợ — Các chính sách hỗ trợ khách hàng -->
+            <!-- Cột 2: Hỗ trợ - Các chính sách hỗ trợ khách hàng -->
             <div>
-              <h6 class="font-semibold text-sm uppercase tracking-wider mb-4 text-amber">Hỗ trợ</h6>
+              <h6
+                class="font-semibold text-sm uppercase tracking-wider mb-4 text-amber"
+              >
+                Hỗ trợ
+              </h6>
               <ul class="space-y-2 text-sm text-white/60">
-                <li><a href="./chinhsachvanchuyen.html" class="hover:text-white transition-colors">Chính sách vận chuyển</a></li>
-                <li><a href="./chinhsachbaohanh.html" class="hover:text-white transition-colors">Chính sách bảo hành</a></li>
-                <li><a href="./doi_tra_hoantien.html" class="hover:text-white transition-colors">Đổi - trả - hoàn tiền</a></li>
+                <li>
+                  <a
+                    href="./chinhsachvanchuyen.html"
+                    class="hover:text-white transition-colors"
+                    >Chính sách vận chuyển</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="./chinhsachbaohanh.html"
+                    class="hover:text-white transition-colors"
+                    >Chính sách bảo hành</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="./doi_tra_hoantien.html"
+                    class="hover:text-white transition-colors"
+                    >Đổi - trả - hoàn tiền</a
+                  >
+                </li>
               </ul>
             </div>
-            <!-- Cột 3: Dịch vụ — Điều khoản và bảo mật -->
+            <!-- Cột 3: Dịch vụ - Điều khoản và bảo mật -->
             <div>
-              <h6 class="font-semibold text-sm uppercase tracking-wider mb-4 text-amber">Dịch vụ</h6>
+              <h6
+                class="font-semibold text-sm uppercase tracking-wider mb-4 text-amber"
+              >
+                Dịch vụ
+              </h6>
               <ul class="space-y-2 text-sm text-white/60">
-                <li><a href="./dieukhoansudung.html" class="hover:text-white transition-colors">Điều khoản sử dụng</a></li>
-                <li><a href="./baomatthanhtoan.html" class="hover:text-white transition-colors">Bảo mật thanh toán</a></li>
-                <li><a href="./chinhsachbaomat.html" class="hover:text-white transition-colors">Bảo mật thông tin</a></li>
+                <li>
+                  <a
+                    href="./dieukhoansudung.html"
+                    class="hover:text-white transition-colors"
+                    >Điều khoản sử dụng</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="./baomatthanhtoan.html"
+                    class="hover:text-white transition-colors"
+                    >Bảo mật thanh toán</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="./chinhsachbaomat.html"
+                    class="hover:text-white transition-colors"
+                    >Bảo mật thông tin</a
+                  >
+                </li>
               </ul>
             </div>
             <!-- Cột 4: Nhận thông tin (form đăng ký email) + Theo dõi mạng xã hội -->
             <div>
-              <h6 class="font-semibold text-sm uppercase tracking-wider mb-4 text-amber">Nhận thông tin</h6>
+              <h6
+                class="font-semibold text-sm uppercase tracking-wider mb-4 text-amber"
+              >
+                Nhận thông tin
+              </h6>
               <form @submit.prevent="subscribeEmail" class="flex mb-5">
-                <input v-model="emailSubscribe" type="email" placeholder="Email của bạn" class="flex-1 bg-white/10 border border-white/20 text-white text-sm px-3 py-2 rounded-l placeholder-white/40 focus:outline-none focus:border-amber"/>
-                <button type="submit" class="bg-amber text-ink text-sm px-3 py-2 rounded-r font-medium hover:bg-yellow-500 transition-colors">Đăng ký</button>
+                <input
+                  v-model="emailSubscribe"
+                  type="email"
+                  placeholder="Email của bạn"
+                  class="flex-1 bg-white/10 border border-white/20 text-white text-sm px-3 py-2 rounded-l placeholder-white/40 focus:outline-none focus:border-amber"
+                />
+                <button
+                  type="submit"
+                  class="bg-amber text-ink text-sm px-3 py-2 rounded-r font-medium hover:bg-yellow-500 transition-colors"
+                >
+                  Đăng ký
+                </button>
               </form>
-              <h6 class="font-semibold text-sm uppercase tracking-wider mb-3 text-amber">Theo dõi</h6>
+              <h6
+                class="font-semibold text-sm uppercase tracking-wider mb-3 text-amber"
+              >
+                Theo dõi
+              </h6>
               <div class="flex gap-4">
-                <a href="https://www.facebook.com/" target="_blank" class="text-white/60 hover:text-white transition-colors">
-                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                <a
+                  href="https://www.facebook.com/"
+                  target="_blank"
+                  class="text-white/60 hover:text-white transition-colors"
+                >
+                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path
+                      d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
+                    />
+                  </svg>
                 </a>
-                <a href="https://www.instagram.com/" target="_blank" class="text-white/60 hover:text-white transition-colors">
-                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                <a
+                  href="https://www.instagram.com/"
+                  target="_blank"
+                  class="text-white/60 hover:text-white transition-colors"
+                >
+                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path
+                      d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"
+                    />
+                  </svg>
                 </a>
-                <a href="https://twitter.com/" target="_blank" class="text-white/60 hover:text-white transition-colors">
-                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                <a
+                  href="https://twitter.com/"
+                  target="_blank"
+                  class="text-white/60 hover:text-white transition-colors"
+                >
+                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path
+                      d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
+                    />
+                  </svg>
                 </a>
               </div>
             </div>
           </div>
-          <!-- Bản quyền — Tên công ty và năm -->
+          <!-- Bản quyền - Tên công ty và năm -->
           <div class="pt-6 text-center text-xs text-white/40">
             © 2026 Đảo Truyện. All rights reserved.
           </div>
         </div>
       </footer>
 
-      <!-- ═══════════════════════════════════════════
-           TOAST — Thông báo dạng popup góc dưới phải
+      <!-- TOAST - Thông báo dạng popup góc dưới phải
            - Hiện khi thêm/xoá sản phẩm, áp dụng mã giảm giá
            - Điều khiển bởi: showToast (ẩn/hiện), toastMsg (nội dung)
-           - Sử dụng Vue transition "fade" cho hiệu ứng mờ → rõ → mờ
-           - Tự ẩn sau 2.5 giây (xem phương thức toast())
-      ═══════════════════════════════════════════ -->
+           - Sử dụng Vue transition "fade" cho hiệu ứng mờ -> rõ -> mờ
+           - Tự ẩn sau 2.5 giây (xem phương thức toast()) -->
       <transition name="fade">
         <!-- Icon ✓ màu amber + nội dung thông báo -->
-        <div v-if="showToast" class="fixed bottom-6 right-6 bg-ink text-white text-sm px-5 py-3 rounded-xl shadow-xl z-50 flex items-center gap-2">
-          <svg class="w-4 h-4 text-amber" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+        <div
+          v-if="showToast"
+          class="fixed bottom-6 right-6 bg-ink text-white text-sm px-5 py-3 rounded-xl shadow-xl z-50 flex items-center gap-2"
+        >
+          <svg
+            class="w-4 h-4 text-amber"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+              clip-rule="evenodd"
+            />
           </svg>
           {{ toastMsg }}
         </div>
       </transition>
     </div>
 
-    <!-- ═══════════════════════════════════════════
-         VUE 3 — Khởi tạo ứng dụng Vue và gắn vào #app
-         Bao gồm: data, computed, watch, methods, mounted
-    ═══════════════════════════════════════════ -->
-    <!-- Vue 3 CDN — Thư viện Vue.js phiên bản 3 (Options API) -->
+    <!-- VUE 3 - Khởi tạo ứng dụng Vue và gắn vào #app
+         Bao gồm: data, computed, watch, methods, mounted -->
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script>
       // Khởi tạo ứng dụng Vue 3 sử dụng Options API
       const { createApp } = Vue;
 
       createApp({
-        // ═══════════════════════════════════════════
-        // DATA — Dữ liệu reactive (thay đổi → giao diện tự cập nhật)
-        // ═══════════════════════════════════════════
+        // DATA - Dữ liệu reactive (thay đổi -> giao diện tự cập nhật)
         data() {
           return {
-            // ── UI State ──
-            mobileOpen: false,        // Trạng thái menu hamburger trên mobile (mở/đóng)
-            emailSubscribe: "",        // Email đăng ký nhận thông tin (footer)
-            // ── Mã giảm giá ──
-            couponCode: "",            // Mã giảm giá người dùng nhập
-            couponMessage: "",        // Thông báo kết quả mã giảm giá (thành công/lỗi)
-            couponValid: false,        // Trạng thái mã giảm giá hợp lệ hay không
-            // ── Toast thông báo ──
-            showToast: false,          // Ẩn/hiện toast thông báo
-            toastMsg: "",              // Nội dung thông báo hiển thị trên toast
-            // ── Giỏ hàng ──
+            // UI State
+            mobileOpen: false, // Trạng thái menu hamburger trên mobile (mở/đóng)
+            emailSubscribe: "", // Email đăng ký nhận thông tin (footer)
+            // Mã giảm giá
+            couponCode: "", // Mã giảm giá người dùng nhập
+            couponMessage: "", // Thông báo kết quả mã giảm giá (thành công/lỗi)
+            couponValid: false, // Trạng thái mã giảm giá hợp lệ hay không
+            // Toast thông báo
+            showToast: false, // Ẩn/hiện toast thông báo
+            toastMsg: "", // Nội dung thông báo hiển thị trên toast
+            // Giỏ hàng
             // Đọc danh sách sản phẩm từ localStorage (key: "daoTruyenCart")
             // Chuẩn hoá dữ liệu ngay khi khởi tạo:
             //   - Ảnh: ưu tiên item.image, fallback item.img; xoá tiền tố ./ ../
-            //   - Giá: chuyển chuỗi "65.500₫" → số 65500
+            //   - Giá: chuyển chuỗi "65.500₫" -> số 65500
             //   - originalPrice: tương tự giá, hoặc null nếu không có
-            cartItems: JSON.parse(localStorage.getItem("daoTruyenCart") || "[]").map(item => {
+            cartItems: JSON.parse(
+              localStorage.getItem("daoTruyenCart") || "[]",
+            ).map((item) => {
               // Ưu tiên item.image, fallback sang item.img (từ chitiettruyen.html)
-              let img = (item.image || item.img || '').replace(/^\.?\/?\.{0,2}\//, '');
+              let img = (item.image || item.img || "").replace(
+                /^\.?\/?\.{0,2}\//,
+                "",
+              );
               // Xử lý giá: chuyển chuỗi dạng "65.500₫" thành số
               let price = item.price;
-              if (typeof price === 'string') {
-                price = parseFloat(price.replace(/[^\d]/g, '')) || 0;
+              if (typeof price === "string") {
+                price = parseFloat(price.replace(/[^\d]/g, "")) || 0;
               }
               let originalPrice = item.originalPrice;
-              if (typeof originalPrice === 'string') {
-                originalPrice = parseFloat(originalPrice.replace(/[^\d]/g, '')) || null;
+              if (typeof originalPrice === "string") {
+                originalPrice =
+                  parseFloat(originalPrice.replace(/[^\d]/g, "")) || null;
               }
               return {
                 ...item,
                 image: img,
                 price: price,
-                originalPrice: originalPrice
+                originalPrice: originalPrice,
               };
             }),
-            // ── Sản phẩm gợi ý ──
+            // Sản phẩm gợi ý
             // Danh sách 8 sản phẩm hiển thị ở phần "Có thể bạn thích"
             // Dữ liệu tĩnh (hardcoded), mỗi sản phẩm có: id, name, price, category, image
             suggestedBooks: [
-              { id: 1, name: "One Piece - Tập 1", price: 25000, category: "Truyện tranh hành động", image: "../images/product/Hanh_dong/One_piece.webp" },
-              { id: 2, name: "Chainsaw Man - Tập 1", price: 30000, category: "Truyện tranh hành động", image: "../images/product/Hanh_dong/Chainsaw_man.webp" },
-              { id: 3, name: "Hananoi-kun đến từ từ", price: 28000, category: "Truyện tranh tình cảm", image: "../images/product/Tinh_cam/Hananoi.webp" },
-              { id: 4, name: "Attack on Titan - Tập 1", price: 35000, category: "Truyện tranh hành động", image: "../images/product/Hanh_dong/Attack_on_titan.webp" },
-              { id: 5, name: "Naruto - Tập 1", price: 22000, category: "Truyện tranh hành động", image: "../images/product/Hanh_dong/Naruto.jpg" },
-              { id: 6, name: "Sakamoto Days - Tập 1", price: 28000, category: "Truyện tranh hành động", image: "../images/product/Hanh_dong/Sakamoto_day.jpg" },
-              { id: 7, name: "Hôn nhân hạnh phúc của tôi", price: 26000, category: "Truyện tranh tình cảm", image: "../images/product/Tinh_cam/Hon_nhan_hanh_phuc_cua_toi.webp" },
-              { id: 8, name: "Thiên hạ canh bên", price: 24000, category: "Truyện tranh tình cảm", image: "../images/product/Tinh_cam/Thien_ha_canh_ben.webp" }
-            ]
+              {
+                id: 1,
+                name: "One Piece - Tập 1",
+                price: 25000,
+                category: "Truyện tranh hành động",
+                image: "../images/product/Hanh_dong/One_piece.webp",
+              },
+              {
+                id: 2,
+                name: "Chainsaw Man - Tập 1",
+                price: 30000,
+                category: "Truyện tranh hành động",
+                image: "../images/product/Hanh_dong/Chainsaw_man.webp",
+              },
+              {
+                id: 3,
+                name: "Hananoi-kun đến từ từ",
+                price: 28000,
+                category: "Truyện tranh tình cảm",
+                image: "../images/product/Tinh_cam/Hananoi.webp",
+              },
+              {
+                id: 4,
+                name: "Attack on Titan - Tập 1",
+                price: 35000,
+                category: "Truyện tranh hành động",
+                image: "../images/product/Hanh_dong/Attack_on_titan.webp",
+              },
+              {
+                id: 5,
+                name: "Naruto - Tập 1",
+                price: 22000,
+                category: "Truyện tranh hành động",
+                image: "../images/product/Hanh_dong/Naruto.jpg",
+              },
+              {
+                id: 6,
+                name: "Sakamoto Days - Tập 1",
+                price: 28000,
+                category: "Truyện tranh hành động",
+                image: "../images/product/Hanh_dong/Sakamoto_day.jpg",
+              },
+              {
+                id: 7,
+                name: "Hôn nhân hạnh phúc của tôi",
+                price: 26000,
+                category: "Truyện tranh tình cảm",
+                image:
+                  "../images/product/Tinh_cam/Hon_nhan_hanh_phuc_cua_toi.webp",
+              },
+              {
+                id: 8,
+                name: "Thiên hạ canh bên",
+                price: 24000,
+                category: "Truyện tranh tình cảm",
+                image: "../images/product/Tinh_cam/Thien_ha_canh_ben.webp",
+              },
+            ],
           };
         },
-        // ═══════════════════════════════════════════
-        // COMPUTED — Các giá trị tính toán tự động
-        // ═══════════════════════════════════════════
+        // COMPUTED - Các giá trị tính toán tự động
         computed: {
-          // totalItems — Tổng số lượng sản phẩm (tổng qty)
+          // totalItems - Tổng số lượng sản phẩm (tổng qty)
           totalItems() {
             return this.cartItems.reduce((sum, item) => sum + item.qty, 0);
           },
-          // subtotal — Tạm tính (tổng giá × số lượng)
+          // subtotal - Tạm tính (tổng giá × số lượng)
           // Hỗ trợ cả giá dạng chuỗi "65.500₫" và số
           subtotal() {
             return this.cartItems.reduce((sum, item) => {
-              const p = typeof item.price === 'string' ? parseFloat(item.price.replace(/[^\d]/g, '')) : item.price;
+              const p =
+                typeof item.price === "string"
+                  ? parseFloat(item.price.replace(/[^\d]/g, ""))
+                  : item.price;
               return sum + p * item.qty;
             }, 0);
           },
-          // discount — Giảm giá (10% nếu mã DAO10 hợp lệ)
+          // discount - Giảm giá (10% nếu mã DAO10 hợp lệ)
           discount() {
             if (!this.couponValid) return 0;
             return Math.round(this.subtotal * 0.1);
           },
-          // shippingFee — Phí vận chuyển (miễn phí nếu tạm tính >= 100.000₫)
+          // shippingFee - Phí vận chuyển (miễn phí nếu tạm tính >= 100.000₫)
           shippingFee() {
-            if (this.subtotal >= 100000 || this.cartItems.length === 0) return 0;
+            if (this.subtotal >= 100000 || this.cartItems.length === 0)
+              return 0;
             return 20000;
           },
-          // total — Tổng cộng = Tạm tính - Giảm giá + Phí vận chuyển
+          // total - Tổng cộng = Tạm tính - Giảm giá + Phí vận chuyển
           total() {
             return this.subtotal - this.discount + this.shippingFee;
-          }
+          },
         },
-        // ═══════════════════════════════════════════
-        // WATCH — Theo dõi thay đổi và đồng bộ localStorage
-        // ═══════════════════════════════════════════
+        // WATCH - Theo dõi thay đổi và đồng bộ localStorage
         watch: {
           // Đồng bộ giỏ hàng vào localStorage mỗi khi cartItems thay đổi
-          // - deep: true → theo dõi thay đổi sâu (thuộc tính con)
-          // - immediate: true → chạy handler ngay khi khởi tạo (chuẩn hoá dữ liệu)
-          // - Chuẩn hoá trước khi lưu: giá → số, ảnh → đường dẫn tương đối
+          // - deep: true -> theo dõi thay đổi sâu (thuộc tính con)
+          // - immediate: true -> chạy handler ngay khi khởi tạo (chuẩn hoá dữ liệu)
+          // - Chuẩn hoá trước khi lưu: giá -> số, ảnh -> đường dẫn tương đối
           cartItems: {
             handler(newVal) {
               // Chuẩn hoá dữ liệu trước khi lưu: đảm bảo giá là số
-              const normalized = newVal.map(item => ({
+              const normalized = newVal.map((item) => ({
                 ...item,
-                price: typeof item.price === 'string' ? parseFloat(item.price.replace(/[^\d]/g, '')) || 0 : item.price,
-                originalPrice: item.originalPrice ? (typeof item.originalPrice === 'string' ? parseFloat(item.originalPrice.replace(/[^\d]/g, '')) || null : item.originalPrice) : null,
-                image: (item.image || item.img || '').replace(/^\.?\/?\.{0,2}\//, '')
+                price:
+                  typeof item.price === "string"
+                    ? parseFloat(item.price.replace(/[^\d]/g, "")) || 0
+                    : item.price,
+                originalPrice: item.originalPrice
+                  ? typeof item.originalPrice === "string"
+                    ? parseFloat(item.originalPrice.replace(/[^\d]/g, "")) ||
+                      null
+                    : item.originalPrice
+                  : null,
+                image: (item.image || item.img || "").replace(
+                  /^\.?\/?\.{0,2}\//,
+                  "",
+                ),
               }));
               localStorage.setItem("daoTruyenCart", JSON.stringify(normalized));
             },
             deep: true,
-            immediate: true
-          }
+            immediate: true,
+          },
         },
-        // ═══════════════════════════════════════════
-        // METHODS — Các phương thức xử lý logic
-        // ═══════════════════════════════════════════
+        // METHODS - Các phương thức xử lý logic
         methods: {
-          // ─────────────────────────────────────────
-          // formatPrice(price) — Định dạng giá tiền VND
+          // formatPrice(price) - Định dạng giá tiền VND
           //   - Nếu giá là chuỗi (vd "65.500₫"), parse thành số rồi format
           //   - Nếu giá là số, format trực tiếp
           //   - Kết quả: "25.000 ₫", "65.500 ₫", v.v.
-          // ─────────────────────────────────────────
           formatPrice(price) {
             // Nếu giá là chuỗi đã định dạng (vd "65.500₫"), parse thành số rồi format lại
-            if (typeof price === 'string') {
-              const num = parseFloat(price.replace(/[^\d]/g, ''));
+            if (typeof price === "string") {
+              const num = parseFloat(price.replace(/[^\d]/g, ""));
               if (!isNaN(num)) {
-                return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(num);
+                return new Intl.NumberFormat("vi-VN", {
+                  style: "currency",
+                  currency: "VND",
+                }).format(num);
               }
               return price;
             }
             return new Intl.NumberFormat("vi-VN", {
               style: "currency",
-              currency: "VND"
+              currency: "VND",
             }).format(price);
           },
-          // ─────────────────────────────────────────
-          // addToCart(book) — Thêm sản phẩm vào giỏ hàng
-          //   - Nếu sản phẩm đã có → tăng số lượng (qty++)
-          //   - Nếu sản phẩm chưa có → thêm mới với qty = 1
-          //   - Chuẩn hoá giá (chuỗi → số) và ảnh (xoá tiền tố ./ ../)
-          // ─────────────────────────────────────────
+          // addToCart(book) - Thêm sản phẩm vào giỏ hàng
+          //   - Nếu sản phẩm đã có -> tăng số lượng (qty++)
+          //   - Nếu sản phẩm chưa có -> thêm mới với qty = 1
+          //   - Chuẩn hoá giá (chuỗi -> số) và ảnh (xoá tiền tố ./ ../)
           addToCart(book) {
-            const existing = this.cartItems.find(item => item.id === book.id);
+            const existing = this.cartItems.find((item) => item.id === book.id);
             if (existing) {
               // Tạo object mới để Vue detect được thay đổi
               existing.qty++;
@@ -722,15 +1152,19 @@
             } else {
               // Chuẩn hoá giá: chuyển chuỗi dạng "65.500₫" thành số
               let price = book.price;
-              if (typeof price === 'string') {
-                price = parseFloat(price.replace(/[^\d]/g, '')) || 0;
+              if (typeof price === "string") {
+                price = parseFloat(price.replace(/[^\d]/g, "")) || 0;
               }
               let originalPrice = book.originalPrice || null;
-              if (typeof originalPrice === 'string') {
-                originalPrice = parseFloat(originalPrice.replace(/[^\d]/g, '')) || null;
+              if (typeof originalPrice === "string") {
+                originalPrice =
+                  parseFloat(originalPrice.replace(/[^\d]/g, "")) || null;
               }
               // Chuẩn hoá đường dẫn ảnh
-              let img = (book.img || book.image || '').replace(/^\.?\/?\.{0,2}\//, '');
+              let img = (book.img || book.image || "").replace(
+                /^\.?\/?\.{0,2}\//,
+                "",
+              );
               this.cartItems.push({
                 id: book.id,
                 name: book.name,
@@ -738,50 +1172,40 @@
                 price: price,
                 originalPrice: originalPrice,
                 qty: 1,
-                image: img
+                image: img,
               });
               // Force Vue detect thay đổi array
               this.cartItems = [...this.cartItems];
             }
-            this.toast("Đã thêm \"" + book.name + "\" vào giỏ hàng!");
+            this.toast('Đã thêm "' + book.name + '" vào giỏ hàng!');
           },
-          // ─────────────────────────────────────────
-          // increaseQty(index) — Tăng số lượng sản phẩm tại vị trí index
-          // ─────────────────────────────────────────
+          // increaseQty(index) - Tăng số lượng sản phẩm tại vị trí index
           increaseQty(index) {
             this.cartItems[index].qty++;
           },
-          // ─────────────────────────────────────────
-          // decreaseQty(index) — Giảm số lượng (tối thiểu 1)
-          // ─────────────────────────────────────────
+          // decreaseQty(index) - Giảm số lượng (tối thiểu 1)
           decreaseQty(index) {
             if (this.cartItems[index].qty > 1) {
               this.cartItems[index].qty--;
             }
           },
-          // ─────────────────────────────────────────
-          // removeItem(index) — Xoá sản phẩm tại vị trí index khỏi giỏ
-          // ─────────────────────────────────────────
+          // removeItem(index) - Xoá sản phẩm tại vị trí index khỏi giỏ
           removeItem(index) {
             const name = this.cartItems[index].name;
             this.cartItems.splice(index, 1);
-            this.toast("Đã xoá \"" + name + "\" khỏi giỏ hàng");
+            this.toast('Đã xoá "' + name + '" khỏi giỏ hàng');
           },
-          // ─────────────────────────────────────────
-          // clearCart() — Xoá tất cả sản phẩm khỏi giỏ (cần xác nhận)
-          // ─────────────────────────────────────────
+          // clearCart() - Xoá tất cả sản phẩm khỏi giỏ (cần xác nhận)
           clearCart() {
-            if (confirm("Bạn có chắc muốn xoá tất cả sản phẩm khỏi giỏ hàng?")) {
+            if (
+              confirm("Bạn có chắc muốn xoá tất cả sản phẩm khỏi giỏ hàng?")
+            ) {
               this.cartItems = [];
               this.toast("Đã xoá tất cả sản phẩm khỏi giỏ hàng");
             }
           },
-          // ─────────────────────────────────────────
-          // applyCoupon() — Áp dụng mã giảm giá
-          //   - Mã "SALE10" → giảm 10%
-          //   - Mã "SALE20" → giảm 20%
-          //   - Mã khác → thông báo không hợp lệ
-          // ─────────────────────────────────────────
+          // applyCoupon() - Áp dụng mã giảm giá
+          //   - Mã "DAO10" -> giảm 10%
           applyCoupon() {
             const code = this.couponCode.trim().toUpperCase();
             if (code === "DAO10") {
@@ -795,10 +1219,8 @@
               this.couponMessage = "Mã giảm giá không hợp lệ";
             }
           },
-          // ─────────────────────────────────────────
-          // toast(msg) — Hiển thị thông báo góc phải trên
+          // toast(msg) - Hiển thị thông báo góc phải trên
           //   - Tự ẩn sau 2.5 giây
-          // ─────────────────────────────────────────
           toast(msg) {
             this.toastMsg = msg;
             this.showToast = true;
@@ -806,53 +1228,56 @@
               this.showToast = false;
             }, 2500);
           },
-          // ─────────────────────────────────────────
-          // subscribeEmail() — Đăng ký nhận email thông tin
+          // subscribeEmail() - Đăng ký nhận email thông tin
           //   - Hiển thị cảm ơn, xoá input sau khi đăng ký
-          // ─────────────────────────────────────────
           subscribeEmail() {
             if (this.emailSubscribe) {
               alert("Cảm ơn bạn đã đăng ký nhận thông tin!");
               this.emailSubscribe = "";
             }
-          }
+          },
         },
-        // ═══════════════════════════════════════════
-        // MOUNTED — Khởi tạo khi component được gắn vào DOM
-        // ═══════════════════════════════════════════
+        // MOUNTED - Khởi tạo khi component được gắn vào DOM
         mounted() {
           // Lắng nghe sự kiện 'storage' từ localStorage
-          // → Khi tab/page khác thay đổi giỏ hàng, tab này tự động cập nhật
-          // → Chuẩn hoá dữ liệu (ảnh, giá, originalPrice) khi nhận từ tab khác
+          // -> Khi tab/page khác thay đổi giỏ hàng, tab này tự động cập nhật
+          // -> Chuẩn hoá dữ liệu (ảnh, giá, originalPrice) khi nhận từ tab khác
           const handleStorage = (e) => {
-            if (e.key === 'daoTruyenCart') {
-              this.cartItems = JSON.parse(e.newValue || '[]').map(item => {
+            if (e.key === "daoTruyenCart") {
+              this.cartItems = JSON.parse(e.newValue || "[]").map((item) => {
                 // Chuẩn hoá đường dẫn ảnh: xoá ./ ../ tiền tố
-                let img = (item.image || item.img || '').replace(/^\.?\/?\.{0,2}\//, '');
-                // Chuẩn hoá giá: chuỗi → số
+                let img = (item.image || item.img || "").replace(
+                  /^\.?\/?\.{0,2}\//,
+                  "",
+                );
+                // Chuẩn hoá giá: chuỗi -> số
                 let price = item.price;
-                if (typeof price === 'string') {
-                  price = parseFloat(price.replace(/[^\d]/g, '')) || 0;
+                if (typeof price === "string") {
+                  price = parseFloat(price.replace(/[^\d]/g, "")) || 0;
                 }
-                // Chuẩn hoá giá gốc (originalPrice): chuỗi → số hoặc null
+                // Chuẩn hoá giá gốc (originalPrice): chuỗi -> số hoặc null
                 let originalPrice = item.originalPrice;
-                if (typeof originalPrice === 'string') {
-                  originalPrice = parseFloat(originalPrice.replace(/[^\d]/g, '')) || null;
+                if (typeof originalPrice === "string") {
+                  originalPrice =
+                    parseFloat(originalPrice.replace(/[^\d]/g, "")) || null;
                 }
-                return { ...item, image: img, price: price, originalPrice: originalPrice };
+                return {
+                  ...item,
+                  image: img,
+                  price: price,
+                  originalPrice: originalPrice,
+                };
               });
             }
           };
           // Đăng ký lắng nghe sự kiện storage
-          window.addEventListener('storage', handleStorage);
+          window.addEventListener("storage", handleStorage);
           // Dọn dẹp: gỡ bỏ listener khi component bị hủy để tránh rò rỉ bộ nhớ
-          this.$once('hook:beforeUnmount', () => {
-            window.removeEventListener('storage', handleStorage);
+          this.$once("hook:beforeUnmount", () => {
+            window.removeEventListener("storage", handleStorage);
           });
-        }
+        },
       }).mount("#app");
     </script>
   </body>
 </html>
-
-

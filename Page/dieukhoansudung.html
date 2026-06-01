@@ -1,12 +1,11 @@
 <!doctype html>
 <html lang="vi">
-  <!-- ═══════════════════════════════════════════ HEAD — Cấu hình trang Điều khoản sử dụng ═══════════════════════════════════════════ -->
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Điều khoản sử dụng | Đảo Truyện</title>
 
-    <!-- Tailwind CSS CDN — Framework CSS tiện ích -->
+    <!-- Tailwind CSS CDN — Framework CSS tiện ích, giúp xây dựng giao diện nhanh chóng -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Tailwind config — Mở rộng font (display, body) và màu (cream, ink, amber, muted) -->
     <script>
@@ -14,14 +13,14 @@
         theme: {
           extend: {
             fontFamily: {
-              display: ["Playfair Display", "serif"],
-              body: ["Lora", "serif"],
+              display: ["Playfair Display", "serif"], // Font cho tiêu đề lớn
+              body: ["Lora", "serif"], // Font cho văn bản nội dung
             },
             colors: {
-              cream: "#faf7f2",
-              ink: "#1a1a1a",
-              amber: "#d97706",
-              muted: "#6b7280",
+              cream: "#faf7f2", // Màu nền kem chủ đạo
+              ink: "#1a1a1a", // Màu chữ đậm
+              amber: "#d97706", // Màu nhấn (cam)
+              muted: "#6b7280", // Màu xám nhẹ cho text phụ
             },
           },
         },
@@ -34,96 +33,230 @@
     />
     <!-- Phong cách tùy chỉnh — Font mặc định Lora, nền cream, chữ ink -->
     <style>
-      body { font-family: "Lora", serif; background-color: #faf7f2; color: #1a1a1a; }
+      body {
+        font-family: "Lora", serif;
+        background-color: #faf7f2;
+        color: #1a1a1a;
+      }
     </style>
   </head>
-  <!-- ═══════════════════════════════════════════ BODY — Gradient nền từ cream qua white đến amber-50 ═══════════════════════════════════════════ -->
+  <!-- 
+       BODY — Nền gradient từ cream qua white đến amber-50
+       Tạo hiệu ứng chuyển màu nhẹ nhàng, tinh tế, chiều cao tối thiểu full màn hình
+   -->
   <body class="min-h-screen bg-gradient-to-br from-cream via-white to-amber-50">
-    <!-- ═══════════════════════════════════════════ HEADER — Logo + link về trang chủ ═══════════════════════════════════════════ -->
-    <header class="border-b border-gray-200 bg-white/95 backdrop-blur-sm shadow-sm">
+    <!-- 
+         HEADER — Logo + link quay về trang chủ
+         Giúp người dùng dễ dàng điều hướng trở lại trang chính
+    -->
+    <header
+      class="border-b border-gray-200 bg-white/95 backdrop-blur-sm shadow-sm"
+    >
       <div class="max-w-5xl mx-auto px-4 py-5">
         <a href="../index.html" class="inline-flex items-center gap-3">
-          <img src="../assets/logo.jpg" alt="Đảo Truyện" class="h-12 w-auto object-contain" />
+          <!-- Logo của Đảo Truyện -->
+          <img
+            src="../assets/logo.jpg"
+            alt="Đảo Truyện"
+            class="h-12 w-auto object-contain"
+          />
           <div class="space-y-0.5">
             <p class="text-sm text-muted">Đảo Truyện</p>
-            <p class="text-base font-semibold text-ink hover:text-amber transition">Trang chủ</p>
+            <p
+              class="text-base font-semibold text-ink hover:text-amber transition"
+            >
+              Trang chủ
+            </p>
           </div>
         </a>
       </div>
     </header>
 
-    <!-- ═══════════════════════════════════════════ MAIN — Nội dung điều khoản sử dụng ═══════════════════════════════════════════ -->
-    <!-- Card bo góc lớn (rounded-[2rem]), shadow-2xl, tiêu đề + mô tả + 11 mục điều khoản -->
-    <main class="flex min-h-[calc(100vh-100px)] items-start justify-center px-4 py-16">
-      <section class="w-full max-w-4xl rounded-[2rem] border border-gray-200 bg-white/95 p-10 shadow-2xl shadow-amber/15 ring-1 ring-amber-100">
-        <!-- Tiêu đề trang — font-display (Playfair Display), font-black -->
+    <!-- 
+         MAIN — Nội dung điều khoản sử dụng
+         Card bo góc lớn (rounded-[2rem]), shadow đổ bóng, viền màu cam nhạt
+         Gồm tiêu đề + mô tả + 11 mục điều khoản chi tiết + nút quay về trang chủ
+     -->
+    <main
+      class="flex min-h-[calc(100vh-100px)] items-start justify-center px-4 py-16"
+    >
+      <!-- Card nội dung điều khoản - thiết kế nổi bật với hiệu ứng đổ bóng -->
+      <section
+        class="w-full max-w-4xl rounded-[2rem] border border-gray-200 bg-white/95 p-10 shadow-2xl shadow-amber/15 ring-1 ring-amber-100"
+      >
+        <!-- Tiêu đề trang — font-display (Playfair Display), font-black đậm nhất -->
         <div class="mb-8 text-center">
+          <!-- Đường kẻ trang trí màu cam ở giữa tiêu đề -->
           <div class="mx-auto mb-4 h-1.5 w-24 rounded-full bg-amber"></div>
-          <h1 class="text-4xl md:text-5xl font-display font-black tracking-tight text-ink">Điều khoản sử dụng — Đảo Truyện</h1>
-          <p class="mx-auto mt-3 max-w-2xl text-sm text-muted">Những quy định này điều chỉnh quyền và nghĩa vụ khi bạn mua, bán, hoặc sử dụng nội dung trên Đảo Truyện.</p>
+          <h1
+            class="text-4xl md:text-5xl font-display font-black tracking-tight text-ink"
+          >
+            Điều khoản sử dụng - Đảo Truyện
+          </h1>
+          <p class="mx-auto mt-3 max-w-2xl text-sm text-muted">
+            Những quy định này điều chỉnh quyền và nghĩa vụ khi bạn mua, bán,
+            hoặc sử dụng nội dung trên Đảo Truyện.
+          </p>
         </div>
 
-        <!-- Nội dung điều khoản — các mục được phân tách bằng space-y-6 -->
+        <!-- Nội dung điều khoản — 11 mục, mỗi mục cách nhau space-y-6 -->
         <div class="space-y-6 text-sm leading-7 text-slate-700">
+          <!-- Mục 1: Phạm vi áp dụng -->
           <section>
-            <h2 class="mb-2 text-lg font-semibold text-ink">1. Phạm vi áp dụng</h2>
-            <p>Điều khoản này áp dụng cho mọi người truy cập, mua hàng và sử dụng dịch vụ trên website Đảo Truyện (bao gồm trang web và ứng dụng di động). Khi đặt mua hoặc đăng ký tài khoản, bạn đồng ý bị ràng buộc bởi các điều khoản này.</p>
+            <h2 class="mb-2 text-lg font-semibold text-ink">
+              1. Phạm vi áp dụng
+            </h2>
+            <p>
+              Điều khoản này áp dụng cho mọi người truy cập, mua hàng và sử dụng
+              dịch vụ trên website Đảo Truyện (bao gồm trang web và ứng dụng di
+              động). Khi đặt mua hoặc đăng ký tài khoản, bạn đồng ý bị ràng buộc
+              bởi các điều khoản này.
+            </p>
           </section>
 
+          <!-- Mục 2: Tài khoản và an toàn -->
           <section>
-            <h2 class="mb-2 text-lg font-semibold text-ink">2. Tài khoản và an toàn</h2>
-            <p>Bạn có thể tạo tài khoản để đặt hàng, lưu sách yêu thích và viết đánh giá. Bạn chịu trách nhiệm bảo mật mật khẩu và thông tin tài khoản; mọi giao dịch thực hiện dưới tài khoản đều thuộc về bạn.</p>
+            <h2 class="mb-2 text-lg font-semibold text-ink">
+              2. Tài khoản và an toàn
+            </h2>
+            <p>
+              Bạn có thể tạo tài khoản để đặt hàng, lưu sách yêu thích và viết
+              đánh giá. Bạn chịu trách nhiệm bảo mật mật khẩu và thông tin tài
+              khoản; mọi giao dịch thực hiện dưới tài khoản đều thuộc về bạn.
+            </p>
           </section>
 
+          <!-- Mục 3: Đặt hàng và thanh toán -->
           <section>
-            <h2 class="mb-2 text-lg font-semibold text-ink">3. Đặt hàng và thanh toán</h2>
-            <p>Đặt hàng thông qua hệ thống của chúng tôi bằng việc chọn sản phẩm và hoàn tất thanh toán. Chúng tôi chấp nhận các phương thức thanh toán hiển thị trên trang khi thanh toán. Đơn hàng được xác nhận khi bạn nhận được email hoặc thông báo xác nhận từ Đảo Truyện.</p>
+            <h2 class="mb-2 text-lg font-semibold text-ink">
+              3. Đặt hàng và thanh toán
+            </h2>
+            <p>
+              Đặt hàng thông qua hệ thống của chúng tôi bằng việc chọn sản phẩm
+              và hoàn tất thanh toán. Chúng tôi chấp nhận các phương thức thanh
+              toán hiển thị trên trang khi thanh toán. Đơn hàng được xác nhận
+              khi bạn nhận được email hoặc thông báo xác nhận từ Đảo Truyện.
+            </p>
           </section>
 
+          <!-- Mục 4: Giao hàng và phí -->
           <section>
-            <h2 class="mb-2 text-lg font-semibold text-ink">4. Giao hàng và phí</h2>
-            <p>Giao hàng theo địa chỉ bạn cung cấp. Phí vận chuyển, thời gian giao và phương thức vận chuyển sẽ được thông báo trước khi bạn hoàn tất thanh toán. Mọi yêu cầu thay đổi địa chỉ sau khi đơn hàng được xác nhận có thể phát sinh chi phí bổ sung.</p>
+            <h2 class="mb-2 text-lg font-semibold text-ink">
+              4. Giao hàng và phí
+            </h2>
+            <p>
+              Giao hàng theo địa chỉ bạn cung cấp. Phí vận chuyển, thời gian
+              giao và phương thức vận chuyển sẽ được thông báo trước khi bạn
+              hoàn tất thanh toán. Mọi yêu cầu thay đổi địa chỉ sau khi đơn hàng
+              được xác nhận có thể phát sinh chi phí bổ sung.
+            </p>
           </section>
 
+          <!-- Mục 5: Đổi trả và hoàn tiền (có link đến trang chính sách đổi trả) -->
           <section>
-            <h2 class="mb-2 text-lg font-semibold text-ink">5. Đổi trả và hoàn tiền</h2>
-            <p>Chính sách đổi trả được áp dụng trong các trường hợp sản phẩm bị lỗi, giao nhầm hoặc mô tả không đúng. Vui lòng tham khảo trang <a href="./doi_tra_hoantien.html" class="text-amber hover:underline">Đổi - trả - hoàn tiền</a> để biết chi tiết và thủ tục khiếu nại.</p>
+            <h2 class="mb-2 text-lg font-semibold text-ink">
+              5. Đổi trả và hoàn tiền
+            </h2>
+            <p>
+              Chính sách đổi trả được áp dụng trong các trường hợp sản phẩm bị
+              lỗi, giao nhầm hoặc mô tả không đúng. Vui lòng tham khảo trang
+              <a
+                href="./doi_tra_hoantien.html"
+                class="text-amber hover:underline"
+                >Đổi - trả - hoàn tiền</a
+              >
+              để biết chi tiết và thủ tục khiếu nại.
+            </p>
           </section>
 
+          <!-- Mục 6: Nội dung và đánh giá -->
           <section>
-            <h2 class="mb-2 text-lg font-semibold text-ink">6. Nội dung và đánh giá</h2>
-            <p>Bạn có thể gửi nhận xét, đánh giá về sản phẩm. Nội dung gửi lên phải tuân thủ pháp luật và không xâm phạm quyền người khác. Chúng tôi có quyền loại bỏ nội dung vi phạm mà không cần thông báo trước.</p>
+            <h2 class="mb-2 text-lg font-semibold text-ink">
+              6. Nội dung và đánh giá
+            </h2>
+            <p>
+              Bạn có thể gửi nhận xét, đánh giá về sản phẩm. Nội dung gửi lên
+              phải tuân thủ pháp luật và không xâm phạm quyền người khác. Chúng
+              tôi có quyền loại bỏ nội dung vi phạm mà không cần thông báo
+              trước.
+            </p>
           </section>
 
+          <!-- Mục 7: Bản quyền và quyền sở hữu trí tuệ -->
           <section>
-            <h2 class="mb-2 text-lg font-semibold text-ink">7. Bản quyền và quyền sở hữu trí tuệ</h2>
-            <p>Mọi sách, hình ảnh, mô tả sản phẩm, thương hiệu trên website thuộc quyền sở hữu của tác giả/nhà xuất bản hoặc Đảo Truyện. Bạn không được sao chép, tái bản, phân phối trái phép các nội dung này.</p>
+            <h2 class="mb-2 text-lg font-semibold text-ink">
+              7. Bản quyền và quyền sở hữu trí tuệ
+            </h2>
+            <p>
+              Mọi sách, hình ảnh, mô tả sản phẩm, thương hiệu trên website thuộc
+              quyền sở hữu của tác giả/nhà xuất bản hoặc Đảo Truyện. Bạn không
+              được sao chép, tái bản, phân phối trái phép các nội dung này.
+            </p>
           </section>
 
+          <!-- Mục 8: Bảo mật thông tin (có link đến trang chính sách bảo mật) -->
           <section>
-            <h2 class="mb-2 text-lg font-semibold text-ink">8. Bảo mật thông tin</h2>
-            <p>Chúng tôi cam kết bảo vệ thông tin cá nhân theo <a href="./chinhsachbaomat.html" class="text-amber hover:underline">Chính sách bảo mật</a>. Thông tin thanh toán được xử lý qua cổng thanh toán hợp lệ; Đảo Truyện không lưu trữ thông tin thẻ trừ khi được thông báo rõ ràng.</p>
+            <h2 class="mb-2 text-lg font-semibold text-ink">
+              8. Bảo mật thông tin
+            </h2>
+            <p>
+              Chúng tôi cam kết bảo vệ thông tin cá nhân theo
+              <a
+                href="./chinhsachbaomat.html"
+                class="text-amber hover:underline"
+                >Chính sách bảo mật</a
+              >. Thông tin thanh toán được xử lý qua cổng thanh toán hợp lệ; Đảo
+              Truyện không lưu trữ thông tin thẻ trừ khi được thông báo rõ ràng.
+            </p>
           </section>
 
+          <!-- Mục 9: Giới hạn trách nhiệm -->
           <section>
-            <h2 class="mb-2 text-lg font-semibold text-ink">9. Giới hạn trách nhiệm</h2>
-            <p>Đảo Truyện nỗ lực cung cấp thông tin chính xác nhưng không chịu trách nhiệm cho thiệt hại gián tiếp hoặc mất mát do sử dụng website. Trong mọi trường hợp, trách nhiệm bồi thường sẽ tuân theo quy định pháp luật hiện hành.</p>
+            <h2 class="mb-2 text-lg font-semibold text-ink">
+              9. Giới hạn trách nhiệm
+            </h2>
+            <p>
+              Đảo Truyện nỗ lực cung cấp thông tin chính xác nhưng không chịu
+              trách nhiệm cho thiệt hại gián tiếp hoặc mất mát do sử dụng
+              website. Trong mọi trường hợp, trách nhiệm bồi thường sẽ tuân theo
+              quy định pháp luật hiện hành.
+            </p>
           </section>
 
+          <!-- Mục 10: Giải quyết tranh chấp -->
           <section>
-            <h2 class="mb-2 text-lg font-semibold text-ink">10. Giải quyết tranh chấp</h2>
-            <p>Mọi tranh chấp phát sinh liên quan đến điều khoản này sẽ được thương lượng trước; nếu không giải quyết được sẽ được xử lý theo pháp luật Việt Nam.</p>
+            <h2 class="mb-2 text-lg font-semibold text-ink">
+              10. Giải quyết tranh chấp
+            </h2>
+            <p>
+              Mọi tranh chấp phát sinh liên quan đến điều khoản này sẽ được
+              thương lượng trước; nếu không giải quyết được sẽ được xử lý theo
+              pháp luật Việt Nam.
+            </p>
           </section>
 
+          <!-- Mục 11: Liên hệ (thông tin hotline và email hỗ trợ) -->
           <section>
             <h2 class="mb-2 text-lg font-semibold text-ink">11. Liên hệ</h2>
-            <p>Mọi thắc mắc, khiếu nại về đơn hàng hoặc nội dung trên website, vui lòng liên hệ: <strong>0981109909</strong> hoặc <a href="mailto:daotruyen@gmail.com" class="text-amber hover:underline">daotruyen@gmail.com</a>.</p>
+            <p>
+              Mọi thắc mắc, khiếu nại về đơn hàng hoặc nội dung trên website,
+              vui lòng liên hệ: <strong>0981109909</strong> hoặc
+              <a
+                href="mailto:daotruyen@gmail.com"
+                class="text-amber hover:underline"
+                >daotruyen@gmail.com</a
+              >.
+            </p>
           </section>
         </div>
 
-        <!-- Nút quay về trang chủ -->
+        <!-- Nút quay về trang chủ - gradient màu cam, hiệu ứng hover -->
         <div class="mt-8 text-center">
-          <a href="../index.html" class="inline-flex items-center justify-center rounded-3xl bg-amber px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-amber/20 transition hover:bg-orange-500">Quay về trang chủ</a>
+          <a
+            href="../index.html"
+            class="inline-flex items-center justify-center rounded-3xl bg-amber px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-amber/20 transition hover:bg-orange-500"
+            >Quay về trang chủ</a
+          >
         </div>
       </section>
     </main>

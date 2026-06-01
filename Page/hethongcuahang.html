@@ -1,52 +1,54 @@
 <!doctype html>
 <html lang="vi">
-  <!-- ═══════════════════════════════════════════ HEAD — Cấu hình trang Hệ thống cửa hàng ═══════════════════════════════════════════ -->
+  <!-- HEAD - Cấu hình trang Hệ thống cửa hàng -->
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="../assets/favicon.jpg" type="image/x-icon" />
     <title>Đảo Truyện | Hệ thống cửa hàng</title>
 
-    <!-- ① Tailwind CSS CDN — Framework CSS tiện ích -->
+    <!-- Tailwind CSS CDN - Framework CSS tiện ích, giúp xây dựng giao diện nhanh chóng -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- ② Google Fonts — Inter (cả display lẫn body) -->
+    <!-- Google Fonts - Inter font (cả display lẫn body) - phong cách hiện đại, dễ đọc -->
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
 
-    <!-- ③ Custom CSS — style.css + style_lh.css -->
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/style_lh.css">
+    <!-- Custom CSS - style.css + style_lh.css (các file CSS bổ sung từ dự án) -->
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/style_lh.css" />
 
+    <!-- Tailwind config - Mở rộng font chữ và bảng màu riêng cho website -->
     <script>
-      // ④ Tailwind config — extend thêm màu & font tuỳ chỉnh (Inter thay vì Playfair/Lora)
       tailwind.config = {
         theme: {
           extend: {
             fontFamily: {
-              display: ["Inter", "sans-serif"],
-              body: ["Inter", "sans-serif"],
+              display: ["Inter", "sans-serif"], // Font cho tiêu đề (Inter thay vì Playfair)
+              body: ["Inter", "sans-serif"], // Font cho văn bản nội dung
             },
             colors: {
-              cream: "#faf7f2",
-              ink: "#1a1a1a",
-              amber: "#d97706",
-              muted: "#6b7280",
+              cream: "#faf7f2", // Màu nền kem chủ đạo
+              ink: "#1a1a1a", // Màu chữ đậm
+              amber: "#d97706", // Màu nhấn (cam)
+              muted: "#6b7280", // Màu xám nhẹ cho text phụ
             },
           },
         },
       };
     </script>
 
+    <!-- CUSTOM STYLES - Phong cách tuỳ chỉnh bổ sung -->
     <style>
-      /* ⑤ Phong cách chung — Font Inter, nền cream, chữ ink */
+      /* Font mặc định và màu nền cho toàn bộ trang */
       body {
         font-family: "Inter", sans-serif;
         background-color: #faf7f2;
         color: #1a1a1a;
       }
+      /* Tiêu đề h1-h6 dùng font Inter */
       h1,
       h2,
       h3,
@@ -56,10 +58,12 @@
         font-family: "Inter", sans-serif;
       }
 
+      /* Dropdown menu - hiện khi hover (CSS thuần, không cần JS) */
       .nav-dropdown:hover .dropdown-menu {
         display: block;
       }
 
+      /* Hiệu ứng chuyển tiếp mờ dần cho carousel (nếu có) */
       .slide-enter-active,
       .slide-leave-active {
         transition: opacity 0.6s ease;
@@ -69,6 +73,7 @@
         opacity: 0;
       }
 
+      /* Ẩn thanh cuộn cho danh sách cuộn ngang (giữ chức năng cuộn) */
       .scroll-x::-webkit-scrollbar {
         display: none;
       }
@@ -77,6 +82,7 @@
         scrollbar-width: none;
       }
 
+      /* Hiệu ứng đổ bóng và nâng nhẹ khi di chuột qua thẻ sách */
       .book-card:hover {
         box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
         transform: translateY(-2px);
@@ -88,21 +94,24 @@
       }
     </style>
   </head>
-  <!-- ═══════════════════════════════════════════ BODY — Vue mount point + Header + Main + Footer ═══════════════════════════════════════════ -->
+  <!-- BODY - Vue mount point, toàn bộ giao diện được Vue 3 quản lý -->
   <body>
     <div id="app">
-      <!-- ═══════════════════════════════════════════ HEADER — Thanh điều hướng cố định (sticky) ═══════════════════════════════════════════ -->
+      <!-- HEADER - Thanh điều hướng cố định trên cùng (sticky)
+           Gồm: top bar (liên hệ + đăng nhập/đăng ký) và main navigation -->
       <header
         class="sticky top-0 z-50 bg-cream border-b border-gray-200 shadow-sm"
       >
-        <!-- Top bar -->
+        <!-- Top bar - Số điện thoại, email, nút đăng nhập/đăng ký -->
         <div class="bg-ink text-white text-xs py-1.5">
           <div class="max-w-5xl mx-auto px-4 flex items-center justify-between">
+            <!-- Bên trái: SĐT + Email -->
             <div class="flex gap-5">
               <a
                 href="tel:0981109909"
                 class="flex items-center gap-1.5 hover:text-amber transition-colors"
               >
+                <!-- Icon điện thoại SVG -->
                 <svg
                   class="w-3.5 h-3.5"
                   fill="currentColor"
@@ -114,10 +123,12 @@
                 </svg>
                 0981109909
               </a>
+              <!-- Email - ẩn trên mobile, hiển thị từ breakpoint sm (tablet trở lên) -->
               <a
                 href="mailto:Daotruyen@gmail.com"
                 class="hidden sm:flex items-center gap-1.5 hover:text-amber transition-colors"
               >
+                <!-- Icon email SVG -->
                 <svg
                   class="w-3.5 h-3.5"
                   fill="currentColor"
@@ -134,6 +145,7 @@
               </a>
             </div>
 
+            <!-- Bên phải: Nút Đăng nhập và Đăng ký (dạng text, không có nền) -->
             <div class="flex gap-3">
               <a
                 href="./dangnhap.html"
@@ -152,9 +164,15 @@
           </div>
         </div>
 
-        <!-- Main nav -->
-        <nav class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
-          <a href="../index.html" class="flex items-center gap-2 font-bold text-xl text-ink">
+        <!-- Main navigation - Logo + menu chính + nút giỏ hàng -->
+        <nav
+          class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between"
+        >
+          <!-- Logo + tên website -->
+          <a
+            href="../index.html"
+            class="flex items-center gap-2 font-bold text-xl text-ink"
+          >
             <img
               src="../assets/favicon.jpg"
               alt="Đảo Truyện"
@@ -163,10 +181,12 @@
             Đảo Truyện
           </a>
 
+          <!-- Nút hamburger cho mobile - Vue điều khiển trạng thái đóng/mở -->
           <button
             @click="mobileOpen = !mobileOpen"
             class="md:hidden p-2 hover:bg-gray-200 rounded transition-colors"
           >
+            <!-- Icon thay đổi theo trạng thái: hamburger khi đóng, X khi mở -->
             <svg
               v-if="!mobileOpen"
               class="w-6 h-6"
@@ -197,6 +217,7 @@
             </svg>
           </button>
 
+          <!-- Menu links - desktop: hiển thị ngang, mobile: ẩn/hiện dọc theo biến mobileOpen -->
           <div
             :class="['w-full md:flex md:items-center', mobileOpen ? 'block' : 'hidden md:flex']"
           >
@@ -220,12 +241,14 @@
                 </a>
               </li>
 
+              <!-- Dropdown "Truyện tranh" - dùng CSS hover thuần (Tailwind group/group-hover) -->
               <li class="relative group">
                 <a
                   href="./theloai.html"
                   class="flex items-center gap-1 py-2 md:py-4 border-b-2 border-transparent group-hover:border-amber text-ink group-hover:text-amber transition-colors"
                 >
                   Truyện tranh
+                  <!-- Mũi tên xuống chỉ dropdown -->
                   <svg
                     class="w-3.5 h-3.5 mt-0.5"
                     fill="none"
@@ -240,6 +263,7 @@
                     />
                   </svg>
                 </a>
+                <!-- Menu thả xuống - hiện khi hover vào group (group-hover) -->
                 <div
                   class="hidden group-hover:block absolute left-0 top-full w-44 bg-white border border-gray-200 shadow-lg rounded-b z-40"
                 >
@@ -277,10 +301,12 @@
             </ul>
           </div>
 
+          <!-- Nút Giỏ hàng - luôn hiển thị -->
           <a
             href="./giohang.html"
             class="flex items-center gap-1.5 border border-ink rounded px-3 py-1.5 text-sm font-medium hover:bg-ink hover:text-white transition-colors shrink-0"
           >
+            <!-- Icon giỏ hàng SVG -->
             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
               <path
                 d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"
@@ -291,46 +317,70 @@
         </nav>
       </header>
 
-      <!-- ═══════════════════════════════════════════ MAIN — Nội dung chính trang Hệ thống cửa hàng ═══════════════════════════════════════════ -->
+      <!-- MAIN - Nội dung chính trang Hệ thống cửa hàng -->
       <main class="bg-cream">
-        <!-- Hero section — Tiêu đề trang + Mô tả ngắn -->
+        <!-- Hero section - Tiêu đề trang + Mô tả ngắn -->
         <section class="max-w-5xl mx-auto px-4 py-16">
-          <div class="rounded-[2rem] bg-white border border-gray-200 p-8 md:p-12 shadow-sm">
-            <p class="text-xs uppercase tracking-[0.35em] text-amber">Chi nhánh</p>
-            <h1 class="mt-4 text-4xl md:text-5xl font-semibold tracking-tight text-ink">Hệ thống cửa hàng Đảo Truyện</h1>
-            <p class="mt-6 max-w-2xl text-base text-muted leading-8">Tìm cửa hàng Đảo Truyện gần nhất với bạn. Chúng tôi có các chi nhánh tại những địa điểm chiến lược để phục vụ bạn tốt nhất.</p>
+          <div
+            class="rounded-[2rem] bg-white border border-gray-200 p-8 md:p-12 shadow-sm"
+          >
+            <p class="text-xs uppercase tracking-[0.35em] text-amber">
+              Chi nhánh
+            </p>
+            <h1
+              class="mt-4 text-4xl md:text-5xl font-semibold tracking-tight text-ink"
+            >
+              Hệ thống cửa hàng Đảo Truyện
+            </h1>
+            <p class="mt-6 max-w-2xl text-base text-muted leading-8">
+              Tìm cửa hàng Đảo Truyện gần nhất với bạn. Chúng tôi có các chi
+              nhánh tại những địa điểm chiến lược để phục vụ bạn tốt nhất.
+            </p>
           </div>
         </section>
 
-        <!-- Danh sách chi nhánh — Grid 3 cột responsive -->
+        <!-- Danh sách chi nhánh - Grid 3 cột responsive (1 cột trên mobile, 2 trên tablet, 3 trên desktop) -->
         <section class="max-w-5xl mx-auto px-4 py-16">
-          <h2 class="text-3xl font-semibold text-ink mb-8">Danh sách cửa hàng</h2>
+          <h2 class="text-3xl font-semibold text-ink mb-8">
+            Danh sách cửa hàng
+          </h2>
           <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            <!-- Branch 1 -->
-            <div class="rounded-3xl bg-white border border-gray-200 p-6 shadow-sm hover:shadow-lg transition-shadow">
+            <!-- Branch 1 - Chùa Bộc, Hà Nội (Chi nhánh chính) -->
+            <div
+              class="rounded-3xl bg-white border border-gray-200 p-6 shadow-sm hover:shadow-lg transition-shadow"
+            >
               <h3 class="text-lg font-semibold text-ink">Chùa Bộc - Hà Nội</h3>
               <p class="mt-3 text-sm text-muted leading-6">
                 <strong>Địa chỉ:</strong> 12 Chùa Bộc, Đống Đa, Hà Nội
               </p>
               <p class="mt-2 text-sm text-muted leading-6">
-                <strong>Điện thoại:</strong> <a href="tel:0981109909" class="text-amber hover:text-amber/80">0981109909</a>
+                <strong>Điện thoại:</strong>
+                <a href="tel:0981109909" class="text-amber hover:text-amber/80"
+                  >0981109909</a
+                >
               </p>
               <p class="mt-2 text-sm text-muted leading-6">
                 <strong>Giờ mở cửa:</strong> 8:00 - 21:00 (Hàng ngày)
               </p>
               <p class="mt-3 text-xs text-muted/60">
-                Chi nhánh chính tại trung tâm Hà Nội, gần các trường đại học, tối ưu vị trí giao thông.
+                Chi nhánh chính tại trung tâm Hà Nội, gần các trường đại học,
+                tối ưu vị trí giao thông.
               </p>
             </div>
 
-            <!-- Branch 2 -->
-            <div class="rounded-3xl bg-white border border-gray-200 p-6 shadow-sm hover:shadow-lg transition-shadow">
+            <!-- Branch 2 - Hồ Tây, Hà Nội -->
+            <div
+              class="rounded-3xl bg-white border border-gray-200 p-6 shadow-sm hover:shadow-lg transition-shadow"
+            >
               <h3 class="text-lg font-semibold text-ink">Hồ Tây - Hà Nội</h3>
               <p class="mt-3 text-sm text-muted leading-6">
                 <strong>Địa chỉ:</strong> 5 Đường Thanh Niên, Ba Đình, Hà Nội
               </p>
               <p class="mt-2 text-sm text-muted leading-6">
-                <strong>Điện thoại:</strong> <a href="tel:0981234567" class="text-amber hover:text-amber/80">0981234567</a>
+                <strong>Điện thoại:</strong>
+                <a href="tel:0981234567" class="text-amber hover:text-amber/80"
+                  >0981234567</a
+                >
               </p>
               <p class="mt-2 text-sm text-muted leading-6">
                 <strong>Giờ mở cửa:</strong> 8:00 - 21:00 (Hàng ngày)
@@ -340,14 +390,21 @@
               </p>
             </div>
 
-            <!-- Branch 3 -->
-            <div class="rounded-3xl bg-white border border-gray-200 p-6 shadow-sm hover:shadow-lg transition-shadow">
-              <h3 class="text-lg font-semibold text-ink">Trần Duy Hưng - Hà Nội</h3>
+            <!-- Branch 3 - Trần Duy Hưng, Hà Nội -->
+            <div
+              class="rounded-3xl bg-white border border-gray-200 p-6 shadow-sm hover:shadow-lg transition-shadow"
+            >
+              <h3 class="text-lg font-semibold text-ink">
+                Trần Duy Hưng - Hà Nội
+              </h3>
               <p class="mt-3 text-sm text-muted leading-6">
                 <strong>Địa chỉ:</strong> 123 Trần Duy Hưng, Cầu Giấy, Hà Nội
               </p>
               <p class="mt-2 text-sm text-muted leading-6">
-                <strong>Điện thoại:</strong> <a href="tel:0982345678" class="text-amber hover:text-amber/80">0982345678</a>
+                <strong>Điện thoại:</strong>
+                <a href="tel:0982345678" class="text-amber hover:text-amber/80"
+                  >0982345678</a
+                >
               </p>
               <p class="mt-2 text-sm text-muted leading-6">
                 <strong>Giờ mở cửa:</strong> 8:00 - 21:00 (Hàng ngày)
@@ -357,14 +414,21 @@
               </p>
             </div>
 
-            <!-- Branch 4 -->
-            <div class="rounded-3xl bg-white border border-gray-200 p-6 shadow-sm hover:shadow-lg transition-shadow">
-              <h3 class="text-lg font-semibold text-ink">Thanh Xuân - Hà Nội</h3>
+            <!-- Branch 4 - Thanh Xuân, Hà Nội -->
+            <div
+              class="rounded-3xl bg-white border border-gray-200 p-6 shadow-sm hover:shadow-lg transition-shadow"
+            >
+              <h3 class="text-lg font-semibold text-ink">
+                Thanh Xuân - Hà Nội
+              </h3>
               <p class="mt-3 text-sm text-muted leading-6">
                 <strong>Địa chỉ:</strong> 456 Khuất Duy Tiến, Thanh Xuân, Hà Nội
               </p>
               <p class="mt-2 text-sm text-muted leading-6">
-                <strong>Điện thoại:</strong> <a href="tel:0983456789" class="text-amber hover:text-amber/80">0983456789</a>
+                <strong>Điện thoại:</strong>
+                <a href="tel:0983456789" class="text-amber hover:text-amber/80"
+                  >0983456789</a
+                >
               </p>
               <p class="mt-2 text-sm text-muted leading-6">
                 <strong>Giờ mở cửa:</strong> 8:00 - 21:00 (Hàng ngày)
@@ -374,14 +438,20 @@
               </p>
             </div>
 
-            <!-- Branch 5 -->
-            <div class="rounded-3xl bg-white border border-gray-200 p-6 shadow-sm hover:shadow-lg transition-shadow">
+            <!-- Branch 5 - TP Hồ Chí Minh -->
+            <div
+              class="rounded-3xl bg-white border border-gray-200 p-6 shadow-sm hover:shadow-lg transition-shadow"
+            >
               <h3 class="text-lg font-semibold text-ink">TP Hồ Chí Minh</h3>
               <p class="mt-3 text-sm text-muted leading-6">
-                <strong>Địa chỉ:</strong> 789 Nguyễn Hữu Cảnh, Bình Thạnh, TP HCM
+                <strong>Địa chỉ:</strong> 789 Nguyễn Hữu Cảnh, Bình Thạnh, TP
+                HCM
               </p>
               <p class="mt-2 text-sm text-muted leading-6">
-                <strong>Điện thoại:</strong> <a href="tel:0984567890" class="text-amber hover:text-amber/80">0984567890</a>
+                <strong>Điện thoại:</strong>
+                <a href="tel:0984567890" class="text-amber hover:text-amber/80"
+                  >0984567890</a
+                >
               </p>
               <p class="mt-2 text-sm text-muted leading-6">
                 <strong>Giờ mở cửa:</strong> 9:00 - 21:00 (Hàng ngày)
@@ -391,14 +461,19 @@
               </p>
             </div>
 
-            <!-- Branch 6 -->
-            <div class="rounded-3xl bg-white border border-gray-200 p-6 shadow-sm hover:shadow-lg transition-shadow">
+            <!-- Branch 6 - Đà Nẵng -->
+            <div
+              class="rounded-3xl bg-white border border-gray-200 p-6 shadow-sm hover:shadow-lg transition-shadow"
+            >
               <h3 class="text-lg font-semibold text-ink">Đà Nẵng</h3>
               <p class="mt-3 text-sm text-muted leading-6">
                 <strong>Địa chỉ:</strong> 321 Trần Phú, Hải Châu, Đà Nẵng
               </p>
               <p class="mt-2 text-sm text-muted leading-6">
-                <strong>Điện thoại:</strong> <a href="tel:0985678901" class="text-amber hover:text-amber/80">0985678901</a>
+                <strong>Điện thoại:</strong>
+                <a href="tel:0985678901" class="text-amber hover:text-amber/80"
+                  >0985678901</a
+                >
               </p>
               <p class="mt-2 text-sm text-muted leading-6">
                 <strong>Giờ mở cửa:</strong> 8:00 - 20:00 (Hàng ngày)
@@ -410,26 +485,35 @@
           </div>
         </section>
 
-        <!-- CTA section — Kêu gọi hành động liên hệ -->
+        <!-- CTA section - Kêu gọi hành động liên hệ (dành cho khách hàng chưa tìm thấy chi nhánh) -->
         <section class="max-w-5xl mx-auto px-4 py-16">
-          <div class="rounded-[2rem] bg-gradient-to-r from-amber to-yellow-500 p-8 md:p-12 shadow-sm">
-            <h2 class="text-3xl font-semibold text-ink mb-4">Chưa tìm thấy chi nhánh?</h2>
+          <div
+            class="rounded-[2rem] bg-gradient-to-r from-amber to-yellow-500 p-8 md:p-12 shadow-sm"
+          >
+            <h2 class="text-3xl font-semibold text-ink mb-4">
+              Chưa tìm thấy chi nhánh?
+            </h2>
             <p class="text-base text-ink/80 leading-7 mb-6">
               Liên hệ với chúng tôi để biết thêm thông tin hoặc để được tư vấn.
             </p>
-            <a href="./tranglienhe.html" class="inline-flex items-center justify-center rounded-3xl bg-ink px-8 py-4 text-base font-semibold text-white hover:bg-ink/80 transition-colors">
+            <a
+              href="./tranglienhe.html"
+              class="inline-flex items-center justify-center rounded-3xl bg-ink px-8 py-4 text-base font-semibold text-white hover:bg-ink/80 transition-colors"
+            >
               Liên hệ ngay
             </a>
           </div>
         </section>
       </main>
 
-      <!-- ═══════════════════════════════════════════ FOOTER — 4 cột: Về chúng tôi, Hỗ trợ, Dịch vụ, Kết nối ═══════════════════════════════════════════ -->
+      <!-- FOOTER - Chân trang: 4 cột thông tin liên kết + bản quyền -->
       <footer class="bg-ink text-white pt-12 pb-6 mt-16">
         <div class="max-w-5xl mx-auto px-4">
+          <!-- 4 cột responsive: 1 col (mobile) -> sm:2 -> lg:4 -->
           <div
             class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 pb-8 border-b border-white/10"
           >
+            <!-- Cột 1: Về chúng tôi - các link giới thiệu, liên hệ, hệ thống cửa hàng -->
             <div>
               <h6
                 class="font-semibold text-sm uppercase tracking-wider mb-4 text-amber"
@@ -438,23 +522,30 @@
               </h6>
               <ul class="space-y-2 text-sm text-white/60">
                 <li>
-                  <a href="./gioithieu.html" class="hover:text-white transition-colors"
+                  <a
+                    href="./gioithieu.html"
+                    class="hover:text-white transition-colors"
                     >Giới thiệu</a
                   >
                 </li>
                 <li>
-                  <a href="./tranglienhe.html" class="hover:text-white transition-colors"
+                  <a
+                    href="./tranglienhe.html"
+                    class="hover:text-white transition-colors"
                     >Liên hệ</a
                   >
                 </li>
                 <li>
-                  <a href="./hethongcuahang.html" class="hover:text-white transition-colors"
+                  <a
+                    href="./hethongcuahang.html"
+                    class="hover:text-white transition-colors"
                     >Hệ thống cửa hàng</a
                   >
                 </li>
               </ul>
             </div>
 
+            <!-- Cột 2: Hỗ trợ - chính sách vận chuyển, bảo hành, đổi trả -->
             <div>
               <h6
                 class="font-semibold text-sm uppercase tracking-wider mb-4 text-amber"
@@ -463,23 +554,30 @@
               </h6>
               <ul class="space-y-2 text-sm text-white/60">
                 <li>
-                  <a href="./chinhsachvanchuyen.html" class="hover:text-white transition-colors"
+                  <a
+                    href="./chinhsachvanchuyen.html"
+                    class="hover:text-white transition-colors"
                     >Chính sách vận chuyển</a
                   >
                 </li>
                 <li>
-                  <a href="./chinhsachbaohanh.html" class="hover:text-white transition-colors"
+                  <a
+                    href="./chinhsachbaohanh.html"
+                    class="hover:text-white transition-colors"
                     >Chính sách bảo hành</a
                   >
                 </li>
                 <li>
-                  <a href="./doi_tra_hoantien.html" class="hover:text-white transition-colors"
+                  <a
+                    href="./doi_tra_hoantien.html"
+                    class="hover:text-white transition-colors"
                     >Đổi - trả - hoàn tiền</a
                   >
                 </li>
               </ul>
             </div>
 
+            <!-- Cột 3: Dịch vụ - điều khoản sử dụng, chính sách bảo mật, bảo mật thanh toán -->
             <div>
               <h6
                 class="font-semibold text-sm uppercase tracking-wider mb-4 text-amber"
@@ -488,23 +586,30 @@
               </h6>
               <ul class="space-y-2 text-sm text-white/60">
                 <li>
-                  <a href="./dieukhoansudung.html" class="hover:text-white transition-colors"
+                  <a
+                    href="./dieukhoansudung.html"
+                    class="hover:text-white transition-colors"
                     >Điều khoản sử dụng</a
                   >
                 </li>
                 <li>
-                  <a href="./chinhsachbaomat.html" class="hover:text-white transition-colors"
+                  <a
+                    href="./chinhsachbaomat.html"
+                    class="hover:text-white transition-colors"
                     >Chính sách bảo mật</a
                   >
                 </li>
                 <li>
-                  <a href="./baomatthanhtoan.html" class="hover:text-white transition-colors"
+                  <a
+                    href="./baomatthanhtoan.html"
+                    class="hover:text-white transition-colors"
                     >Bảo mật thanh toán</a
                   >
                 </li>
               </ul>
             </div>
 
+            <!-- Cột 4: Kết nối - mạng xã hội (Facebook, Twitter) -->
             <div>
               <h6
                 class="font-semibold text-sm uppercase tracking-wider mb-4 text-amber"
@@ -513,43 +618,66 @@
               </h6>
               <p class="text-sm text-white/60 mb-4">Theo dõi chúng tôi</p>
               <div class="flex gap-4">
-                <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-amber transition-colors">
+                <!-- Facebook icon -->
+                <a
+                  href="#"
+                  class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-amber transition-colors"
+                >
                   <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M10 0C4.477 0 0 4.477 0 10c0 5.523 4.477 10 10 10s10-4.477 10-10c0-5.523-4.477-10-10-10zm3.6 10.5h-2.1v6.9h-2.85v-6.9h-1.95V8.7h1.95V7.35c0-1.62.75-4.05 4.05-4.05h3.15v2.55h-2.28c-.375 0-.45.18-.45.45v1.8h2.88l-.6 1.8z" clip-rule="evenodd"/>
+                    <path
+                      fill-rule="evenodd"
+                      d="M10 0C4.477 0 0 4.477 0 10c0 5.523 4.477 10 10 10s10-4.477 10-10c0-5.523-4.477-10-10-10zm3.6 10.5h-2.1v6.9h-2.85v-6.9h-1.95V8.7h1.95V7.35c0-1.62.75-4.05 4.05-4.05h3.15v2.55h-2.28c-.375 0-.45.18-.45.45v1.8h2.88l-.6 1.8z"
+                      clip-rule="evenodd"
+                    />
                   </svg>
                 </a>
-                <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-amber transition-colors">
+                <!-- Twitter icon -->
+                <a
+                  href="#"
+                  class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-amber transition-colors"
+                >
                   <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M10 0C4.477 0 0 4.477 0 10c0 5.523 4.477 10 10 10s10-4.477 10-10c0-5.523-4.477-10-10-10zm4.905 7.335c.015.267.022.535.022.805 0 8.18-6.225 17.615-17.615 17.615-3.498 0-6.745-1.023-9.48-2.78.483.058.975.088 1.473.088 2.896 0 5.56-.987 7.668-2.646-2.706-.05-4.99-1.837-5.776-4.295.378.057.765.088 1.16.088.564 0 1.11-.074 1.632-.213-2.83-.568-4.964-3.068-4.964-6.066 0-.026 0-.052 0-.078.833.464 1.785.742 2.803.773-1.66-1.11-2.75-3.006-2.75-5.153 0-1.134.305-2.196.838-3.11 3.052 3.749 7.616 6.215 12.766 6.48-.105-.45-.16-.916-.16-1.394 0-3.375 2.743-6.11 6.128-6.11 1.762 0 3.352.744 4.47 1.934 1.394-.275 2.704-.785 3.883-1.485-.457 1.432-1.428 2.634-2.693 3.395 1.237-.146 2.42-.476 3.52-1.36-.82 1.223-1.856 2.297-3.052 3.16z"/>
+                    <path
+                      d="M10 0C4.477 0 0 4.477 0 10c0 5.523 4.477 10 10 10s10-4.477 10-10c0-5.523-4.477-10-10-10zm4.905 7.335c.015.267.022.535.022.805 0 8.18-6.225 17.615-17.615 17.615-3.498 0-6.745-1.023-9.48-2.78.483.058.975.088 1.473.088 2.896 0 5.56-.987 7.668-2.646-2.706-.05-4.99-1.837-5.776-4.295.378.057.765.088 1.16.088.564 0 1.11-.074 1.632-.213-2.83-.568-4.964-3.068-4.964-6.066 0-.026 0-.052 0-.078.833.464 1.785.742 2.803.773-1.66-1.11-2.75-3.006-2.75-5.153 0-1.134.305-2.196.838-3.11 3.052 3.749 7.616 6.215 12.766 6.48-.105-.45-.16-.916-.16-1.394 0-3.375 2.743-6.11 6.128-6.11 1.762 0 3.352.744 4.47 1.934 1.394-.275 2.704-.785 3.883-1.485-.457 1.432-1.428 2.634-2.693 3.395 1.237-.146 2.42-.476 3.52-1.36-.82 1.223-1.856 2.297-3.052 3.16z"
+                    />
                   </svg>
                 </a>
               </div>
             </div>
           </div>
 
-          <div class="py-6 flex items-center justify-between text-sm text-white/40">
+          <!-- Bottom footer - Bản quyền và các link chính sách -->
+          <div
+            class="py-6 flex items-center justify-between text-sm text-white/40"
+          >
             <p>&copy; 2024 Đảo Truyện. Tất cả quyền được bảo lưu.</p>
             <div class="flex gap-6">
-              <a href="./chinhsachbaomat.html" class="hover:text-white transition-colors">Chính sách bảo mật</a>
-              <a href="./dieukhoansudung.html" class="hover:text-white transition-colors">Điều khoản sử dụng</a>
+              <a
+                href="./chinhsachbaomat.html"
+                class="hover:text-white transition-colors"
+                >Chính sách bảo mật</a
+              >
+              <a
+                href="./dieukhoansudung.html"
+                class="hover:text-white transition-colors"
+                >Điều khoản sử dụng</a
+              >
             </div>
           </div>
         </div>
       </footer>
     </div>
 
-    <!-- ═══════════════════════════════════════════ VUE JS — Khởi tạo ứng dụng Vue 3 ═══════════════════════════════════════════ -->
+    <!-- VUE JS - Khởi tạo ứng dụng Vue 3 -->
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script>
       const { createApp } = Vue;
 
       createApp({
-        // ═══════════════════════════════════════════
-        // data() — Dữ liệu phản ứng (reactive state)
-        // ═══════════════════════════════════════════
+        // data() - Dữ liệu phản ứng (reactive state)
         data() {
           return {
-            mobileOpen: false,       // Trạng thái mở/đóng menu mobile
+            mobileOpen: false, // Trạng thái mở/đóng menu mobile
           };
         },
       }).mount("#app");
