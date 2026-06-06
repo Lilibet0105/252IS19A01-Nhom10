@@ -1,6 +1,6 @@
 #
 
-# Website Bán Sách và Truyện tranh - Đảo Truyện
+# Website Bán Truyện tranh - Đảo Truyện
 
 ## Thành viên nhóm
 
@@ -13,11 +13,11 @@
 
 ## Mô tả đề tài
 
-Dự án xây dựng website bán sách và truyện tranh Đảo Truyện với mục tiêu trưng bày, tìm kiếm, bán các sản phẩm sách và truyện tranh một cách hiệu quả.
+Dự án xây dựng website bán truyện tranh Đảo Truyện với mục tiêu trưng bày, tìm kiếm, bán các sản phẩm truyện tranh một cách hiệu quả.
 
 ### Chức năng chính:
 
-- Hiển thị danh sách sách và truyện tranh theo danh mục
+- Hiển thị danh sách truyện tranh theo danh mục
 - Tìm kiếm sản phẩm
 - Xem chi tiết sản phẩm
 - Quản lý giỏ hàng
